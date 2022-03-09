@@ -1,0 +1,39 @@
+.profile-image {
+  position: relative;
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.profile-container {
+  padding: 100px;
+  font-family: "Righteous", sans-serif;
+}
+.profile-img-container {
+  display: flex;
+  align-items: center;
+  letter-spacing: 2px;
+}
+
+.dashboard--hr {
+  height: 30px;
+  width: 100%;
+  color: #000;
+}
+
+.left-dash {
+  border-right: 1px solid rgb(189, 189, 189);
+  padding-right: 10px;
+  cursor: pointer;
+}
+
+.left-dash-item {
+  padding: 5px;
+}
+.left-dash-item:hover {
+  background-color: #258faf;
+  border-radius: 20px;
+  color: white;
+  transition: 0.3s;
+}

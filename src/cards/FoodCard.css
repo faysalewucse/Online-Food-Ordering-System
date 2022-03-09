@@ -1,0 +1,53 @@
+.card {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  align-items: center;
+  margin: 20px;
+  border-radius: 10px;
+}
+
+.card:hover {
+  cursor: pointer;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
+  transition: 0.3s;
+}
+
+.card img {
+  border-radius: 10px 10px 0px 0px;
+}
+
+.buy--now--btn {
+  background-color: tomato;
+  color: white;
+  border-radius: 10px;
+  margin-right: 5px;
+}
+
+.add--to--cart--btn {
+  background-color: green;
+  color: white;
+  border-radius: 10px;
+  margin-left: 5px;
+}
+
+.buy--now--btn:hover {
+  background-color: rgb(212, 70, 45);
+  color: white;
+}
+
+.add--to--cart--btn:hover {
+  background-color: rgb(0, 158, 0);
+  color: white;
+}
+
+.cost {
+  color: blueviolet;
+  font-size: 20px;
+}
+
+.checked {
+  color: orange;
+}
+
+.card-body-btn {
+  margin-bottom: 20px;
+}

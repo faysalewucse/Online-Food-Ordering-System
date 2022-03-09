@@ -1,0 +1,43 @@
+.box select {
+  background-color: #128db3;
+  color: white;
+  padding: 9px;
+  width: 170px;
+  border: none;
+  font-size: 18px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+  -webkit-appearance: button;
+  appearance: button;
+  outline: none;
+  border-radius: 5px;
+}
+
+.box select option {
+  background-color: rgb(33, 37, 41);
+  color: white;
+}
+
+.res--list--category {
+  height: 100vh;
+  width: 30vh;
+  background-color: rgb(33, 37, 41);
+  border-radius: 10px;
+  text-align: left;
+  padding: 20px;
+}
+
+.res--list--category h3 {
+  color: white;
+  border: 1px solid rgb(102, 102, 102);
+  padding: 5px;
+  font-size: 22px;
+  font-family: Poppins, sans-serif;
+}
+
+.res--list--category h3:hover {
+  color: rgb(255, 160, 71);
+  cursor: pointer;
+  border: 1px solid rgb(102, 102, 102);
+  padding: 5px;
+  font-size: 22px;
+}

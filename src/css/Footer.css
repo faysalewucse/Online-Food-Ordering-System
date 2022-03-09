@@ -1,0 +1,11 @@
+.business--btn {
+  color: black;
+  background-color: yellowgreen;
+  border-radius: 10px;
+  margin: 0% 20%;
+}
+
+.business--btn:hover {
+  background-color: rgb(124, 177, 17);
+  color: white;
+}
