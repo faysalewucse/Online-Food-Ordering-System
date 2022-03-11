@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Nav } from "react-bootstrap";
 import { makeFormEffect } from "./FormStyle";
 
-const Login = ({ setUser }) => {
+const RestaurentLogin = ({ setUser }) => {
   const navigate = useNavigate();
   const form_effect = () => {
     makeFormEffect();
@@ -47,14 +47,14 @@ const Login = ({ setUser }) => {
 
   return (
     <div className="login--body">
-      <img class="wave" src="images/wave.png" />
+      <img class="wave" src="images/wave-orange.png" />
       <div class="container" id="form--container">
         <div class="img">
-          <img src="images/undraw_hamburger.svg" />
+          <img src="images/pngegg.png" className="img-fluid" />
         </div>
         <div class="login-content">
           <div className="form">
-            <img src="images/undraw_profile.svg" />
+            <img src="images/chef.png" />
             <h2 class="title">Login</h2>
             <div onClick={form_effect} class="input-div one">
               <div class="i">
@@ -108,4 +108,4 @@ const Login = ({ setUser }) => {
   );
 };
 
-export default Login;
+export default RestaurentLogin;

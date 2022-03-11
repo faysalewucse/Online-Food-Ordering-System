@@ -1,8 +1,20 @@
 import React from "react";
 import "../css/AddRestaurent.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+//import { useState } from "react";
 
 function AddRestaurent() {
+  // const [name, setName] = useState("");
+  // const [res_name, setResName] = useState("");
+  // const [res_email, setResEmail] = useState("");
+  // const [res_country, setResCountry] = useState("");
+  // const [res_district, setResDistrict] = useState("");
+  // const [res_thana, setResThana] = useState("");
+  // const [res_area, setResArea] = useState("");
+  // const [res_password, setResPassword] = useState("");
+  // const [res_confirm_password, setResConfirmPassword] = useState("");
+  // const [res_full_addresss, setResFullAddress] = useState("");
+
   return (
     <div>
       <div className="row">

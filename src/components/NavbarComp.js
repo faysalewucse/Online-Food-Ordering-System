@@ -14,9 +14,11 @@ import ShopPage from "./ShopPage";
 import Cart from "./Cart";
 import UsersCart from "../database/UsersCart";
 import DeliveryStatus from "./DeliveryStatus";
+import MyRestaurent from "./MyRestaurent";
 
 export default function NavbarComp() {
   const [res_id, setResId] = useState();
+  const [user, setUser] = useState();
   const [restaurent_path, setRestaurentPath] = useState();
   const [cart_count, setCartCount] = useState(UsersCart[0].cart);
 
@@ -37,10 +39,10 @@ export default function NavbarComp() {
                   Home
                 </Nav.Link>
                 <Nav.Link as={Link} to={"/login"}>
-                  Login
+                  Contact
                 </Nav.Link>
                 <Nav.Link as={Link} to={"/register"}>
-                  Register
+                  About
                 </Nav.Link>
                 <NavDropdown title="Categories">
                   <NavDropdown.Item href="#action/3.1">Burger</NavDropdown.Item>
@@ -54,27 +56,40 @@ export default function NavbarComp() {
                   </NavDropdown.Item>
                 </NavDropdown>
               </Nav>
-              <Nav>
-                <Nav.Link href="/delivery-status">Track</Nav.Link>
-                <Nav.Link href="/cart">
-                  <i className="fa badge fa-lg" value={cart_count}>
-                    <img src="images/cart.png" alt="cart" />
-                  </i>
-                </Nav.Link>
-                <NavDropdown
-                  title="Faysal Ahmad"
-                  id="basic-nav-dropdown"
-                  menuVariant="dark"
+              {user && user._id ? (
+                <Nav>
+                  <Nav.Link href="/delivery-status">Track</Nav.Link>
+                  <Nav.Link href="/cart">
+                    <i className="fa badge fa-lg" value={cart_count}>
+                      <img src="images/cart.png" alt="cart" />
+                    </i>
+                  </Nav.Link>
+                  <NavDropdown
+                    title="Faysal Ahmad"
+                    id="basic-nav-dropdown"
+                    menuVariant="dark"
+                  >
+                    <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
+                    <NavDropdown.Item href="#action/3.2">
+                      Logout
+                    </NavDropdown.Item>
+                    <NavDropdown.Item href="#action/3.3">
+                      Settings
+                    </NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href="#">Separated link</NavDropdown.Item>
+                  </NavDropdown>
+                </Nav>
+              ) : (
+                <Nav.Link
+                  as={Link}
+                  to={"/login"}
+                  className="login--btn"
+                  style={{ color: "white" }}
                 >
-                  <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.2">Logout</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.3">
-                    Settings
-                  </NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item href="#">Separated link</NavDropdown.Item>
-                </NavDropdown>
-              </Nav>
+                  Login
+                </Nav.Link>
+              )}
             </Navbar.Collapse>
           </Container>
         </Navbar>
@@ -84,12 +99,13 @@ export default function NavbarComp() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/delivery-status" element={<DeliveryStatus />} />
           <Route path="/addrestaurent" element={<AddRestaurent />} />
+          <Route path="/myrestaurent" element={<MyRestaurent />} />
           <Route
             path="/restaurents"
             element={
@@ -112,15 +128,32 @@ export default function NavbarComp() {
               <form action="">
                 <div className="row d-flex justify-content-center">
                   <div className="col-md-6">
-                    <h1>FoodsBD for Business</h1>
-                    <h6>Add Your Restaurent & Make Money</h6>
-                    <Nav.Link
-                      as={Link}
-                      to={"/addrestaurent"}
-                      className="business--btn"
-                    >
-                      Register
-                    </Nav.Link>
+                    <div className="row">
+                      <h1>FoodsBD for Business</h1>
+                      <h6>Add Your Restaurent & Make Money</h6>
+                    </div>
+                    <div className="row">
+                      <div className="col">
+                        <Nav.Link
+                          as={Link}
+                          to={"/addrestaurent"}
+                          className="business--btn--reg"
+                          style={{ color: "black" }}
+                        >
+                          Register
+                        </Nav.Link>
+                      </div>
+                      <div className="col">
+                        <Nav.Link
+                          as={Link}
+                          to={"/myrestaurent"}
+                          className="business--btn--login"
+                          style={{ color: "white" }}
+                        >
+                          Login
+                        </Nav.Link>
+                      </div>
+                    </div>
                   </div>
                   <div className="col-md-6 d-flex justify-content-center">
                     <div>

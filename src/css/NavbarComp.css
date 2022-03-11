@@ -35,3 +35,17 @@
   left: -8px;
   top: -10px;
 }
+
+.login--btn {
+  border: 1px solid rgb(0, 124, 0);
+  padding: 0.5% 2%;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.login--btn:hover,
+:visited {
+  cursor: pointer;
+  background-color: rgb(0, 124, 0);
+  transition: 0.3s;
+}

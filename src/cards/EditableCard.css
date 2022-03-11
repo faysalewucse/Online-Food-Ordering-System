@@ -1,0 +1,21 @@
+.item--dlt--btn {
+  background-color: rgb(211, 0, 0);
+  color: white;
+  border-radius: 10px;
+  margin-left: 5px;
+}
+
+.item--edit--btn {
+  background-color: rgb(67, 102, 28);
+  color: white;
+  border-radius: 10px;
+  margin-right: 5px;
+}
+
+.item--dlt--btn:hover {
+  background-color: rgb(255, 0, 0);
+}
+
+.item--edit--btn:hover {
+  background-color: rgb(91, 136, 39);
+}
