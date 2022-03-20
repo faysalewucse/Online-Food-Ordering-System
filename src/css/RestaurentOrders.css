@@ -1,0 +1,49 @@
+.orders--container {
+  height: 80vh;
+}
+.status--box {
+  background-color: green;
+  text-align: center;
+  padding: 5px;
+  border-radius: 10px;
+  color: white;
+  margin-top: 2px;
+  opacity: 0.2;
+}
+
+.status--box:hover {
+  cursor: pointer;
+}
+
+.active-status {
+  background-color: green;
+  opacity: 1;
+}
+.orders-card {
+  background-color: rgb(230, 255, 247);
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+.time--container {
+  background-color: aquamarine;
+  align-content: center;
+  align-self: center;
+  align-items: center;
+  display: block;
+  justify-content: center;
+}
+.time--input {
+  width: 7%;
+  margin: 0 5px;
+  font-size: 20px;
+}
+
+.time-card {
+  background-color: black;
+  color: wheat;
+  margin-left: 5px;
+  padding: 20px;
+  font-size: 25px;
+  font-weight: bold;
+  border-radius: 10px;
+}

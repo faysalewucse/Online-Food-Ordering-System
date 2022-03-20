@@ -1,7 +1,10 @@
-.delivery-status-container {
-  padding: 200px;
+.status-box .row {
+  margin: 100px 0px 100px 0px;
+  align-items: center;
 }
-
-.del-sta-icon {
-  width: 15%;
+.status-box .row i {
+  font-size: 50px;
+}
+.progress--line {
+  border-radius: 10px;
 }

@@ -4,44 +4,63 @@ import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Nav } from "react-bootstrap";
 import { makeFormEffect } from "./FormStyle";
+import axios from "axios";
 
-const RestaurentLogin = ({ setUser }) => {
+const RestaurentLogin = ({ setRestaurent }) => {
   const navigate = useNavigate();
   const form_effect = () => {
     makeFormEffect();
   };
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [res_email, setResEmail] = useState("");
+  const [res_password, setResPassword] = useState("");
+  const [error, setError] = useState("");
 
-  async function loginUser(event) {
-    event.preventDefault();
-
-    const response = await fetch("http://localhost:5000/login", {
-      method: "POST",
+  const fetchPrivateDate = async () => {
+    const config = {
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("authTokenRes")}`,
       },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
+    };
 
-    const data = await response.json();
-    console.log(email);
-    if (response.status === 422 || !data) {
-      <div class="alert alert-warning" role="alert">
-        Invalid Login
-      </div>;
-      // window.alert("Invalid Login");
-      console.log("Invalid Login");
-    } else {
-      window.alert("Login Success");
-      console.log("Login Success");
-      navigate("/");
+    try {
+      const { data } = await axios.get("/api/resdata", config);
+      setRestaurent(data.data);
+    } catch (error) {
+      localStorage.removeItem("authTokenRes");
+      setError("You are not authorized please login");
     }
-  }
+  };
+
+  const resloginHandler = async (e) => {
+    e.preventDefault();
+
+    const config = {
+      header: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    try {
+      const { data } = await axios.post(
+        "/api/auth/reslogin",
+        { res_email, res_password },
+        config
+      );
+
+      localStorage.setItem("authTokenRes", data.token);
+
+      fetchPrivateDate();
+
+      navigate("/");
+    } catch (error) {
+      setError(error.response.data.error);
+      setTimeout(() => {
+        setError("");
+      }, 5000);
+    }
+  };
 
   makeFormEffect();
 
@@ -64,8 +83,8 @@ const RestaurentLogin = ({ setUser }) => {
                 <h5>Email</h5>
                 <input
                   name="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={res_email}
+                  onChange={(e) => setResEmail(e.target.value)}
                   type="text"
                   class="input"
                 ></input>
@@ -79,8 +98,8 @@ const RestaurentLogin = ({ setUser }) => {
                 <h5>Password</h5>
                 <input
                   name="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={res_password}
+                  onChange={(e) => setResPassword(e.target.value)}
                   type="password"
                   class="input"
                 ></input>
@@ -90,14 +109,14 @@ const RestaurentLogin = ({ setUser }) => {
               Forgot Password?
             </Nav.Link>
             <input
-              onClick={loginUser}
+              onClick={resloginHandler}
               type="submit"
               class="btn"
               value="Login"
             ></input>
             <h6>
-              Don't Have an Account?{" "}
-              <span onClick={() => navigate("/register")} id="sign--up">
+              Don't Have a Restaurent Account?{" "}
+              <span onClick={() => navigate("/addrestaurent")} id="sign--up">
                 Sign Up
               </span>
             </h6>

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Nav } from "react-bootstrap";
 import { makeFormEffect } from "./FormStyle";
+import axios from "axios";
 
 const Login = ({ setUser }) => {
   const navigate = useNavigate();
@@ -13,35 +14,53 @@ const Login = ({ setUser }) => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  async function loginUser(event) {
-    event.preventDefault();
-
-    const response = await fetch("http://localhost:5000/login", {
-      method: "POST",
+  const fetchPrivateDate = async () => {
+    const config = {
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
       },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
+    };
 
-    const data = await response.json();
-    console.log(email);
-    if (response.status === 422 || !data) {
-      <div class="alert alert-warning" role="alert">
-        Invalid Login
-      </div>;
-      // window.alert("Invalid Login");
-      console.log("Invalid Login");
-    } else {
-      window.alert("Login Success");
-      console.log("Login Success");
-      navigate("/");
+    try {
+      const { data } = await axios.get("/api/private", config);
+      setUser(data.data);
+    } catch (error) {
+      localStorage.removeItem("authToken");
+      setError("You are not authorized please login");
     }
-  }
+  };
+
+  const loginHandler = async (e) => {
+    e.preventDefault();
+
+    const config = {
+      header: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    try {
+      const { data } = await axios.post(
+        "/api/auth/login",
+        { email, password },
+        config
+      );
+
+      localStorage.setItem("authToken", data.token);
+
+      fetchPrivateDate();
+
+      navigate("/");
+    } catch (error) {
+      setError(error.response.data.error);
+      setTimeout(() => {
+        setError("");
+      }, 5000);
+    }
+  };
 
   makeFormEffect();
 
@@ -90,7 +109,7 @@ const Login = ({ setUser }) => {
               Forgot Password?
             </Nav.Link>
             <input
-              onClick={loginUser}
+              onClick={loginHandler}
               type="submit"
               class="btn"
               value="Login"

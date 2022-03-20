@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { makeFormEffect } from "./FormStyle";
 import { useState } from "react";
+import axios from "axios";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -15,34 +16,39 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  async function registerUser(event) {
-    event.preventDefault();
+  const registerHandler = async (e) => {
+    e.preventDefault();
 
-    const response = await fetch("http://localhost:5000/register", {
-      method: "POST",
-      headers: {
+    const config = {
+      header: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        name,
-        email,
-        address,
-        password,
-      }),
-    });
+    };
 
-    const data = await response.json();
-    console.log(data);
-    if (response.status === 422 || !data) {
-      window.alert("Invalid Registration");
-      console.log("Invalid Registration");
-    } else {
-      window.alert("Registration Success");
-      console.log("Registration Success");
-      navigate("/login");
+    try {
+      const { data } = await axios.post(
+        "/api/auth/register",
+        {
+          name,
+          email,
+          address,
+          password,
+        },
+        config
+      );
+
+      localStorage.setItem("authToken", data.token);
+
+      navigate("/");
+    } catch (error) {
+      setError(error.response.data.error);
+      setTimeout(() => {
+        setError("");
+      }, 5000);
     }
-  }
+  };
 
   makeFormEffect();
   return (
@@ -57,6 +63,7 @@ export default function Register() {
             <div className="form">
               <img src="images/undraw_profile.svg" />
               <h2 class="title">Register</h2>
+              {error && <span className="error-message">{error}</span>}
               <div onClick={form_effect} class="input-div one">
                 <div class="i">
                   <i class="fas fa-user"></i>
@@ -118,7 +125,7 @@ export default function Register() {
                 </div>
               </div>
               <input
-                onClick={registerUser}
+                onClick={registerHandler}
                 type="submit"
                 class="btn"
                 value="Register"

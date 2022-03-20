@@ -1,19 +1,56 @@
 import React from "react";
 import "../css/AddRestaurent.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-//import { useState } from "react";
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function AddRestaurent() {
-  // const [name, setName] = useState("");
-  // const [res_name, setResName] = useState("");
-  // const [res_email, setResEmail] = useState("");
-  // const [res_country, setResCountry] = useState("");
-  // const [res_district, setResDistrict] = useState("");
-  // const [res_thana, setResThana] = useState("");
-  // const [res_area, setResArea] = useState("");
-  // const [res_password, setResPassword] = useState("");
-  // const [res_confirm_password, setResConfirmPassword] = useState("");
-  // const [res_full_addresss, setResFullAddress] = useState("");
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [res_name, setResName] = useState("");
+  const [res_email, setResEmail] = useState("");
+  const [res_address, setResAddress] = useState("");
+  const [lattitude, setLattitude] = useState("90.2356478");
+  const [longitude, setLongitude] = useState("85.2415632");
+  const [res_password, setResPassword] = useState("");
+  const [res_confirm_password, setResConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const registerRestaurentHandler = async (e) => {
+    e.preventDefault();
+
+    const config = {
+      header: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    try {
+      const { data } = await axios.post(
+        "/api/auth/resregister",
+        {
+          name,
+          res_name,
+          res_email,
+          res_address,
+          lattitude,
+          longitude,
+          res_password,
+        },
+        config
+      );
+
+      localStorage.setItem("authToken", data.token);
+
+      navigate("/restaurentlogin");
+    } catch (error) {
+      setError(error.response.data.error);
+      setTimeout(() => {
+        setError("");
+      }, 5000);
+    }
+  };
 
   return (
     <div>
@@ -32,9 +69,11 @@ function AddRestaurent() {
                   <input
                     type="text"
                     id="firstname"
+                    name="name"
                     className="form-input"
                     placeholder="enter your first name"
-                    required="required"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </div>
                 <div className="form-group right">
@@ -44,8 +83,11 @@ function AddRestaurent() {
                   <input
                     type="text"
                     id="lastname"
+                    name="res_name"
                     className="form-input"
                     placeholder="enter your last name"
+                    value={res_name}
+                    onChange={(e) => setResName(e.target.value)}
                   />
                 </div>
                 <>
@@ -57,9 +99,11 @@ function AddRestaurent() {
                     <input
                       type="email"
                       id="email"
+                      name="res_email"
                       className="form-input"
                       placeholder="enter your email"
-                      required="required"
+                      value={res_email}
+                      onChange={(e) => setResEmail(e.target.value)}
                     />
                   </div>
                   {/* Passwrod and confirm password */}
@@ -73,7 +117,6 @@ function AddRestaurent() {
                         id="password"
                         className="form-input"
                         placeholder="Country"
-                        required="required"
                       />
                     </div>
                     <div className="form-group right">
@@ -123,9 +166,11 @@ function AddRestaurent() {
                       <input
                         type="password"
                         id="password"
+                        name="res_password"
                         className="form-input"
                         placeholder="enter your password"
-                        required="required"
+                        value={res_password}
+                        onChange={(e) => setResPassword(e.target.value)}
                       />
                     </div>
                     <div className="form-group right">
@@ -136,13 +181,15 @@ function AddRestaurent() {
                         type="password"
                         className="form-input"
                         id="confirm-password"
+                        name="res_confirm_password"
                         placeholder="enter your password again"
                         required="required"
+                        value={res_confirm_password}
+                        onChange={(e) => setResConfirmPassword(e.target.value)}
                       />
                     </div>
                   </div>
                   <>
-                    {/* Gender and Hobbies */}
                     <>
                       <div className="horizontal-group">
                         <div className="form-group">
@@ -161,8 +208,10 @@ function AddRestaurent() {
                           className="form-input"
                           rows={4}
                           cols={50}
+                          name="res_address"
                           style={{ height: "auto" }}
-                          defaultValue={""}
+                          defaultValue={res_address}
+                          onChange={(e) => setResAddress(e.target.value)}
                         />
                       </div>
                     </>
@@ -174,7 +223,11 @@ function AddRestaurent() {
             <>
               <div className="form-footer">
                 <span>* required</span>
-                <button type="submit" className="btn">
+                <button
+                  type="submit"
+                  className="btn"
+                  onClick={registerRestaurentHandler}
+                >
                   Create
                 </button>
               </div>
