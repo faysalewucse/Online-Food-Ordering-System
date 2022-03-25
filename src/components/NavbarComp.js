@@ -17,7 +17,6 @@ import DeliveryStatus from "./DeliveryStatus";
 import MyRestaurent from "./MyRestaurent";
 import MyOrders from "./MyOrders";
 import RestaurentOrders from "./RestaurentOrders";
-import axios from "axios";
 import RestaurentLogin from "./RestaurentLogin";
 
 export default function NavbarComp({
@@ -26,49 +25,10 @@ export default function NavbarComp({
   restaurent,
   setRestaurent,
 }) {
-  console.log(restaurent.res_name);
-  useEffect(() => {
-    const fetchPrivateData = async () => {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      };
-
-      try {
-        const { data } = await axios.get("/api/private", config);
-        setUser(data.data);
-      } catch (error) {
-        localStorage.removeItem("authToken");
-        console.log("You are not authorized please login");
-      }
-    };
-
-    fetchPrivateData();
-  }, []);
-
-  useEffect(() => {
-    const fetchResData = async () => {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("authTokenRes")}`,
-        },
-      };
-
-      try {
-        const { data } = await axios.get("/api/resdata", config);
-        setUser(data.data);
-      } catch (error) {
-        localStorage.removeItem("authTokenRes");
-        console.log("You are not authorized please login");
-      }
-    };
-
-    fetchResData();
-  }, []);
-
+  console.log(restaurent);
+  // console.log("navuser :" + localStorage.getItem("authToken"));
+  // console.log("navres :" + localStorage.getItem("authTokenRes"));
+  // console.log(restaurent.res_name);
   const logoutHandler = () => {
     localStorage.removeItem("authToken");
     setUser("");
@@ -79,6 +39,7 @@ export default function NavbarComp({
   };
 
   const [res_id, setResId] = useState();
+  const [res_email, setResEmail] = useState(restaurent.res_email);
   const [restaurent_path, setRestaurentPath] = useState();
   const [cart_count, setCartCount] = useState(UsersCart[0].cart);
 
@@ -130,14 +91,14 @@ export default function NavbarComp({
               {user || restaurent ? (
                 <Nav>
                   {user ? (
-                    <div>
-                      <Nav.Link href="/delivery-status">Track</Nav.Link>
-                      <Nav.Link href="/cart">
-                        <i className="fa badge fa-lg" value={cart_count}>
-                          <img src="images/cart.png" alt="cart" />
-                        </i>
-                      </Nav.Link>
-                    </div>
+                    <Nav.Link href="/delivery-status">Track</Nav.Link>
+                  ) : null}
+                  {user ? (
+                    <Nav.Link href="/cart">
+                      <i className="fa badge fa-lg" value={cart_count}>
+                        <img src="images/cart.png" alt="cart" />
+                      </i>
+                    </Nav.Link>
                   ) : null}
                   <NavDropdown
                     title={user ? user.name : restaurent.res_name}
@@ -222,7 +183,15 @@ export default function NavbarComp({
               />
             }
           />
-          <Route path="/myrestaurent" element={<MyRestaurent />} />
+          <Route
+            path="/myrestaurent"
+            element={
+              <MyRestaurent
+                restaurent={restaurent}
+                setRestaurent={setRestaurent}
+              />
+            }
+          />
           <Route
             path="/restaurents"
             element={
@@ -251,27 +220,46 @@ export default function NavbarComp({
                       <h6>Add Your Restaurent & Make Money</h6>
                     </div>
                     <div className="row">
-                      <div className="col">
-                        <Nav.Link
-                          as={Link}
-                          to={"/addrestaurent"}
-                          className="business--btn--reg"
-                          style={{ color: "black" }}
-                        >
-                          Register
-                        </Nav.Link>
-                      </div>
-                      <div className="col">
-                        <Nav.Link
-                          as={Link}
-                          to={"/restaurentlogin"}
-                          className="business--btn--login"
-                          style={{ color: "white" }}
-                        >
-                          Login
-                        </Nav.Link>
-                      </div>
+                      {!user ?? (
+                        <div className="col">
+                          <Nav.Link
+                            as={Link}
+                            to={"/addrestaurent"}
+                            className="business--btn--reg"
+                            style={{ color: "black" }}
+                          >
+                            Register
+                          </Nav.Link>
+                        </div>
+                      )}
+                      {!user ?? (
+                        <div className="col">
+                          <Nav.Link
+                            as={Link}
+                            to={"/restaurentlogin"}
+                            className="business--btn--login"
+                            style={{ color: "white" }}
+                          >
+                            Login
+                          </Nav.Link>
+                        </div>
+                      )}
                     </div>
+                    {localStorage.getItem("authResToken") ?? (
+                      <div className="row">
+                        <div className="col d-flex justify-content-center">
+                          <Nav.Link
+                            as={Link}
+                            onClick={reslogoutHandler}
+                            to={"/"}
+                            className="business--btn--logout"
+                            style={{ color: "white", width: "20vw" }}
+                          >
+                            Logout
+                          </Nav.Link>
+                        </div>
+                      </div>
+                    )}
                   </div>
                   <div className="col-md-6 d-flex justify-content-center">
                     <div>

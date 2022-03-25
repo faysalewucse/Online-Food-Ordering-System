@@ -64,6 +64,7 @@ const RestaurentLogin = ({ setRestaurent }) => {
 
   makeFormEffect();
 
+  console.log(localStorage.getItem("authTokenRes"));
   return (
     <div className="login--body">
       <img class="wave" src="images/wave-orange.png" />
