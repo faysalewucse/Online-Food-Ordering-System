@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import foodData from "../database/FoodData";
 import FoodCard from "../cards/FoodCard";
 import ReactSearchBox from "react-search-box";
+import { getResFood } from "../api/resdata";
 
 function ShopPage(props) {
   const data = [
@@ -27,14 +28,35 @@ function ShopPage(props) {
     },
   ];
 
-  const foods = foodData.map((data) => {
-    return (
-      data.res_id === props.res_id && (
-        <FoodCard {...data} setIdandPath={props} className="col res--card" />
-      )
-    );
-  });
+  let foods;
+  if (props.allrestaurent) {
+    props.allrestaurent.map((res) => {
+      if (res.res_email === props.res_email) {
+        foods = res.items.map((item) => {
+          return (
+            <FoodCard
+              {...item}
+              setCartCount={props.setCartCount}
+              user={props.user}
+              setUser={props.setUser}
+              setAllRestaurent={props.setAllRestaurent}
+              res_email={props.res_email}
+              className="col res--card"
+            />
+          );
+        });
+      }
+    });
+  }
+  // if (resFood.items) {
+  //   foods = resFood.items.map((data) => {
+  //     return (
+  //       <FoodCard {...data} setIdandPath={props} className="col res--card" />
+  //     );
+  //   });
+  // }
 
+  // console.log(resFood.items);
   return (
     <div className="p-4 container">
       <div className="row mb-5">

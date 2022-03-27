@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import RestaurentCard from "../cards/RestaurentCard";
 import "../css/RestaurentList.css";
 import restaurentsData from "../database/RestaurentList";
 import ReactSearchBox from "react-search-box";
+import { getAllRes } from "../api/resdata";
 
 function RestaurentList(props) {
+  useEffect(() => {
+    getAllRes(props.setAllRestaurent);
+  }, []);
+
   const data = [
     {
       key: "john",
@@ -27,15 +32,20 @@ function RestaurentList(props) {
       value: "Karius",
     },
   ];
-  const restaurents = restaurentsData.map((data) => {
-    return (
-      <RestaurentCard
-        {...data}
-        setIdandPath={props}
-        className="col res--card"
-      />
-    );
-  });
+
+  let restaurents;
+  if (props.allrestaurent) {
+    restaurents = props.allrestaurent.map((res) => {
+      return (
+        <RestaurentCard
+          {...res}
+          setResEmail={props.setResEmail}
+          setRestaurentPath={props.setRestaurentPath}
+          className="col res--card"
+        />
+      );
+    });
+  }
 
   return (
     <div className="p-4 container">

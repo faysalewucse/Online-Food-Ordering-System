@@ -3,22 +3,26 @@ import "./RestaurentCard.css";
 import { useNavigate } from "react-router-dom";
 
 const RestaurentCard = (props) => {
+  console.log(props.setIdandPath);
   const navigate = useNavigate();
   function handleChange() {
     const url = props.res_name.replace(/\s+/g, "").toLowerCase();
 
-    props.setIdandPath.setRestaurentPath(`/${url}`);
-    props.setIdandPath.setResId(props.res_id);
+    props.setRestaurentPath(`/${url}`);
     navigate(`/${url}`);
   }
 
   return (
     <div
       className="card"
-      onClick={handleChange}
+      onClick={() => {
+        handleChange();
+
+        props.setResEmail(props.res_email);
+      }}
       style={{ width: "16rem", paddingLeft: "0px", paddingRight: "0px" }}
     >
-      <img className="card-img-top" src={props.img} alt="card-img" />
+      <img className="card-img-top" src={props.res_img_path} alt="card-img" />
       <div className="card-body">
         <h6 className="card-title">
           {props.res_name}

@@ -204,6 +204,7 @@ function AddFoodFloatingModal(props) {
   const [singleFile, setSingleFile] = useState("");
 
   const SingleFileChange = (e) => {
+    console.log(e.target.files[0]);
     setSingleFile(e.target.files[0]);
   };
 

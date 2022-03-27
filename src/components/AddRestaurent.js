@@ -16,41 +16,71 @@ function AddRestaurent() {
   const [res_password, setResPassword] = useState("");
   const [res_confirm_password, setResConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [resphoto, setResPhoto] = useState("");
+
+  const ResPhotoChange = (e) => {
+    setResPhoto(e.target.files[0]);
+  };
+
+  const AddRestaurent = async (data) => {
+    try {
+      await axios.post("/api/auth/resregister", data);
+    } catch (error) {
+      throw error;
+    }
+  };
 
   const registerRestaurentHandler = async (e) => {
     e.preventDefault();
 
-    const config = {
-      header: {
-        "Content-Type": "application/json",
-      },
-    };
+    const formData = new FormData();
+    formData.append("file", resphoto);
+    formData.append("name", name);
+    formData.append("res_name", res_name);
+    formData.append("res_email", res_email);
+    formData.append("lattitude", lattitude);
+    formData.append("longitude", longitude);
+    formData.append("res_password", res_password);
+    formData.append("res_address", res_address);
 
-    try {
-      const { data } = await axios.post(
-        "/api/auth/resregister",
-        {
-          name,
-          res_name,
-          res_email,
-          res_address,
-          lattitude,
-          longitude,
-          res_password,
-        },
-        config
-      );
-
-      localStorage.setItem("authToken", data.token);
-
-      navigate("/restaurentlogin");
-    } catch (error) {
-      setError(error.response.data.error);
-      setTimeout(() => {
-        setError("");
-      }, 5000);
-    }
+    await AddRestaurent(formData);
+    navigate("/restaurentlogin");
+    //window.location.reload(false);
   };
+  // const registerRestaurentHandler = async (e) => {
+  //   e.preventDefault();
+
+  //   const config = {
+  //     header: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   };
+
+  //   try {
+  //     const { data } = await axios.post(
+  //       "/api/auth/resregister",
+  //       {
+  //         name,
+  //         res_name,
+  //         res_email,
+  //         res_address,
+  //         lattitude,
+  //         longitude,
+  //         res_password,
+  //       },
+  //       config
+  //     );
+
+  //     localStorage.setItem("authTokenRes", data.token);
+
+  //     navigate("/restaurentlogin");
+  //   } catch (error) {
+  //     setError(error.response.data.error);
+  //     setTimeout(() => {
+  //       setError("");
+  //     }, 5000);
+  //   }
+  // };
 
   return (
     <div>
@@ -67,13 +97,11 @@ function AddRestaurent() {
                     Your Name *
                   </label>
                   <input
-                    type="text"
-                    id="firstname"
                     name="name"
-                    className="form-input"
-                    placeholder="enter your first name"
-                    value={name}
                     onChange={(e) => setName(e.target.value)}
+                    type="text"
+                    class="input"
+                    className="form-input form-class"
                   />
                 </div>
                 <div className="form-group right">
@@ -81,82 +109,25 @@ function AddRestaurent() {
                     Restaurent Name *
                   </label>
                   <input
-                    type="text"
-                    id="lastname"
                     name="res_name"
-                    className="form-input"
-                    placeholder="enter your last name"
-                    value={res_name}
                     onChange={(e) => setResName(e.target.value)}
+                    type="text"
+                    class="input"
+                    className="form-input form-class"
                   />
                 </div>
                 <>
-                  {/* Email */}
                   <div className="form-group">
                     <label htmlFor="email" className="label-title">
                       Business Email*
                     </label>
                     <input
-                      type="email"
-                      id="email"
                       name="res_email"
-                      className="form-input"
-                      placeholder="enter your email"
-                      value={res_email}
                       onChange={(e) => setResEmail(e.target.value)}
+                      type="email"
+                      class="input"
+                      className="form-input form-class"
                     />
-                  </div>
-                  {/* Passwrod and confirm password */}
-                  <div className="horizontal-group">
-                    <div className="form-group left">
-                      <label htmlFor="password" className="label-title">
-                        Country *
-                      </label>
-                      <input
-                        type="text"
-                        id="password"
-                        className="form-input"
-                        placeholder="Country"
-                      />
-                    </div>
-                    <div className="form-group right">
-                      <label htmlFor="confirm-password" className="label-title">
-                        District *
-                      </label>
-                      <input
-                        type="text"
-                        className="form-input"
-                        id="confirm-password"
-                        placeholder="District"
-                        required="required"
-                      />
-                    </div>
-                  </div>
-                  <div className="horizontal-group">
-                    <div className="form-group left">
-                      <label htmlFor="password" className="label-title">
-                        Thana *
-                      </label>
-                      <input
-                        type="text"
-                        id="password"
-                        className="form-input"
-                        placeholder="Thana"
-                        required="required"
-                      />
-                    </div>
-                    <div className="form-group right">
-                      <label htmlFor="confirm-password" className="label-title">
-                        Area *
-                      </label>
-                      <input
-                        type="text"
-                        className="form-input"
-                        id="confirm-password"
-                        placeholder="Area"
-                        required="required"
-                      />
-                    </div>
                   </div>
                   <div className="horizontal-group">
                     <div className="form-group left">
@@ -164,13 +135,11 @@ function AddRestaurent() {
                         Password *
                       </label>
                       <input
-                        type="password"
-                        id="password"
                         name="res_password"
-                        className="form-input"
-                        placeholder="enter your password"
-                        value={res_password}
                         onChange={(e) => setResPassword(e.target.value)}
+                        type="password"
+                        class="input"
+                        className="form-input form-class"
                       />
                     </div>
                     <div className="form-group right">
@@ -178,14 +147,11 @@ function AddRestaurent() {
                         Confirm Password *
                       </label>
                       <input
-                        type="password"
-                        className="form-input"
-                        id="confirm-password"
                         name="res_confirm_password"
-                        placeholder="enter your password again"
-                        required="required"
-                        value={res_confirm_password}
                         onChange={(e) => setResConfirmPassword(e.target.value)}
+                        type="password"
+                        class="input"
+                        className="form-input form-class"
                       />
                     </div>
                   </div>
@@ -197,7 +163,12 @@ function AddRestaurent() {
                             Upload Profile Picture
                           </label>
                           <br />
-                          <input type="file" id="choose-file" size={100} />
+                          <input
+                            type="file"
+                            id="choose-file"
+                            size={100}
+                            onChange={(e) => ResPhotoChange(e)}
+                          />
                         </div>
                       </div>
                       <div className="form-group">

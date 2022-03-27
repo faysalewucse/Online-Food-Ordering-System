@@ -105,7 +105,7 @@ const Login = ({ setUser }) => {
                 ></input>
               </div>
             </div>
-            <Nav.Link id="forgot--pass" href="#">
+            <Nav.Link id="forgot--pass" href="/forgotpassword">
               Forgot Password?
             </Nav.Link>
             <input

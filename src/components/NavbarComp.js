@@ -18,17 +18,19 @@ import MyRestaurent from "./MyRestaurent";
 import MyOrders from "./MyOrders";
 import RestaurentOrders from "./RestaurentOrders";
 import RestaurentLogin from "./RestaurentLogin";
+import ForgotPasswordScreen from "./ForgotPassword";
+import ResetPasswordScreen from "./ResetPassword";
 
 export default function NavbarComp({
   user,
   setUser,
   restaurent,
   setRestaurent,
+  allrestaurent,
+  setAllRestaurent,
+  cart_count,
+  setCartCount,
 }) {
-  console.log(restaurent);
-  // console.log("navuser :" + localStorage.getItem("authToken"));
-  // console.log("navres :" + localStorage.getItem("authTokenRes"));
-  // console.log(restaurent.res_name);
   const logoutHandler = () => {
     localStorage.removeItem("authToken");
     setUser("");
@@ -38,11 +40,11 @@ export default function NavbarComp({
     setRestaurent("");
   };
 
+  console.log(cart_count);
+
   const [res_id, setResId] = useState();
   const [res_email, setResEmail] = useState(restaurent.res_email);
   const [restaurent_path, setRestaurentPath] = useState();
-  const [cart_count, setCartCount] = useState(UsersCart[0].cart);
-
   //For User Food Tracking
   const [order_placed, setOp] = React.useState();
   const [order_confirmed, setOc] = React.useState(0.5);
@@ -112,6 +114,7 @@ export default function NavbarComp({
                     </NavDropdown.Item>
                     <NavDropdown.Item
                       onClick={user ? logoutHandler : reslogoutHandler}
+                      href="/"
                     >
                       Logout
                     </NavDropdown.Item>
@@ -148,7 +151,22 @@ export default function NavbarComp({
             path="/restaurentlogin"
             element={<RestaurentLogin setRestaurent={setRestaurent} />}
           />
-          <Route path="/cart" element={<Cart />} />
+          <Route path="/forgotpassword" element={<ForgotPasswordScreen />} />
+          <Route
+            path="/passwordreset/:resetToken"
+            element={<ResetPasswordScreen />}
+          />
+          <Route
+            path="/cart"
+            element={
+              <Cart
+                user={user}
+                setUser={setUser}
+                setAllRestaurent={setAllRestaurent}
+                setCartCount={setCartCount}
+              />
+            }
+          />
           <Route
             path="/delivery-status"
             element={
@@ -196,15 +214,26 @@ export default function NavbarComp({
             path="/restaurents"
             element={
               <RestaurentList
-                setResId={setResId}
+                setResEmail={setResEmail}
                 setRestaurentPath={setRestaurentPath}
                 user={user}
+                allrestaurent={allrestaurent}
+                setAllRestaurent={setAllRestaurent}
               />
             }
           />
           <Route
             path={restaurent_path}
-            element={<ShopPage res_id={res_id} setCartCount={setCartCount} />}
+            element={
+              <ShopPage
+                res_email={res_email}
+                allrestaurent={allrestaurent}
+                user={user}
+                setUser={setUser}
+                setAllRestaurent={setAllRestaurent}
+                setCartCount={setCartCount}
+              />
+            }
           />
         </Routes>
       </div>
@@ -219,8 +248,8 @@ export default function NavbarComp({
                       <h1>FoodsBD for Business</h1>
                       <h6>Add Your Restaurent & Make Money</h6>
                     </div>
-                    <div className="row">
-                      {!user ?? (
+                    {localStorage.getItem("authTokenRes") == null ? (
+                      <div className="row">
                         <div className="col">
                           <Nav.Link
                             as={Link}
@@ -231,8 +260,6 @@ export default function NavbarComp({
                             Register
                           </Nav.Link>
                         </div>
-                      )}
-                      {!user ?? (
                         <div className="col">
                           <Nav.Link
                             as={Link}
@@ -243,9 +270,8 @@ export default function NavbarComp({
                             Login
                           </Nav.Link>
                         </div>
-                      )}
-                    </div>
-                    {localStorage.getItem("authResToken") ?? (
+                      </div>
+                    ) : (
                       <div className="row">
                         <div className="col d-flex justify-content-center">
                           <Nav.Link
@@ -271,6 +297,11 @@ export default function NavbarComp({
                       <h6>React</h6>
                       <h6>ExpressJS</h6>
                       <h6>Atlas</h6>
+                    </div>
+                    <div>
+                      <h6>HTML</h6>
+                      <h6>CSS</h6>
+                      <h6>React Bootstrap</h6>
                     </div>
                   </div>
                 </div>
