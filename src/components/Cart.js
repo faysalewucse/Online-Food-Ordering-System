@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import UsersCart from "../database/UsersCart";
-import FoodData from "../database/FoodData";
+import React from "react";
 import "../css/Cart.css";
 import CartCard from "../cards/CartCard";
 
@@ -45,7 +43,25 @@ function Cart({ user, setCartCount, setUser, setAllRestaurent }) {
         Ordered 3 Items From Cheap & Best Restaurent
       </h2>
       <div className="row">
-        <div className="col-lg-6 mb-5">{cartItem}</div>
+        {totalCost != 0 ? (
+          <div className="col-lg-6 mb-5">{cartItem}</div>
+        ) : (
+          <div className="col-lg-6">
+            <div className="text-center">
+              <img
+                src="images/cart-empty.svg"
+                alt="cart-empty"
+                className="cart--empty--png"
+              />
+              <h3 className="text-center cart-empty-text">
+                Your Cart Is Empty
+              </h3>
+              <h6 className="text-center cart-empty-text mb-5">
+                Please Add Some Food and Order
+              </h6>
+            </div>
+          </div>
+        )}
 
         <div className="col-lg-6">
           <div className="total--cost--card">
@@ -72,7 +88,11 @@ function Cart({ user, setCartCount, setUser, setAllRestaurent }) {
               <h6>{totalCost} BDT</h6>
             </div>
             <div className="d-flex justify-content-between mb-2">
-              <h6 className="apply--voucher--btn">Apply Voucher</h6>
+              {totalCost !== 0 ? (
+                <h6 className="mt-2 apply--voucher--btn">Apply Voucher</h6>
+              ) : (
+                <h6 className="mt-2 apply--voucher--btn--inv">Apply Voucher</h6>
+              )}
               <input className="voucher--input" type="text" />
             </div>
             <textarea
@@ -80,7 +100,11 @@ function Cart({ user, setCartCount, setUser, setAllRestaurent }) {
               type="text"
               placeholder="address"
             />
-            <h6 className="mt-2 apply--voucher--btn">Confirm Order</h6>
+            {totalCost !== 0 ? (
+              <h6 className="mt-2 apply--voucher--btn">Confirm Order</h6>
+            ) : (
+              <h6 className="mt-2 apply--voucher--btn--inv">Confirm Order</h6>
+            )}
           </div>
         </div>
       </div>

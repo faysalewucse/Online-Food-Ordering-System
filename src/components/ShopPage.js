@@ -41,6 +41,7 @@ function ShopPage(props) {
               setUser={props.setUser}
               setAllRestaurent={props.setAllRestaurent}
               res_email={props.res_email}
+              res_name={res.res_name}
               className="col res--card"
             />
           );
