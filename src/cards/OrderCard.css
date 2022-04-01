@@ -1,15 +1,30 @@
-.status--box {
+.status--box-confirm {
   background-color: green;
   text-align: center;
   padding: 5px;
   border-radius: 10px;
   color: white;
   margin-top: 2px;
-  opacity: 0.2;
+  width: 20vw;
 }
 
-.status--box:hover {
+.status--box-cancel {
+  background-color: rgb(128, 0, 0);
+  text-align: center;
+  padding: 5px;
+  border-radius: 10px;
+  color: white;
+  margin-top: 2px;
+  width: 10vw;
+}
+
+.status--box-confirm:hover {
   cursor: pointer;
+  background-color: rgb(0, 161, 54);
+}
+.status--box-cancel:hover {
+  cursor: pointer;
+  background-color: rgb(192, 0, 0);
 }
 
 .active-status {

@@ -33,28 +33,32 @@ function OrderCard({ items }) {
   };
 
   return (
-    <div className="orders-card p-5 mb-5">
-      <div className="d-flex justify-content-between mb-3">
+    <div className="orders-card p-4 mb-5">
+      <div>
         <div>
-          <h3>Ordered Items(3)</h3>
+          <h3 style={{ fontFamily: "Poppins" }}>
+            Ordered Items({items.result.length})
+          </h3>
           {item}
+          <div className="mt-5 d-flex justify-content-between">
+            <div className="status--box-confirm">Confirm</div>
+            <div className="status--box-cancel">Cancel</div>
+          </div>
         </div>
         <div>
-          <div className="mb-5">Order ID: 54dsf5s4df5g4sd54fg</div>
-          <div className="status--box">Confirm</div>
-          <div className="status--box">Cancel</div>
-          <div className="status--box active-status">Cooking</div>
-          <div className="status--box">Delivered</div>
+          {/* <div className="mb-5">Order ID: 54dsf5s4df5g4sd54fg</div> */}
+          {/* <div className="status--box active-status">Cooking</div>
+          <div className="status--box">Delivered</div> */}
         </div>
       </div>
-      <div className="d-flex  justify-content-center align-items-center">
+      {/* <div className="d-flex  justify-content-center align-items-center">
         <h6 className="text-center">Set Expectation Time to Deliver: </h6>
         <input className="time--input" type="number" />
         <h4>Minutes</h4>
-      </div>
-      <div className="time--container">
+      </div> */}
+      {/* <div className="time--container">
         <Countdown date={Date.now() + 5000000} renderer={renderer} />
-      </div>
+      </div> */}
     </div>
   );
 }
