@@ -393,6 +393,25 @@ exports.deletefood = async (req, res, next) => {
   }
 };
 
+exports.emptycart = async (req, res, next) => {
+  const { user_mail } = req.body;
+
+  console.log(req.body);
+  try {
+    const user = await User.findOneAndUpdate(
+      {
+        email: user_mail,
+      },
+      { $set: { cart: [] } },
+      { multi: true }
+    );
+    //console.log(restaurent);
+    sendToken(user, 201, res);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 const sendToken = (user, statusCode, res) => {
   const token = user.getSignedJwtToken();
   res.status(statusCode).json({ sucess: true, token });

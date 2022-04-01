@@ -6,6 +6,7 @@
   color: white;
   margin-top: 2px;
   width: 20vw;
+  margin-right: 5px;
 }
 
 .status--box-cancel {
@@ -16,6 +17,7 @@
   color: white;
   margin-top: 2px;
   width: 10vw;
+  margin-left: 5px;
 }
 
 .status--box-confirm:hover {

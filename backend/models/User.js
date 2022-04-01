@@ -40,6 +40,19 @@ const UserSchema = new mongoose.Schema({
       },
     },
   ],
+  my_orders: [
+    {
+      order_id: {
+        type: String,
+      },
+      res_email: {
+        type: String,
+      },
+      status: {
+        type: String,
+      },
+    },
+  ],
   password: {
     type: String,
     required: [true, "Please add a password"],

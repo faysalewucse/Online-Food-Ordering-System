@@ -49,7 +49,7 @@ function Cart({ user, setCartCount, setUser, setAllRestaurent, cart_count }) {
   function confirmOrder(result) {
     console.log(result);
 
-    confirmorder(user, res_email, result);
+    confirmorder(user.email, user, res_email, result);
     fetchPrivateData(setUser, setAllRestaurent, setCartCount);
     navigate("/delivery-status");
   }
