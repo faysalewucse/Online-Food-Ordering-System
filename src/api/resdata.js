@@ -32,7 +32,7 @@ export const fetchPrivateData = async (
   }
 };
 
-export const fetchResData = async (setRestaurent) => {
+export const fetchResData = async (setRestaurent, setOrdersCount) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -43,6 +43,7 @@ export const fetchResData = async (setRestaurent) => {
   try {
     const { data } = await axios.get("/api/resdata", config);
     setRestaurent(data.data);
+    setOrdersCount(data.data.orders.length);
   } catch (error) {
     localStorage.removeItem("authTokenRes");
     console.log("You are not authorized please login");
@@ -75,7 +76,8 @@ export const addtocart = async (
   food_name,
   food_price,
   img_path,
-  res_email
+  res_email,
+  res_name
 ) => {
   try {
     const { data } = await axios.post("/api/auth/addtocart", {
@@ -84,6 +86,7 @@ export const addtocart = async (
       food_price,
       img_path,
       res_email,
+      res_name,
     });
     return data;
   } catch (error) {
@@ -118,6 +121,19 @@ export const reducefromcart = async (setCartCount, email, food_id) => {
     const { data } = await axios.post("/api/auth/reducefromcart", {
       email,
       food_id,
+    });
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const confirmorder = async (user, res_email, result) => {
+  try {
+    const { data } = await axios.post("/api/auth/confirmorder", {
+      user,
+      res_email,
+      result,
     });
     return data;
   } catch (error) {

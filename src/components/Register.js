@@ -102,7 +102,6 @@ export default function Register() {
                   <h5>Address</h5>
                   <input
                     name="address"
-                    value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     type="text"
                     class="input"

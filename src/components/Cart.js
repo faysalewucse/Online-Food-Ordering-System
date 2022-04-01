@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import "../css/Cart.css";
 import CartCard from "../cards/CartCard";
+import { confirmorder, fetchPrivateData } from "../api/resdata";
+import { useNavigate } from "react-router-dom";
 
-function Cart({ user, setCartCount, setUser, setAllRestaurent }) {
+function Cart({ user, setCartCount, setUser, setAllRestaurent, cart_count }) {
+  const [orderaddress, setOrderAddress] = useState(user.address);
+
+  const navigate = useNavigate();
   let cartItem,
     result,
-    totalCost = 0;
+    totalCost = 0,
+    res_name,
+    res_email;
 
   if (user.cart) {
     result = [
@@ -21,6 +28,8 @@ function Cart({ user, setCartCount, setUser, setAllRestaurent }) {
     if (result) {
       result.forEach((item) => {
         totalCost += item.food_price * item.count;
+        res_name = item.res_name;
+        res_email = item.res_email;
       });
     }
 
@@ -37,13 +46,21 @@ function Cart({ user, setCartCount, setUser, setAllRestaurent }) {
     });
   }
 
+  function confirmOrder(result) {
+    console.log(result);
+
+    confirmorder(user, res_email, result);
+    fetchPrivateData(setUser, setAllRestaurent, setCartCount);
+    navigate("/delivery-status");
+  }
+
   return (
     <div className="p-5">
-      <h2 className="text-center mb-5">
-        Ordered 3 Items From Cheap & Best Restaurent
+      <h2 className="text-center mb-5 cart--header">
+        Ordered {cart_count} Items From {res_name}
       </h2>
       <div className="row">
-        {totalCost != 0 ? (
+        {totalCost !== 0 ? (
           <div className="col-lg-6 mb-5">{cartItem}</div>
         ) : (
           <div className="col-lg-6">
@@ -68,8 +85,8 @@ function Cart({ user, setCartCount, setUser, setAllRestaurent }) {
             <h2>Cost</h2>
             <hr />
             <div className="d-flex justify-content-between">
-              <h6>Order ID :</h6>
-              <h6 style={{ color: "tomato" }}>dsf4gsd5f4gs5d4fg</h6>
+              <h6>Restaurent Name :</h6>
+              <h6 style={{ color: "tomato" }}>{res_name}</h6>
             </div>
             <div className="d-flex justify-content-between">
               <h6>Sub Total :</h6>
@@ -99,9 +116,16 @@ function Cart({ user, setCartCount, setUser, setAllRestaurent }) {
               className="address--input"
               type="text"
               placeholder="address"
+              defaultValue={user.address}
+              onChange={(e) => setOrderAddress(e.target.value)}
             />
             {totalCost !== 0 ? (
-              <h6 className="mt-2 apply--voucher--btn">Confirm Order</h6>
+              <h6
+                className="mt-2 apply--voucher--btn"
+                onClick={() => confirmOrder(result)}
+              >
+                Confirm Order
+              </h6>
             ) : (
               <h6 className="mt-2 apply--voucher--btn--inv">Confirm Order</h6>
             )}

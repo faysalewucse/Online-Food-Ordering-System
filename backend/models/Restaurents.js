@@ -64,6 +64,19 @@ const RestaurentSchema = new mongoose.Schema({
       img_path: {
         type: String,
       },
+      sold: {
+        type: String,
+      },
+    },
+  ],
+  orders: [
+    {
+      user: {
+        type: Object,
+      },
+      result: {
+        type: Object,
+      },
     },
   ],
   resetPasswordToken: String,

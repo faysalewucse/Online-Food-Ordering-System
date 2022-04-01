@@ -7,9 +7,14 @@ import { Nav } from "react-bootstrap";
 import axios from "axios";
 import { fetchResData } from "../api/resdata";
 
-function MyRestaurent({ restaurent, setRestaurent }) {
+function MyRestaurent({
+  restaurent,
+  setRestaurent,
+  orders_count,
+  setOrdersCount,
+}) {
   useEffect(() => {
-    fetchResData(setRestaurent);
+    fetchResData(setRestaurent, setOrdersCount);
   }, []);
   const [editmodalShow, setEditModalShow] = useState(false);
   const [addModalShow, setAddModalShow] = useState(false);
@@ -29,6 +34,7 @@ function MyRestaurent({ restaurent, setRestaurent }) {
           food_name={item.food_name}
           food_price={item.food_price}
           food_id={item._id}
+          sold={item.sold}
           setAddModalShow={setAddModalShow}
           setEditModalShow={setEditModalShow}
           setImgPath={setImgPath}
@@ -50,7 +56,7 @@ function MyRestaurent({ restaurent, setRestaurent }) {
     <div className="container">
       <div className="res--cover">
         <img
-          src="images/271687.jpg"
+          src={restaurent.res_img_path}
           alt="res-cover"
           className="res--cover--image"
           style={{ width: "100%", height: "30vh", objectFit: "cover" }}
@@ -74,7 +80,7 @@ function MyRestaurent({ restaurent, setRestaurent }) {
           ></i>
           <div>
             <Nav.Link href="/orders">
-              <i className="fa orders-badge fa-lg" value={5}>
+              <i className="fa orders-badge fa-lg" value={orders_count}>
                 <div className="orders--btn">Orders</div>
               </i>
             </Nav.Link>

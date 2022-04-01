@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "./Home";
@@ -12,7 +12,6 @@ import AddRestaurent from "./AddRestaurent";
 import RestaurentList from "./RestaurentList";
 import ShopPage from "./ShopPage";
 import Cart from "./Cart";
-import UsersCart from "../database/UsersCart";
 import DeliveryStatus from "./DeliveryStatus";
 import MyRestaurent from "./MyRestaurent";
 import MyOrders from "./MyOrders";
@@ -29,7 +28,9 @@ export default function NavbarComp({
   allrestaurent,
   setAllRestaurent,
   cart_count,
+  orders_count,
   setCartCount,
+  setOrdersCount,
 }) {
   const logoutHandler = () => {
     localStorage.removeItem("authToken");
@@ -39,8 +40,6 @@ export default function NavbarComp({
     localStorage.removeItem("authTokenRes");
     setRestaurent("");
   };
-
-  console.log(cart_count);
 
   const [res_id, setResId] = useState();
   const [res_email, setResEmail] = useState(restaurent.res_email);
@@ -164,6 +163,7 @@ export default function NavbarComp({
                 setUser={setUser}
                 setAllRestaurent={setAllRestaurent}
                 setCartCount={setCartCount}
+                cart_count={cart_count}
               />
             }
           />
@@ -189,6 +189,7 @@ export default function NavbarComp({
             path="/orders"
             element={
               <RestaurentOrders
+                restaurent={restaurent}
                 setOp={setOp}
                 setOc={setOc}
                 setPrep={setPrep}
@@ -207,6 +208,8 @@ export default function NavbarComp({
               <MyRestaurent
                 restaurent={restaurent}
                 setRestaurent={setRestaurent}
+                orders_count={orders_count}
+                setOrdersCount={setOrdersCount}
               />
             }
           />

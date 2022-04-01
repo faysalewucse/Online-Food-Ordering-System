@@ -9,6 +9,7 @@ function EditableCard({
   food_name,
   food_price,
   food_id,
+  sold,
   setEditModalShow,
   setImgPath,
   setFoodName,
@@ -38,10 +39,10 @@ function EditableCard({
         alt="Card image cap"
         style={{ width: "100%", height: "20vh", objectFit: "cover" }}
       />
-      <div className="card-body">
+      <div className="card-body text-center">
         <h4 className="card-title text-success">{food_name}</h4>
         <h6 className="card-title cost">BDT: {food_price} /-</h6>
-        <h6>Sold (126)</h6>
+        <h6>Sold ({sold})</h6>
       </div>
       <div className="card-body-btn d-flex">
         <Nav.Link

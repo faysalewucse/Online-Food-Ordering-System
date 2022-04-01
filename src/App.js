@@ -11,16 +11,16 @@ const App = () => {
   const [restaurent, setRestaurent] = useState("");
   const [allrestaurent, setAllRestaurent] = useState("");
   const [cart_count, setCartCount] = useState();
+  const [orders_count, setOrdersCount] = useState();
 
   useEffect(() => {
     fetchPrivateData(setUser, setAllRestaurent, setCartCount);
   }, []);
 
   useEffect(() => {
-    fetchResData(setRestaurent);
+    fetchResData(setRestaurent, setOrdersCount);
   }, []);
 
-  console.log(cart_count);
   return (
     <div className="App">
       <NavbarComp
@@ -31,7 +31,9 @@ const App = () => {
         allrestaurent={allrestaurent}
         setAllRestaurent={setAllRestaurent}
         cart_count={cart_count}
+        orders_count={orders_count}
         setCartCount={setCartCount}
+        setOrdersCount={setOrdersCount}
       />
     </div>
   );

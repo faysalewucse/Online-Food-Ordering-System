@@ -79,6 +79,7 @@ exports.addfood = async (req, res, next) => {
             food_name: food_name,
             food_price: food_price,
             img_path: img_path,
+            sold: 0,
           },
         },
       }
@@ -277,9 +278,9 @@ exports.getresfood = async (req, res, next) => {
 };
 
 exports.addtocart = async (req, res, next) => {
-  const { email, food_name, food_price, img_path, res_email } = req.body;
+  const { email, food_name, food_price, img_path, res_email, res_name } =
+    req.body;
 
-  console.log(img_path);
   try {
     const user = await User.findOneAndUpdate(
       {
@@ -292,11 +293,36 @@ exports.addtocart = async (req, res, next) => {
             food_price: food_price,
             img_path: img_path,
             res_email: res_email,
+            res_name: res_name,
           },
         },
       }
     );
     sendToken(user, 201, res);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+exports.confirmorder = async (req, res, next) => {
+  const { user, res_email, result } = req.body;
+
+  try {
+    const restaurent = await Restaurent.findOneAndUpdate(
+      {
+        res_email: res_email,
+      },
+      {
+        $push: {
+          orders: {
+            user: user,
+            result: result,
+          },
+        },
+      }
+    );
+    console.log(res);
+    sendToken(restaurent, 201, res);
   } catch (error) {
     res.status(400).send(error.message);
   }

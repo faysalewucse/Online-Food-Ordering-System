@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import foodData from "../database/FoodData";
+import React from "react";
 import FoodCard from "../cards/FoodCard";
 import ReactSearchBox from "react-search-box";
-import { getResFood } from "../api/resdata";
 
 function ShopPage(props) {
+  let allrestaurent = props.allrestaurent;
   const data = [
     {
       key: "john",
@@ -29,8 +28,8 @@ function ShopPage(props) {
   ];
 
   let foods;
-  if (props.allrestaurent) {
-    props.allrestaurent.map((res) => {
+  if (allrestaurent) {
+    allrestaurent.map((res) => {
       if (res.res_email === props.res_email) {
         foods = res.items.map((item) => {
           return (
