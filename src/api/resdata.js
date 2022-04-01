@@ -128,7 +128,13 @@ export const reducefromcart = async (setCartCount, email, food_id) => {
   }
 };
 
-export const confirmorder = async (user_mail, user, res_email, result) => {
+export const confirmorder = async (
+  user_mail,
+  user,
+  res_email,
+  result,
+  setCartCount
+) => {
   try {
     const { data } = await axios.post("/api/auth/confirmorder", {
       user,
@@ -140,11 +146,19 @@ export const confirmorder = async (user_mail, user, res_email, result) => {
       user_mail,
     });
 
-    // await axios.post("/api/auth/afterremovecart_deliverystatus", {
-    //   user,
-    //   res_email,
-    //   result,
-    // });
+    setCartCount(0);
+
+    const { res } = await axios.post(
+      "/api/auth/afterremovecart_deliverystatus",
+      {
+        data,
+        user_mail,
+        res_email,
+      }
+    );
+
+    console.log(res);
+
     return data;
   } catch (error) {
     throw error;

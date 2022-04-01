@@ -40,16 +40,8 @@
   width: 45%;
   margin-right: 20px;
 }
-.time--container {
-  background-color: aquamarine;
-  align-content: center;
-  align-self: center;
-  align-items: center;
-  display: block;
-  justify-content: center;
-}
 .time--input {
-  width: 7%;
+  width: 15%;
   margin: 0 5px;
   font-size: 20px;
 }
@@ -62,4 +54,12 @@
   font-size: 25px;
   font-weight: bold;
   border-radius: 10px;
+}
+
+.confirm--cancel--btn {
+  margin-top: 20px;
+}
+
+.ordered--items {
+  height: 20vh;
 }

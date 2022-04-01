@@ -18,6 +18,9 @@ const {
   reducefromcart,
   confirmorder,
   emptycart,
+  add_order_history,
+  up_status_user,
+  up_status_restaurent,
 } = require("../controllers/auth");
 
 router.route("/register").post(register);
@@ -29,8 +32,11 @@ router.route("/resetpassword/:resetToken").put(resetpassword);
 
 router.route("/updatefood").put(upload.single("file"), updatefood);
 router.route("/deletefood").put(deletefood);
+router.route("/updatestatus_user").put(up_status_user);
+router.route("/updatestatus_restaurent").put(up_status_restaurent);
 router.route("/afterconfirm_removecart").put(emptycart);
 router.route("/addtocart").post(addtocart);
+router.route("/afterremovecart_deliverystatus").post(add_order_history);
 router.route("/confirmorder").post(confirmorder);
 router.route("/removefromcart").post(removefromcart);
 router.route("/reducefromcart").post(reducefromcart);

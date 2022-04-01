@@ -183,8 +183,10 @@ export default function NavbarComp({
               />
             }
           />
+
           <Route path="/myorders" element={<MyOrders />} />
           <Route path="/addrestaurent" element={<AddRestaurent />} />
+
           <Route
             path="/orders"
             element={

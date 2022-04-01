@@ -3,6 +3,7 @@ const Restaurent = require("../models/Restaurents");
 const User = require("../models/User");
 const ErrorResponse = require("../utils/errorResponse");
 const sendEmail = require("../utils/sendEmail");
+const mongoose = require("mongoose");
 
 exports.register = async (req, res, next) => {
   const { name, email, address, password } = req.body;
@@ -107,6 +108,48 @@ exports.updatefood = async (req, res, next) => {
     );
     //console.log(restaurent);
     sendToken(restaurent, 201, res);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+exports.up_status_user = async (req, res, next) => {
+  const { order_id, user_mail } = req.body;
+
+  try {
+    const user = await User.findOneAndUpdate(
+      {
+        email: user_mail,
+        "my_orders.order_id": `${order_id}`,
+      },
+      {
+        $set: {
+          "my_orders.$.status": "Cooking",
+        },
+      }
+    );
+    //console.log(restaurent);
+    //sendToken(user, 201, res);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+exports.up_status_restaurent = async (req, res, next) => {
+  const { order_id, res_mail } = req.body;
+
+  try {
+    const restaurent = await Restaurent.findOneAndUpdate(
+      {
+        res_email: res_mail,
+        "orders.order_id": `${order_id}`,
+      },
+      {
+        $set: {
+          "orders.$.status": "Cooking",
+        },
+      }
+    );
+    //console.log(restaurent);
+    //sendToken(restaurent, 201, res);
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -304,9 +347,34 @@ exports.addtocart = async (req, res, next) => {
   }
 };
 
+exports.add_order_history = async (req, res, next) => {
+  const { data, user_mail, res_email } = req.body;
+
+  try {
+    const user = await User.findOneAndUpdate(
+      {
+        email: user_mail,
+      },
+      {
+        $push: {
+          my_orders: {
+            order_id: data,
+            res_email: res_email,
+            status: "",
+          },
+        },
+      }
+    );
+    res.status(200).send(user);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 exports.confirmorder = async (req, res, next) => {
   const { user, res_email, result } = req.body;
 
+  const commentId = new mongoose.Types.ObjectId();
   try {
     const restaurent = await Restaurent.findOneAndUpdate(
       {
@@ -315,14 +383,16 @@ exports.confirmorder = async (req, res, next) => {
       {
         $push: {
           orders: {
+            order_id: commentId,
             user: user,
             result: result,
+            status: "Confirm",
           },
         },
       }
     );
-    console.log(res);
-    sendToken(restaurent, 201, res);
+
+    res.status(200).send(commentId);
   } catch (error) {
     res.status(400).send(error.message);
   }

@@ -30,7 +30,7 @@ function RestaurentOrders({
   }
 
   return (
-    <div className="container">
+    <div className="container orders--container">
       <h2 className="text-center mt-5 mb-5 orders--text">
         Continiously Update Order Status to Help Customer to Track Delivery
       </h2>

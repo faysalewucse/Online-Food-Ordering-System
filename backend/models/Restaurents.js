@@ -71,12 +71,14 @@ const RestaurentSchema = new mongoose.Schema({
   ],
   orders: [
     {
+      order_id: { type: String },
       user: {
         type: Object,
       },
       result: {
         type: Object,
       },
+      status: { type: String },
     },
   ],
   resetPasswordToken: String,
