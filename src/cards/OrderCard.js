@@ -6,8 +6,9 @@ import "./OrderCard.css";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
 function OrderCard({ items }) {
+  var current = new Date();
+
   const [timeModalShow, SetTimeModalShow] = useState(false);
-  const [delivery_time, setDeliveryTime] = useState();
 
   let item;
   if (items) {
@@ -18,6 +19,27 @@ function OrderCard({ items }) {
         </h6>
       );
     });
+  }
+
+  function delivery_time() {
+    var current = new Date();
+    console.log(items.time);
+    var date1 = new Date(items.time);
+    var date2 = new Date(
+      current.toLocaleDateString() + " " + current.toLocaleTimeString()
+    );
+
+    var diff = date2.getTime() - date1.getTime();
+
+    var msec = diff;
+    var hh = Math.floor(msec / 1000 / 60 / 60);
+    msec -= hh * 1000 * 60 * 60;
+    var mm = Math.floor(msec / 1000 / 60);
+    msec -= mm * 1000 * 60;
+    var ss = Math.floor(msec / 1000);
+    msec -= ss * 1000;
+
+    return items.delivery_time * 60 - ss;
   }
   // const Completionist = () => <span>You are good to go!</span>;
   // const renderer = ({ hours, minutes, seconds, completed }) => {
@@ -55,13 +77,13 @@ function OrderCard({ items }) {
               {items.status === "Cooking" ? (
                 <CountdownCircleTimer
                   isPlaying
-                  duration={60 * delivery_time}
+                  duration={delivery_time()}
                   colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
                   colorsTime={[
-                    60 * delivery_time,
-                    (60 * delivery_time) / 2,
-                    (60 * delivery_time) / 3,
-                    (60 * delivery_time) / 4,
+                    delivery_time(),
+                    delivery_time() / 2,
+                    delivery_time() / 3,
+                    delivery_time() / 4,
                   ]}
                 >
                   {({ remainingTime }) => remainingTime}
@@ -90,7 +112,6 @@ function OrderCard({ items }) {
         order_id={items.order_id}
         user_mail={items.user.email}
         res_mail={items.result[0].res_email}
-        setDeliveryTime={setDeliveryTime}
         setTimeModalShow={SetTimeModalShow}
       />
     </div>
@@ -98,18 +119,26 @@ function OrderCard({ items }) {
 }
 
 function SetTimeModal(props) {
+  const [delivery_time, setDeliveryTime] = useState();
+
   const orderConfirmed = async (e) => {
     try {
-      await axios.put(
-        "/api/auth/updatestatus_user",
-        props.order_id,
-        props.user_mail
-      );
-      await axios.put(
-        "/api/auth/updatestatus_restaurent",
-        props.order_id,
-        props.res_mail
-      );
+      //console.log(props.user_mail);
+      var current_time = new Date();
+      await axios.put("/api/auth/updatestatus_user", {
+        order_id: props.order_id,
+        user_mail: props.user_mail,
+      });
+
+      await axios.put("/api/auth/updatestatus_restaurent", {
+        order_id: props.order_id,
+        res_mail: props.res_mail,
+        delivery_time: delivery_time,
+        time:
+          current_time.toLocaleDateString() +
+          " " +
+          current_time.toLocaleTimeString(),
+      });
       props.setTimeModalShow(false);
     } catch (error) {
       throw error;
@@ -130,7 +159,7 @@ function SetTimeModal(props) {
               className="time--input"
               type="number"
               defaultValue={10}
-              onChange={(e) => props.setDeliveryTime(e.target.value)}
+              onChange={(e) => setDeliveryTime(e.target.value)}
             />
             <h4>Minutes</h4>
           </h4>

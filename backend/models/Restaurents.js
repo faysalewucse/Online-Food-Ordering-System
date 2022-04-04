@@ -79,6 +79,8 @@ const RestaurentSchema = new mongoose.Schema({
         type: Object,
       },
       status: { type: String },
+      delivery_time: { type: String },
+      time: { type: String },
     },
   ],
   resetPasswordToken: String,

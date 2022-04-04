@@ -127,16 +127,17 @@ exports.up_status_user = async (req, res, next) => {
         },
       }
     );
-    //console.log(restaurent);
-    //sendToken(user, 201, res);
+    console.log(user);
+    sendToken(user, 201, res);
   } catch (error) {
     res.status(400).send(error.message);
   }
 };
 exports.up_status_restaurent = async (req, res, next) => {
-  const { order_id, res_mail } = req.body;
+  const { order_id, res_mail, delivery_time, time } = req.body;
 
   try {
+    console.log(req.body);
     const restaurent = await Restaurent.findOneAndUpdate(
       {
         res_email: res_mail,
@@ -145,11 +146,13 @@ exports.up_status_restaurent = async (req, res, next) => {
       {
         $set: {
           "orders.$.status": "Cooking",
+          "orders.$.delivery_time": delivery_time,
+          "orders.$.time": time,
         },
       }
     );
-    //console.log(restaurent);
-    //sendToken(restaurent, 201, res);
+
+    sendToken(restaurent, 201, res);
   } catch (error) {
     res.status(400).send(error.message);
   }

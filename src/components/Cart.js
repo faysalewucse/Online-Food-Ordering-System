@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../css/Cart.css";
 import CartCard from "../cards/CartCard";
-import { confirmorder, fetchPrivateData } from "../api/resdata";
+import { confirmorder, fetchPrivateData, fetchResData } from "../api/resdata";
 import { useNavigate } from "react-router-dom";
 
 function Cart({ user, setCartCount, setUser, setAllRestaurent, cart_count }) {
@@ -51,6 +51,7 @@ function Cart({ user, setCartCount, setUser, setAllRestaurent, cart_count }) {
 
     confirmorder(user.email, user, res_email, result, setCartCount);
     fetchPrivateData(setUser, setAllRestaurent, setCartCount);
+    fetchResData(setAllRestaurent, setCartCount);
     navigate("/delivery-status");
   }
 
