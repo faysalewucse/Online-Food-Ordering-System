@@ -17,12 +17,13 @@ function EditableCard({
   setFoodId,
   res_email,
   setRestaurent,
+  setOrdersCount,
 }) {
   const deleteFood = async () => {
     try {
       await axios.put("/api/auth/deletefood", { res_email, food_id });
 
-      fetchResData(setRestaurent);
+      fetchResData(setRestaurent, setOrdersCount);
     } catch (error) {
       throw error;
     }

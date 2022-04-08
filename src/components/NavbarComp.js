@@ -55,6 +55,7 @@ export default function NavbarComp({
   const [order_confirmed_progress, setOcp] = React.useState(0.5);
   const [preparing_progress, setPp] = React.useState(0.5);
   const [out_for_delivery_progress, setOfdp] = React.useState(0.5);
+  const [order_id, setOrderID] = React.useState(0.5);
   //For User Food Tracking
 
   return (
@@ -91,9 +92,7 @@ export default function NavbarComp({
               </Nav>
               {user || restaurent ? (
                 <Nav>
-                  {user ? (
-                    <Nav.Link href="/delivery-status">Track</Nav.Link>
-                  ) : null}
+                  {user ? <Nav.Link href="/myorders">Track</Nav.Link> : null}
                   {user ? (
                     <Nav.Link href="/cart">
                       <i className="fa badge fa-lg" value={cart_count}>
@@ -169,22 +168,13 @@ export default function NavbarComp({
           />
           <Route
             path="/delivery-status"
-            element={
-              <DeliveryStatus
-                order_placed={order_placed}
-                order_confirmed={order_confirmed}
-                preparing={preparing}
-                out_for_delivery={out_for_delivery}
-                complete={complete}
-                order_placed_progress={order_placed_progress}
-                order_confirmed_progress={order_confirmed_progress}
-                preparing_progress={preparing_progress}
-                out_for_delivery_progress={out_for_delivery_progress}
-              />
-            }
+            element={<DeliveryStatus order_id={order_id} user={user} />}
           />
 
-          <Route path="/myorders" element={<MyOrders />} />
+          <Route
+            path="/myorders"
+            element={<MyOrders user={user} setOrderID={setOrderID} />}
+          />
           <Route path="/addrestaurent" element={<AddRestaurent />} />
 
           <Route
@@ -192,15 +182,10 @@ export default function NavbarComp({
             element={
               <RestaurentOrders
                 restaurent={restaurent}
-                setOp={setOp}
-                setOc={setOc}
-                setPrep={setPrep}
-                setOfd={setOfd}
-                setComplete={setComplete}
-                setOpp={setOpp}
-                setOcp={setOcp}
-                setPp={setPp}
-                setOfdp={setOfdp}
+                user={user}
+                setRestaurent={setRestaurent}
+                setOrdersCount={setOrdersCount}
+                setUser={setUser}
               />
             }
           />

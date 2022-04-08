@@ -152,6 +152,7 @@ export const confirmorder = async (
       "/api/auth/afterremovecart_deliverystatus",
       {
         data,
+        result,
         user_mail,
         res_email,
       }

@@ -52,7 +52,7 @@ function Cart({ user, setCartCount, setUser, setAllRestaurent, cart_count }) {
     confirmorder(user.email, user, res_email, result, setCartCount);
     fetchPrivateData(setUser, setAllRestaurent, setCartCount);
     fetchResData(setAllRestaurent, setCartCount);
-    navigate("/delivery-status");
+    navigate("/myorders");
   }
 
   return (

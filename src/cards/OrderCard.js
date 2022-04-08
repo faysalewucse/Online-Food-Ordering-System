@@ -4,8 +4,9 @@ import { Modal } from "react-bootstrap";
 import Countdown from "react-countdown";
 import "./OrderCard.css";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
+import { fetchResData } from "../api/resdata";
 
-function OrderCard({ items }) {
+function OrderCard({ items, setRestaurent, setUser, setOrdersCount }) {
   var current = new Date();
 
   const [timeModalShow, SetTimeModalShow] = useState(false);
@@ -20,6 +21,8 @@ function OrderCard({ items }) {
       );
     });
   }
+
+  console.log(items);
 
   function delivery_time() {
     var current = new Date();
@@ -41,22 +44,6 @@ function OrderCard({ items }) {
 
     return items.delivery_time * 60 - ss;
   }
-  // const Completionist = () => <span>You are good to go!</span>;
-  // const renderer = ({ hours, minutes, seconds, completed }) => {
-  //   if (completed) {
-  //     // Render a completed state
-  //     return <Completionist />;
-  //   } else {
-  //     // Render a countdown
-  //     return (
-  //       <div className="d-flex align-items-center">
-  //         <h6 className="time-card">{hours}</h6>
-  //         <h6 className="time-card">{minutes}</h6>
-  //         <h6 className="time-card">{seconds}</h6>
-  //       </div>
-  //     );
-  //   }
-  // };
 
   function showSetTimeModal() {
     SetTimeModalShow(true);
@@ -75,19 +62,33 @@ function OrderCard({ items }) {
             </div>
             <div className="col-6">
               {items.status === "Cooking" ? (
-                <CountdownCircleTimer
-                  isPlaying
-                  duration={delivery_time()}
-                  colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
-                  colorsTime={[
-                    delivery_time(),
-                    delivery_time() / 2,
-                    delivery_time() / 3,
-                    delivery_time() / 4,
-                  ]}
-                >
-                  {({ remainingTime }) => remainingTime}
-                </CountdownCircleTimer>
+                <div className="text-center">
+                  <div className="d-flex justify-content-center mb-3">
+                    <CountdownCircleTimer
+                      isPlaying
+                      duration={delivery_time()}
+                      colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
+                      colorsTime={[
+                        delivery_time(),
+                        delivery_time() / 2,
+                        delivery_time() / 3,
+                        delivery_time() / 4,
+                      ]}
+                    >
+                      {({ remainingTime }) => remainingTime}
+                    </CountdownCircleTimer>
+                  </div>
+                  <h4 style={{ fontFamily: "Righteous" }}>
+                    Add
+                    <input
+                      name="delivery_time"
+                      className="input time--input"
+                      type="number"
+                      defaultValue={10}
+                    />
+                    Minutes
+                  </h4>
+                </div>
               ) : null}
             </div>
           </div>
@@ -99,13 +100,6 @@ function OrderCard({ items }) {
           </div>
         </div>
       </div>
-      {/* <div className="d-flex  justify-content-center align-items-center">
-        <h6 className="text-center">Set Expectation Time to Deliver: </h6>
-        <input className="time--input" type="number" />
-        <h4>Minutes</h4>
-      </div> */}
-
-      {/* <Countdown date={Date.now() + 5000000} renderer={renderer} /> */}
       <SetTimeModal
         show={timeModalShow}
         onHide={() => SetTimeModalShow(false)}
@@ -113,13 +107,15 @@ function OrderCard({ items }) {
         user_mail={items.user.email}
         res_mail={items.result[0].res_email}
         setTimeModalShow={SetTimeModalShow}
+        setRestaurent={setRestaurent}
+        setOrdersCount={setOrdersCount}
       />
     </div>
   );
 }
 
 function SetTimeModal(props) {
-  const [delivery_time, setDeliveryTime] = useState();
+  const [del_time, setDeliveryTime] = useState(10);
 
   const orderConfirmed = async (e) => {
     try {
@@ -128,17 +124,23 @@ function SetTimeModal(props) {
       await axios.put("/api/auth/updatestatus_user", {
         order_id: props.order_id,
         user_mail: props.user_mail,
-      });
-
-      await axios.put("/api/auth/updatestatus_restaurent", {
-        order_id: props.order_id,
-        res_mail: props.res_mail,
-        delivery_time: delivery_time,
+        delivery_time: del_time,
         time:
           current_time.toLocaleDateString() +
           " " +
           current_time.toLocaleTimeString(),
       });
+
+      await axios.put("/api/auth/updatestatus_restaurent", {
+        order_id: props.order_id,
+        res_mail: props.res_mail,
+        delivery_time: del_time,
+        time:
+          current_time.toLocaleDateString() +
+          " " +
+          current_time.toLocaleTimeString(),
+      });
+      fetchResData(props.setRestaurent, props.setOrdersCount);
       props.setTimeModalShow(false);
     } catch (error) {
       throw error;
@@ -156,7 +158,8 @@ function SetTimeModal(props) {
           <h4 className="text-center" style={{ fontFamily: "Righteous" }}>
             Set Expectation Time to Deliver <br />
             <input
-              className="time--input"
+              name="delivery_time"
+              className="input time--input"
               type="number"
               defaultValue={10}
               onChange={(e) => setDeliveryTime(e.target.value)}

@@ -43,6 +43,7 @@ function MyRestaurent({
           setFoodId={setFoodId}
           res_email={restaurent.res_email}
           setRestaurent={setRestaurent}
+          setOrdersCount={setOrdersCount}
         />
       );
     });
@@ -103,6 +104,7 @@ function MyRestaurent({
         setRestaurent={setRestaurent}
         setEditModalShow={setEditModalShow}
         res_email={restaurent.res_email}
+        setOrdersCount={setOrdersCount}
       />
       <AddFoodFloatingModal
         show={addModalShow}
@@ -110,6 +112,7 @@ function MyRestaurent({
         restaurent={restaurent}
         setRestaurent={setRestaurent}
         onHide={() => setAddModalShow(false)}
+        setOrdersCount={setOrdersCount}
       />
     </div>
   );
@@ -145,7 +148,7 @@ function EditFoodFloatingModal(props) {
     if (updateFormData) await updateFood(updateFormData);
     props.setEditModalShow(false);
 
-    fetchResData(props.setRestaurent);
+    fetchResData(props.setRestaurent, props.setOrdersCount);
 
     //window.location.reload(false);
   };
@@ -231,7 +234,7 @@ function AddFoodFloatingModal(props) {
     await singleFileUpload(formData);
     props.setAddModalShow(false);
 
-    fetchResData(props.setRestaurent);
+    fetchResData(props.setRestaurent, props.setOrdersCount);
 
     //window.location.reload(false);
   };

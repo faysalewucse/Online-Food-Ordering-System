@@ -113,7 +113,7 @@ exports.updatefood = async (req, res, next) => {
   }
 };
 exports.up_status_user = async (req, res, next) => {
-  const { order_id, user_mail } = req.body;
+  const { order_id, user_mail, delivery_time, time } = req.body;
 
   try {
     const user = await User.findOneAndUpdate(
@@ -124,6 +124,8 @@ exports.up_status_user = async (req, res, next) => {
       {
         $set: {
           "my_orders.$.status": "Cooking",
+          "my_orders.$.delivery_time": delivery_time,
+          "my_orders.$.time": time,
         },
       }
     );
@@ -351,7 +353,7 @@ exports.addtocart = async (req, res, next) => {
 };
 
 exports.add_order_history = async (req, res, next) => {
-  const { data, user_mail, res_email } = req.body;
+  const { data, result, user_mail, res_email } = req.body;
 
   try {
     const user = await User.findOneAndUpdate(
@@ -363,6 +365,7 @@ exports.add_order_history = async (req, res, next) => {
           my_orders: {
             order_id: data,
             res_email: res_email,
+            result: result,
             status: "",
           },
         },

@@ -1,9 +1,31 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 import "../css/MyOrders.css";
 
-function MyOrders() {
+function MyOrders({ user, setOrderID }) {
+  const navigate = useNavigate();
+  function setOrderId(order_id) {
+    setOrderID(order_id);
+    navigate("/delivery-status");
+  }
+  let orders;
+  if (user.my_orders) {
+    orders = user.my_orders.map((order) => {
+      //console.log(order.order_id);
+      return (
+        <tr>
+          <td className="order--id" onClick={() => setOrderId(order.order_id)}>
+            {order.order_id}
+          </td>
+          <td>{order.status}</td>
+          <td>285</td>
+          <td>{order.time}</td>
+          <td>Available</td>
+        </tr>
+      );
+    });
+  }
   return (
     <div className="container delivery-status-container">
       <h4 className="track--order--text text-center">{`Click "Order ID" to "Track" Your Order`}</h4>
@@ -18,54 +40,7 @@ function MyOrders() {
             <th>Tracking Status</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>
-              <Nav.Link className="order--id" as={Link} to={"/delivery-status"}>
-                123456
-              </Nav.Link>
-            </td>
-            <td>Cooking</td>
-            <td>285</td>
-            <td>03/12/2022 10:46 PM</td>
-            <td>Available</td>
-          </tr>
-          <tr className="active-row">
-            <td>123456</td>
-            <td>Delivered</td>
-            <td>145</td>
-            <td>03/12/2022 10:46 PM</td>
-            <td>N/A</td>
-          </tr>
-          <tr>
-            <td>123456</td>
-            <td>Delivered</td>
-            <td>145</td>
-            <td>03/12/2022 10:46 PM</td>
-            <td>N/A</td>
-          </tr>
-          <tr className="active-row">
-            <td>123456</td>
-            <td>Delivered</td>
-            <td>145</td>
-            <td>03/12/2022 10:46 PM</td>
-            <td>N/A</td>
-          </tr>
-          <tr>
-            <td>123456</td>
-            <td>Delivered</td>
-            <td>145</td>
-            <td>03/12/2022 10:46 PM</td>
-            <td>N/A</td>
-          </tr>
-          <tr className="active-row">
-            <td>123456</td>
-            <td>Delivered</td>
-            <td>145</td>
-            <td>03/12/2022 10:46 PM</td>
-            <td>N/A</td>
-          </tr>
-        </tbody>
+        <tbody>{orders}</tbody>
       </table>
     </div>
   );

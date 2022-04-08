@@ -52,3 +52,11 @@
   font-family: Righteous, sans-serif;
   color: rgb(20, 107, 220);
 }
+
+.empty-order {
+  height: 80vh;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

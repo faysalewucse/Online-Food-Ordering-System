@@ -48,6 +48,11 @@ const UserSchema = new mongoose.Schema({
       res_email: {
         type: String,
       },
+      result: {
+        type: Object,
+      },
+      delivery_time: { type: String },
+      time: { type: String },
       status: {
         type: String,
       },

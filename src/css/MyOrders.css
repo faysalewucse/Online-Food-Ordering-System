@@ -22,6 +22,10 @@
   font-weight: bold;
   color: tomato;
 }
+.order--id:hover {
+  cursor: pointer;
+  color: rgb(92, 14, 0);
+}
 .styled-table thead tr {
   background-color: #009879;
   color: #ffffff;
