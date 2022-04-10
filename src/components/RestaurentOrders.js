@@ -5,9 +5,13 @@ import OrderCard from "../cards/OrderCard";
 function RestaurentOrders({
   restaurent,
   user,
+  setAllUser,
   setRestaurent,
   setUser,
   setOrdersCount,
+  setAllRestaurent,
+  setCartCount,
+  setDeliveryStatus,
 }) {
   const [time, setTime] = React.useState();
 
@@ -19,7 +23,11 @@ function RestaurentOrders({
           items={item}
           setRestaurent={setRestaurent}
           setUser={setUser}
+          setAllUser={setAllUser}
           setOrdersCount={setOrdersCount}
+          setAllRestaurent={setAllRestaurent}
+          setCartCount={setCartCount}
+          setDeliveryStatus={setDeliveryStatus}
         />
       );
     });

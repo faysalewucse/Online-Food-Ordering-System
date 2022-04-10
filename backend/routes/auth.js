@@ -21,6 +21,7 @@ const {
   add_order_history,
   up_status_user,
   up_status_restaurent,
+  getAllUser,
 } = require("../controllers/auth");
 
 router.route("/register").post(register);
@@ -45,6 +46,7 @@ router.post("/addfood", upload.single("file"), addfood);
 router.post("/resregister", upload.single("file"), resregister);
 
 router.get("/getallres", getAllRes);
+router.get("/getalluser", getAllUser);
 router.post("/getresfood", getresfood);
 
 module.exports = router;

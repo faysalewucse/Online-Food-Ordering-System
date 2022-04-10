@@ -1,21 +1,58 @@
 import React from "react";
 import "../css/DeliveryStatus.css";
 import { ProgressBar } from "react-bootstrap";
+import io from "socket.io-client";
 
-function DeliveryStatus({ order_id, user }) {
-  //console.log(order_info);
+function DeliveryStatus({ order_id, user, allUser, delivery_status }) {
+  console.log(allUser);
+
+  var socket = io();
+
+  if (order_id) {
+    socket.emit("join", `order_${order_id}`);
+  }
+
+  socket.on("orderUpdated", (data) => {
+    console.log(data);
+  });
 
   let order_info,
     item,
     totalCost = 0;
   if (user.my_orders) {
-    for (let order of user.my_orders) {
-      if (order.order_id === order_id) {
-        order_info = order;
+    // for (let order of user.my_orders) {
+    //   if (order.order_id === order_id) {
+    //     order_info = order;
+    //     //flag = 1;
+    //     break;
+    //   }
+    // }
+    let flag = 0;
+    for (let each_user of allUser) {
+      if (each_user.email === user.email) {
+        for (let order of each_user.my_orders) {
+          if (order.order_id === order_id) {
+            order_info = order;
+            flag = 1;
+            break;
+          }
+        }
+      }
+      if (flag === 1) {
         break;
       }
     }
   }
+
+  // for (let each_user of allUser) {
+  //   if (each_user.email === user.email) {
+  //     for (let order of each_user.my_orders) {
+  //       if (order.order_id === order_id) {
+  //         console.log(order);
+  //       }
+  //     }
+  //   }
+  // }
 
   if (order_info) {
     item = order_info.result.map((food) => {

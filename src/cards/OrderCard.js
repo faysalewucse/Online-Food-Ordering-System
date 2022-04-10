@@ -4,9 +4,18 @@ import { Modal } from "react-bootstrap";
 import Countdown from "react-countdown";
 import "./OrderCard.css";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
-import { fetchResData } from "../api/resdata";
+import { fetchPrivateData, fetchResData, getAllUser } from "../api/resdata";
 
-function OrderCard({ items, setRestaurent, setUser, setOrdersCount }) {
+function OrderCard({
+  items,
+  setRestaurent,
+  setUser,
+  setAllUser,
+  setOrdersCount,
+  setAllRestaurent,
+  setCartCount,
+  setDeliveryStatus,
+}) {
   var current = new Date();
 
   const [timeModalShow, SetTimeModalShow] = useState(false);
@@ -109,6 +118,11 @@ function OrderCard({ items, setRestaurent, setUser, setOrdersCount }) {
         setTimeModalShow={SetTimeModalShow}
         setRestaurent={setRestaurent}
         setOrdersCount={setOrdersCount}
+        setUser={setUser}
+        setAllUser={setAllUser}
+        setAllRestaurent={setAllRestaurent}
+        setCartCount={setCartCount}
+        setDeliveryStatus={setDeliveryStatus}
       />
     </div>
   );
@@ -141,6 +155,13 @@ function SetTimeModal(props) {
           current_time.toLocaleTimeString(),
       });
       fetchResData(props.setRestaurent, props.setOrdersCount);
+      fetchPrivateData(
+        props.setUser,
+        props.setAllRestaurent,
+        props.setCartCount
+      );
+      getAllUser(props.setAllUser);
+      props.setDeliveryStatus("Cooking");
       props.setTimeModalShow(false);
     } catch (error) {
       throw error;

@@ -5,10 +5,14 @@ const connectDB = require("./config/db");
 const errorHandler = require("./middleware/error");
 const cors = require("cors");
 const path = require("path");
+const Emmiter = require("events");
 
 connectDB();
 
 const app = express();
+
+const eventEmitter = new Emmiter();
+app.set("eventEmitter", eventEmitter);
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -29,4 +33,21 @@ const server = app.listen(PORT, () =>
 process.on("unhandledRejection", (err, Promise) => {
   console.log(`Logged Error: ${err}`);
   server.close(() => process.exit(1));
+});
+
+//Socket
+
+const io = require("socket.io")(server);
+io.on("connection", (socket) => {
+  console.log(socket.id);
+  socket.on("join", (orderId) => {
+    console.log(orderId);
+    socket.join(orderId);
+  });
+});
+
+eventEmitter.on("orderUpdated", (data) => {
+  console.log("Emmit Data: ");
+  console.log(data);
+  io.to(`order_${data.id}`).emit("orderUpdated", data);
 });

@@ -60,6 +60,16 @@ export const getAllRes = async (setAllRestaurent) => {
   }
 };
 
+export const getAllUser = async (setAllUser) => {
+  try {
+    const { data } = await axios.get("/api/auth/getalluser");
+    setAllUser(data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getResFood = async (setResFood, res_email) => {
   try {
     const { data } = await axios.post("/api/auth/getresfood", { res_email });

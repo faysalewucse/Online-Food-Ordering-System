@@ -22,6 +22,8 @@ import ResetPasswordScreen from "./ResetPassword";
 
 export default function NavbarComp({
   user,
+  allUser,
+  setAllUser,
   setUser,
   restaurent,
   setRestaurent,
@@ -41,21 +43,14 @@ export default function NavbarComp({
     setRestaurent("");
   };
 
+  console.log(allUser);
+
   const [res_id, setResId] = useState();
   const [res_email, setResEmail] = useState(restaurent.res_email);
   const [restaurent_path, setRestaurentPath] = useState();
   //For User Food Tracking
-  const [order_placed, setOp] = React.useState();
-  const [order_confirmed, setOc] = React.useState(0.5);
-  const [preparing, setPrep] = React.useState(0.5);
-  const [out_for_delivery, setOfd] = React.useState(0.5);
-  const [complete, setComplete] = React.useState(0.5);
-  const [time_progress, setTp] = React.useState(0.5);
-  const [order_placed_progress, setOpp] = React.useState(0.5);
-  const [order_confirmed_progress, setOcp] = React.useState(0.5);
-  const [preparing_progress, setPp] = React.useState(0.5);
-  const [out_for_delivery_progress, setOfdp] = React.useState(0.5);
   const [order_id, setOrderID] = React.useState(0.5);
+  const [delivery_status, setDeliveryStatus] = React.useState("");
   //For User Food Tracking
 
   return (
@@ -168,7 +163,14 @@ export default function NavbarComp({
           />
           <Route
             path="/delivery-status"
-            element={<DeliveryStatus order_id={order_id} user={user} />}
+            element={
+              <DeliveryStatus
+                order_id={order_id}
+                user={user}
+                allUser={allUser}
+                delivery_status={delivery_status}
+              />
+            }
           />
 
           <Route
@@ -183,9 +185,13 @@ export default function NavbarComp({
               <RestaurentOrders
                 restaurent={restaurent}
                 user={user}
+                setAllUser={setAllUser}
                 setRestaurent={setRestaurent}
                 setOrdersCount={setOrdersCount}
                 setUser={setUser}
+                setAllRestaurent={setAllRestaurent}
+                setCartCount={setCartCount}
+                setDeliveryStatus={setDeliveryStatus}
               />
             }
           />

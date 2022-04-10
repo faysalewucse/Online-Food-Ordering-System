@@ -114,7 +114,8 @@ exports.updatefood = async (req, res, next) => {
 };
 exports.up_status_user = async (req, res, next) => {
   const { order_id, user_mail, delivery_time, time } = req.body;
-
+  const eventEmitter = req.app.get("eventEmitter");
+  eventEmitter.emit("orderUpdated", { id: order_id, status: "Cooking" });
   try {
     const user = await User.findOneAndUpdate(
       {
@@ -307,6 +308,15 @@ exports.resetpassword = async (req, res, next) => {
 exports.getAllRes = async (req, res, next) => {
   try {
     const files = await Restaurent.find();
+    res.status(200).send(files);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+exports.getAllUser = async (req, res, next) => {
+  try {
+    const files = await User.find();
     res.status(200).send(files);
   } catch (error) {
     res.status(400).send(error.message);

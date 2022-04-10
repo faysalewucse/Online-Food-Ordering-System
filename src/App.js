@@ -3,11 +3,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import NavbarComp from "./components/NavbarComp";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { fetchResData, fetchPrivateData } from "./api/resdata";
+import { fetchResData, fetchPrivateData, getAllUser } from "./api/resdata";
 
 const App = () => {
   const [error, setError] = useState("");
   const [user, setUser] = useState("");
+  const [allUser, setAllUser] = useState("");
   const [restaurent, setRestaurent] = useState("");
   const [allrestaurent, setAllRestaurent] = useState("");
   const [cart_count, setCartCount] = useState();
@@ -18,6 +19,10 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    getAllUser(setAllUser);
+  }, []);
+
+  useEffect(() => {
     fetchResData(setRestaurent, setOrdersCount);
   }, []);
 
@@ -25,6 +30,8 @@ const App = () => {
     <div className="App">
       <NavbarComp
         user={user}
+        allUser={allUser}
+        setAllUser={setAllUser}
         restaurent={restaurent}
         setUser={setUser}
         setRestaurent={setRestaurent}
