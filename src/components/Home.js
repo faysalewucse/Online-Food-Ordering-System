@@ -2,32 +2,35 @@ import React from "react";
 import { Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export default function Home() {
-  //const navigate = useNavigate();
-  // fetch(
-  //   "https://maps.googleapis.com/maps/api/geocode/json?address=" +
-  //     "23.711162" +
-  //     "," +
-  //     "90.489894" +
-  //     "&key=" +
-  //     "AIzaSyDcHOzgk3jw0MI84f1bVlGynoTEh-n5MYs"
-  // )
-  //   .then((response) => response.json())
-  //   .then((responseJson) => {
-  //     console.log(
-  //       "ADDRESS GEOCODE is BACK!! => " + JSON.stringify(responseJson)
-  //     );
-  //   });
+export default function Home(props) {
   return (
     <div className="container">
       <div className="row homepage-section">
         <div className="col-sm-6 text-start">
-          <h6 className="font-italic">Are You Hungry?</h6>
+          {props.restaurent ? (
+            <h6 className="font-italic">Want to be a great Bussinessman?</h6>
+          ) : (
+            <h6 className="font-italic">Are You Hungry?</h6>
+          )}
           <h1 className="dont--wait">Don't Wait!?</h1>
           <div>
-            <Nav.Link as={Link} to={"/restaurents"} className="order--now--btn">
-              Order Now
-            </Nav.Link>
+            {props.restaurent ? (
+              <Nav.Link
+                as={Link}
+                to={"/myrestaurent"}
+                className="order--now--btn"
+              >
+                My Restaurent
+              </Nav.Link>
+            ) : (
+              <Nav.Link
+                as={Link}
+                to={"/restaurents"}
+                className="order--now--btn"
+              >
+                Order Now
+              </Nav.Link>
+            )}
           </div>
         </div>
         <div className="col-sm-6">

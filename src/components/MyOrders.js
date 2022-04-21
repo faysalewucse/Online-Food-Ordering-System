@@ -1,9 +1,22 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Nav } from "react-bootstrap";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { fetchPrivateData } from "../api/resdata";
 import "../css/MyOrders.css";
 
-function MyOrders({ user, setOrderID }) {
+function MyOrders({
+  user,
+  setOrderID,
+  setUser,
+  setAllRestaurent,
+  setCartCount,
+}) {
+  useEffect(() => {
+    if (localStorage.getItem("loadOrders")) {
+      window.location.reload(false);
+      localStorage.removeItem("loadOrders");
+    }
+  }, []);
+
   const navigate = useNavigate();
   function setOrderId(order_id) {
     setOrderID(order_id);
@@ -12,7 +25,6 @@ function MyOrders({ user, setOrderID }) {
   let orders;
   if (user.my_orders) {
     orders = user.my_orders.map((order) => {
-      //console.log(order.order_id);
       return (
         <tr>
           <td className="order--id" onClick={() => setOrderId(order.order_id)}>

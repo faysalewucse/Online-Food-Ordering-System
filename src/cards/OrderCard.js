@@ -14,7 +14,6 @@ function OrderCard({
   setOrdersCount,
   setAllRestaurent,
   setCartCount,
-  setDeliveryStatus,
 }) {
   var current = new Date();
 
@@ -38,7 +37,7 @@ function OrderCard({
     console.log(items.time);
     var date1 = new Date(items.time);
     var date2 = new Date(
-      current.toLocaleDateString() + " " + current.toLocaleTimeString()
+      current.toLocaleDateString("en-US") + " " + current.toLocaleTimeString()
     );
 
     var diff = date2.getTime() - date1.getTime();
@@ -54,8 +53,27 @@ function OrderCard({
     return items.delivery_time * 60 - ss;
   }
 
+  const orderDelivered = async (e) => {
+    try {
+      await axios.put("/api/auth/updatestatus_user_deli", {
+        order_id: items.order_id,
+        user_mail: items.user.email,
+      });
+
+      await axios.put("/api/auth/updatestatus_restaurent_deli", {
+        order_id: items.order_id,
+        res_mail: items.result[0].res_email,
+      });
+
+      fetchResData(setRestaurent, setOrdersCount);
+      fetchPrivateData(setUser, setAllRestaurent, setCartCount);
+      getAllUser(setAllUser);
+    } catch (error) {
+      throw error;
+    }
+  };
   function showSetTimeModal() {
-    SetTimeModalShow(true);
+    items.status === "Confirm" ? SetTimeModalShow(true) : orderDelivered();
   }
 
   return (
@@ -122,7 +140,6 @@ function OrderCard({
         setAllUser={setAllUser}
         setAllRestaurent={setAllRestaurent}
         setCartCount={setCartCount}
-        setDeliveryStatus={setDeliveryStatus}
       />
     </div>
   );
@@ -140,7 +157,7 @@ function SetTimeModal(props) {
         user_mail: props.user_mail,
         delivery_time: del_time,
         time:
-          current_time.toLocaleDateString() +
+          current_time.toLocaleDateString("en-US") +
           " " +
           current_time.toLocaleTimeString(),
       });
@@ -150,7 +167,7 @@ function SetTimeModal(props) {
         res_mail: props.res_mail,
         delivery_time: del_time,
         time:
-          current_time.toLocaleDateString() +
+          current_time.toLocaleDateString("en-US") +
           " " +
           current_time.toLocaleTimeString(),
       });
@@ -161,7 +178,6 @@ function SetTimeModal(props) {
         props.setCartCount
       );
       getAllUser(props.setAllUser);
-      props.setDeliveryStatus("Cooking");
       props.setTimeModalShow(false);
     } catch (error) {
       throw error;

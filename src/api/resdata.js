@@ -43,7 +43,11 @@ export const fetchResData = async (setRestaurent, setOrdersCount) => {
   try {
     const { data } = await axios.get("/api/resdata", config);
     setRestaurent(data.data);
-    setOrdersCount(data.data.orders.length);
+    let order_length = 0;
+    data.data.orders.map((item) => {
+      if (item.status !== "Delivered") order_length++;
+    });
+    setOrdersCount(order_length);
   } catch (error) {
     localStorage.removeItem("authTokenRes");
     console.log("You are not authorized please login");

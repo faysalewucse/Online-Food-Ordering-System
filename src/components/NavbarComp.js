@@ -49,8 +49,7 @@ export default function NavbarComp({
   const [res_email, setResEmail] = useState(restaurent.res_email);
   const [restaurent_path, setRestaurentPath] = useState();
   //For User Food Tracking
-  const [order_id, setOrderID] = React.useState(0.5);
-  const [delivery_status, setDeliveryStatus] = React.useState("");
+  const [order_id, setOrderID] = React.useState();
   //For User Food Tracking
 
   return (
@@ -64,7 +63,7 @@ export default function NavbarComp({
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="me-auto">
-                <Nav.Link as={Link} to={"/home"}>
+                <Nav.Link as={Link} to={"/"}>
                   Home
                 </Nav.Link>
                 <Nav.Link as={Link} to={"/login"}>
@@ -135,8 +134,10 @@ export default function NavbarComp({
       {/* Routes */}
       <div>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
+          <Route
+            path="/"
+            element={<Home user={user} restaurent={restaurent} />}
+          />
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile user={user} />} />
@@ -161,6 +162,7 @@ export default function NavbarComp({
               />
             }
           />
+
           <Route
             path="/delivery-status"
             element={
@@ -168,14 +170,21 @@ export default function NavbarComp({
                 order_id={order_id}
                 user={user}
                 allUser={allUser}
-                delivery_status={delivery_status}
               />
             }
           />
 
           <Route
             path="/myorders"
-            element={<MyOrders user={user} setOrderID={setOrderID} />}
+            element={
+              <MyOrders
+                user={user}
+                setOrderID={setOrderID}
+                setUser={setUser}
+                setCartCount={setCartCount}
+                setAllRestaurent={setAllRestaurent}
+              />
+            }
           />
           <Route path="/addrestaurent" element={<AddRestaurent />} />
 
@@ -191,7 +200,6 @@ export default function NavbarComp({
                 setUser={setUser}
                 setAllRestaurent={setAllRestaurent}
                 setCartCount={setCartCount}
-                setDeliveryStatus={setDeliveryStatus}
               />
             }
           />

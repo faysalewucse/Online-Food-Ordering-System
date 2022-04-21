@@ -115,7 +115,11 @@ exports.updatefood = async (req, res, next) => {
 exports.up_status_user = async (req, res, next) => {
   const { order_id, user_mail, delivery_time, time } = req.body;
   const eventEmitter = req.app.get("eventEmitter");
-  eventEmitter.emit("orderUpdated", { id: order_id, status: "Cooking" });
+  eventEmitter.emit("orderUpdated", {
+    id: order_id,
+    status: "Cooking",
+    time: delivery_time,
+  });
   try {
     const user = await User.findOneAndUpdate(
       {
@@ -151,6 +155,53 @@ exports.up_status_restaurent = async (req, res, next) => {
           "orders.$.status": "Cooking",
           "orders.$.delivery_time": delivery_time,
           "orders.$.time": time,
+        },
+      }
+    );
+
+    sendToken(restaurent, 201, res);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+exports.up_status_user_deli = async (req, res, next) => {
+  const { order_id, user_mail } = req.body;
+
+  const eventEmitter = req.app.get("eventEmitter");
+  eventEmitter.emit("orderUpdated", {
+    id: order_id,
+    status: "Delivered",
+  });
+  try {
+    const user = await User.findOneAndUpdate(
+      {
+        email: user_mail,
+        "my_orders.order_id": `${order_id}`,
+      },
+      {
+        $set: {
+          "my_orders.$.status": "Delivered",
+        },
+      }
+    );
+    sendToken(user, 201, res);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+exports.up_status_restaurent_deli = async (req, res, next) => {
+  const { order_id, res_mail } = req.body;
+
+  try {
+    console.log(req.body);
+    const restaurent = await Restaurent.findOneAndUpdate(
+      {
+        res_email: res_mail,
+        "orders.order_id": `${order_id}`,
+      },
+      {
+        $set: {
+          "orders.$.status": "Delivered",
         },
       }
     );

@@ -1,6 +1,6 @@
-.orders--container {
+/* .orders--container {
   height: 80vh;
-}
+} */
 .status--box {
   background-color: green;
   text-align: center;
@@ -53,10 +53,7 @@
   color: rgb(20, 107, 220);
 }
 
-.empty-order {
+.empty-orders {
   height: 80vh;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin-top: 20vh;
 }
