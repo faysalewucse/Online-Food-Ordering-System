@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../css/Register.css";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -17,6 +17,15 @@ export default function Register() {
   const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [lattitude, setLattitude] = useState();
+  const [longitude, setLongitude] = useState();
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      setLattitude(position.coords.latitude);
+      setLongitude(position.coords.longitude);
+    });
+  }, []);
 
   const registerHandler = async (e) => {
     e.preventDefault();
@@ -33,6 +42,8 @@ export default function Register() {
         {
           name,
           email,
+          lattitude,
+          longitude,
           address,
           password,
         },

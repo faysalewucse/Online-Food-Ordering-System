@@ -36,6 +36,7 @@ function CartCard(props) {
     reducefromcart(props.setCartCount, props.user.email, food_id);
     fetchPrivateData(props.setUser, props.setAllRestaurent, props.setCartCount);
   }
+
   return (
     <div>
       <div className="cart-card mb-4">

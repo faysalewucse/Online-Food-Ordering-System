@@ -21,6 +21,14 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please add a Address"],
   },
+  lattitude: {
+    type: String,
+    required: [true, "Please add a Lattitude"],
+  },
+  longitude: {
+    type: String,
+    required: [true, "Please add a Longitude"],
+  },
   cart: [
     {
       food_name: {

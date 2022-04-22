@@ -1,8 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export default function Home(props) {
+  const [open, setOpen] = React.useState(false);
+  const vertical = "bottom",
+    horizontal = "center";
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("showSnackbar")) {
+      setOpen(true);
+      localStorage.removeItem("showSnackbar");
+    }
+  });
+
   return (
     <div className="container">
       <div className="row homepage-section">
@@ -41,6 +64,16 @@ export default function Home(props) {
           />
         </div>
       </div>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        autoHideDuration={2000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          Logged In Successfully
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

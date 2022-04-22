@@ -150,12 +150,13 @@ export const confirmorder = async (
   setCartCount
 ) => {
   try {
+    console.log("Confirm");
     const { data } = await axios.post("/api/auth/confirmorder", {
       user,
       res_email,
       result,
     });
-
+    console.log("Removing");
     await axios.put("/api/auth/afterconfirm_removecart", {
       user_mail,
     });

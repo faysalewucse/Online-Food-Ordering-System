@@ -6,12 +6,14 @@ const sendEmail = require("../utils/sendEmail");
 const mongoose = require("mongoose");
 
 exports.register = async (req, res, next) => {
-  const { name, email, address, password } = req.body;
+  const { name, email, address, password, lattitude, longitude } = req.body;
 
   try {
     const user = await User.create({
       name,
       email,
+      lattitude,
+      longitude,
       address,
       password,
     });
@@ -441,6 +443,7 @@ exports.add_order_history = async (req, res, next) => {
 exports.confirmorder = async (req, res, next) => {
   const { user, res_email, result } = req.body;
 
+  console.log("Result:", result);
   const commentId = new mongoose.Types.ObjectId();
   try {
     const restaurent = await Restaurent.findOneAndUpdate(

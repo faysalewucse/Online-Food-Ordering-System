@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../css/AddRestaurent.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
@@ -11,13 +11,19 @@ function AddRestaurent() {
   const [res_name, setResName] = useState("");
   const [res_email, setResEmail] = useState("");
   const [res_address, setResAddress] = useState("");
-  const [lattitude, setLattitude] = useState("90.2356478");
-  const [longitude, setLongitude] = useState("85.2415632");
   const [res_password, setResPassword] = useState("");
   const [res_confirm_password, setResConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [resphoto, setResPhoto] = useState("");
+  const [lattitude, setLattitude] = useState();
+  const [longitude, setLongitude] = useState();
 
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      setLattitude(position.coords.latitude);
+      setLongitude(position.coords.longitude);
+    });
+  }, []);
   const ResPhotoChange = (e) => {
     setResPhoto(e.target.files[0]);
   };
@@ -45,42 +51,7 @@ function AddRestaurent() {
 
     await AddRestaurent(formData);
     navigate("/restaurentlogin");
-    //window.location.reload(false);
   };
-  // const registerRestaurentHandler = async (e) => {
-  //   e.preventDefault();
-
-  //   const config = {
-  //     header: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   };
-
-  //   try {
-  //     const { data } = await axios.post(
-  //       "/api/auth/resregister",
-  //       {
-  //         name,
-  //         res_name,
-  //         res_email,
-  //         res_address,
-  //         lattitude,
-  //         longitude,
-  //         res_password,
-  //       },
-  //       config
-  //     );
-
-  //     localStorage.setItem("authTokenRes", data.token);
-
-  //     navigate("/restaurentlogin");
-  //   } catch (error) {
-  //     setError(error.response.data.error);
-  //     setTimeout(() => {
-  //       setError("");
-  //     }, 5000);
-  //   }
-  // };
 
   return (
     <div>

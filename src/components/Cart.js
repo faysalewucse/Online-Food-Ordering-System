@@ -46,14 +46,16 @@ function Cart({ user, setCartCount, setUser, setAllRestaurent, cart_count }) {
     });
   }
 
-  function confirmOrder(result) {
-    console.log(result);
-
-    confirmorder(user.email, user, res_email, result, setCartCount);
-    fetchPrivateData(setUser, setAllRestaurent, setCartCount);
-    fetchResData(setAllRestaurent, setCartCount);
-    navigate("/myorders");
-  }
+  const confirmOrder = (result) => {
+    const data = confirmorder(
+      user.email,
+      user,
+      res_email,
+      result,
+      setCartCount
+    );
+    return data;
+  };
 
   return (
     <div className="p-5">
@@ -123,7 +125,15 @@ function Cart({ user, setCartCount, setUser, setAllRestaurent, cart_count }) {
             {totalCost !== 0 ? (
               <h6
                 className="mt-2 apply--voucher--btn"
-                onClick={() => confirmOrder(result)}
+                onClick={async () => {
+                  const data = await confirmOrder(result);
+                  if (data) {
+                    fetchPrivateData(setUser, setAllRestaurent, setCartCount);
+                    fetchResData(setAllRestaurent, setCartCount);
+                    localStorage.setItem("loadOrders", true);
+                    navigate("/myorders");
+                  }
+                }}
               >
                 Confirm Order
               </h6>

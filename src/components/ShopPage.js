@@ -1,8 +1,17 @@
 import React from "react";
 import FoodCard from "../cards/FoodCard";
 import ReactSearchBox from "react-search-box";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 function ShopPage(props) {
+  const [open, setOpen] = React.useState(false);
+  const vertical = "bottom",
+    horizontal = "center";
+
   let allrestaurent = props.allrestaurent;
   const data = [
     {
@@ -27,6 +36,13 @@ function ShopPage(props) {
     },
   ];
 
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
   let foods;
   if (allrestaurent) {
     allrestaurent.map((res) => {
@@ -41,6 +57,7 @@ function ShopPage(props) {
               setAllRestaurent={props.setAllRestaurent}
               res_email={props.res_email}
               res_name={res.res_name}
+              setOpen={setOpen}
               className="col res--card"
             />
           );
@@ -48,15 +65,7 @@ function ShopPage(props) {
       }
     });
   }
-  // if (resFood.items) {
-  //   foods = resFood.items.map((data) => {
-  //     return (
-  //       <FoodCard {...data} setIdandPath={props} className="col res--card" />
-  //     );
-  //   });
-  // }
 
-  // console.log(resFood.items);
   return (
     <div className="p-4 container">
       <div className="row mb-5">
@@ -102,6 +111,16 @@ function ShopPage(props) {
           </div>
         </div>
       </div>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        autoHideDuration={2000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          Added to Cart Successfully
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

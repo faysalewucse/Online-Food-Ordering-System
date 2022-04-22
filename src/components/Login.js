@@ -50,9 +50,8 @@ const Login = ({ setUser }) => {
       );
 
       localStorage.setItem("authToken", data.token);
-
+      localStorage.setItem("showSnackbar", true);
       fetchPrivateDate();
-
       navigate("/");
     } catch (error) {
       setError(error.response.data.error);

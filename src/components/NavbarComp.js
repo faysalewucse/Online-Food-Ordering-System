@@ -19,6 +19,7 @@ import RestaurentOrders from "./RestaurentOrders";
 import RestaurentLogin from "./RestaurentLogin";
 import ForgotPasswordScreen from "./ForgotPassword";
 import ResetPasswordScreen from "./ResetPassword";
+import About from "./About";
 
 export default function NavbarComp({
   user,
@@ -69,7 +70,7 @@ export default function NavbarComp({
                 <Nav.Link as={Link} to={"/login"}>
                   Contact
                 </Nav.Link>
-                <Nav.Link as={Link} to={"/register"}>
+                <Nav.Link as={Link} to={"/about"}>
                   About
                 </Nav.Link>
                 <NavDropdown title="Categories">
@@ -140,6 +141,7 @@ export default function NavbarComp({
           />
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/about" element={<About />} />
           <Route path="/profile" element={<Profile user={user} />} />
           <Route
             path="/restaurentlogin"
@@ -176,15 +178,7 @@ export default function NavbarComp({
 
           <Route
             path="/myorders"
-            element={
-              <MyOrders
-                user={user}
-                setOrderID={setOrderID}
-                setUser={setUser}
-                setCartCount={setCartCount}
-                setAllRestaurent={setAllRestaurent}
-              />
-            }
+            element={<MyOrders user={user} setOrderID={setOrderID} />}
           />
           <Route path="/addrestaurent" element={<AddRestaurent />} />
 

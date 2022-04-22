@@ -4,7 +4,14 @@ import { Nav, Alert } from "react-bootstrap";
 import { addtocart, fetchPrivateData } from "../api/resdata";
 
 function FoodCard(props) {
-  function addToCart(food_name, food_price, img_path, res_email, res_name) {
+  function addToCart(
+    food_name,
+    food_price,
+    img_path,
+    res_email,
+    res_name,
+    setOpen
+  ) {
     addtocart(
       props.setCartCount,
       props.user.email,
@@ -16,6 +23,8 @@ function FoodCard(props) {
     );
 
     fetchPrivateData(props.setUser, props.setAllRestaurent, props.setCartCount);
+
+    setOpen({ open: true });
   }
 
   return (
@@ -52,7 +61,8 @@ function FoodCard(props) {
               props.food_price,
               props.img_path,
               props.res_email,
-              props.res_name
+              props.res_name,
+              props.setOpen
             )
           }
           style={{ color: "white" }}
