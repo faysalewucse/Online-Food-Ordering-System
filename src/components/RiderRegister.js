@@ -6,7 +6,7 @@ import { makeFormEffect } from "./FormStyle";
 import { useState } from "react";
 import axios from "axios";
 
-export default function Register() {
+export default function RiderRegister() {
   const navigate = useNavigate();
   const form_effect = () => {
     makeFormEffect();
@@ -63,15 +63,21 @@ export default function Register() {
   makeFormEffect();
   return (
     <div>
-      <div className="register--body">
+      <div
+        className="rider--register--body"
+        style={{ height: "90vh", alignItems: "center" }}
+      >
         <img class="wave" src="images/wave.png" />
         <div class="container" id="form--container">
-          <div class="img">
-            <img src="images/undraw_hamburger.svg" />
+          <div className="img">
+            <img src="images/undraw_bike_ride.svg" />
           </div>
           <div class="login-content">
             <div className="form">
-              <img src="images/undraw_profile.svg" />
+              <img
+                style={{ marginTop: 10 }}
+                src="images/undraw_bike_ride.svg"
+              />
               <h2 class="title">Register</h2>
               {error && <span className="error-message">{error}</span>}
               <div onClick={form_effect} class="input-div one">
@@ -118,6 +124,29 @@ export default function Register() {
                   ></input>
                 </div>
               </div>
+              <div className="text-start radio--input">
+                <h4>Vehicle Type</h4>
+                <form>
+                  <label className="radio-inline" style={{ marginRight: 25 }}>
+                    <input
+                      style={{ marginRight: 10 }}
+                      type="radio"
+                      name="optradio"
+                      defaultChecked=""
+                    />
+                    Bicycle
+                  </label>
+                  <label className="radio-inline">
+                    <input
+                      style={{ marginRight: 10 }}
+                      type="radio"
+                      name="optradio"
+                    />
+                    Bike
+                  </label>
+                </form>
+              </div>
+
               <div onClick={form_effect} class="input-div pass">
                 <div class="i">
                   <i class="fas fa-lock"></i>

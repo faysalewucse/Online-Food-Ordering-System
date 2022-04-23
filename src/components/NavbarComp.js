@@ -20,6 +20,8 @@ import RestaurentLogin from "./RestaurentLogin";
 import ForgotPasswordScreen from "./ForgotPassword";
 import ResetPasswordScreen from "./ResetPassword";
 import About from "./About";
+import ContactPage from "./ContactPage";
+import RiderRegister from "./RiderRegister";
 
 export default function NavbarComp({
   user,
@@ -67,7 +69,7 @@ export default function NavbarComp({
                 <Nav.Link as={Link} to={"/"}>
                   Home
                 </Nav.Link>
-                <Nav.Link as={Link} to={"/login"}>
+                <Nav.Link as={Link} to={"/contact"}>
                   Contact
                 </Nav.Link>
                 <Nav.Link as={Link} to={"/about"}>
@@ -142,6 +144,8 @@ export default function NavbarComp({
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/rider_registration" element={<RiderRegister />} />
           <Route path="/profile" element={<Profile user={user} />} />
           <Route
             path="/restaurentlogin"
@@ -241,9 +245,9 @@ export default function NavbarComp({
             <section className="">
               <form action="">
                 <div className="row d-flex justify-content-center">
-                  <div className="col-md-6">
+                  <div className="col-md-4">
                     <div className="row">
-                      <h1>FoodsBD for Business</h1>
+                      <h3>FoodsBD for Business</h3>
                       <h6>Add Your Restaurent & Make Money</h6>
                     </div>
                     {localStorage.getItem("authTokenRes") == null ? (
@@ -285,8 +289,9 @@ export default function NavbarComp({
                       </div>
                     )}
                   </div>
-                  <div className="col-md-6 d-flex justify-content-center">
-                    <div>
+                  <div className="col-4"></div>
+                  <div className="col-md-4">
+                    {/* <div>
                       <h6>JavaScript</h6>
                       <h6>NodeJs</h6>
                       <h6>MongoDB</h6>
@@ -300,7 +305,49 @@ export default function NavbarComp({
                       <h6>HTML</h6>
                       <h6>CSS</h6>
                       <h6>React Bootstrap</h6>
+                    </div> */}
+                    <div>
+                      <h3>Are you like to ride?</h3>
+                      <h6>Create an Account for make your profession</h6>
                     </div>
+                    {localStorage.getItem("authTokenRider") == null ? (
+                      <div className="row">
+                        <div className="col">
+                          <Nav.Link
+                            as={Link}
+                            to={"/rider_registration"}
+                            className="business--btn--reg"
+                            style={{ color: "black" }}
+                          >
+                            Register
+                          </Nav.Link>
+                        </div>
+                        <div className="col">
+                          <Nav.Link
+                            as={Link}
+                            to={"/restaurentlogin"}
+                            className="business--btn--login"
+                            style={{ color: "white" }}
+                          >
+                            Login
+                          </Nav.Link>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="row">
+                        <div className="col d-flex justify-content-center">
+                          <Nav.Link
+                            as={Link}
+                            onClick={reslogoutHandler}
+                            to={"/"}
+                            className="business--btn--logout"
+                            style={{ color: "white", width: "20vw" }}
+                          >
+                            Logout
+                          </Nav.Link>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </form>
