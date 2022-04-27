@@ -24,6 +24,7 @@ const {
   getAllUser,
   up_status_user_deli,
   up_status_restaurent_deli,
+  postreview,
 } = require("../controllers/auth");
 
 router.route("/register").post(register);
@@ -41,6 +42,7 @@ router.route("/updatestatus_user_deli").put(up_status_user_deli);
 router.route("/updatestatus_restaurent_deli").put(up_status_restaurent_deli);
 router.route("/afterconfirm_removecart").put(emptycart);
 router.route("/addtocart").post(addtocart);
+router.route("/postreview").post(postreview);
 router.route("/afterremovecart_deliverystatus").post(add_order_history);
 router.route("/confirmorder").post(confirmorder);
 router.route("/removefromcart").post(removefromcart);

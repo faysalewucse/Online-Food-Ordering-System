@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import FoodCard from "../cards/FoodCard";
 import ReactSearchBox from "react-search-box";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import { Modal } from "react-bootstrap";
+import "../css/ShopPage.css";
+
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -11,6 +14,9 @@ function ShopPage(props) {
   const [open, setOpen] = React.useState(false);
   const vertical = "bottom",
     horizontal = "center";
+
+  const [reviewsModalShow, setReviewsModalShow] = useState(false);
+  const [itemInReviewModel, setItem] = useState();
 
   let allrestaurent = props.allrestaurent;
   const data = [
@@ -51,6 +57,7 @@ function ShopPage(props) {
           return (
             <FoodCard
               {...item}
+              item={item}
               setCartCount={props.setCartCount}
               user={props.user}
               setUser={props.setUser}
@@ -58,7 +65,9 @@ function ShopPage(props) {
               res_email={props.res_email}
               res_name={res.res_name}
               setOpen={setOpen}
-              className="col res--card"
+              className="col"
+              setReviewsModalShow={setReviewsModalShow}
+              setItem={setItem}
             />
           );
         });
@@ -121,8 +130,50 @@ function ShopPage(props) {
           Added to Cart Successfully
         </Alert>
       </Snackbar>
+      {itemInReviewModel ? (
+        <FoodReviews
+          show={reviewsModalShow}
+          onHide={() => setReviewsModalShow(false)}
+          item={itemInReviewModel}
+        />
+      ) : null}
     </div>
   );
 }
 
+function FoodReviews(props) {
+  console.log(props);
+  let reviews;
+  if (props.item.reviews) {
+    reviews = props.item.reviews.map((review) => {
+      return <div className="reviews-card">{review.review}</div>;
+    });
+  }
+  return (
+    <Modal
+      {...props}
+      size="md"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <div>
+        <div className="row food-reviews-modal-container">
+          <div className="col">
+            <img className="img-fluid" src={props.item.img_path} alt="" />
+          </div>
+          <div className="col">
+            <h6>Name: {props.item.food_name}</h6>
+            <h6>Price: {props.item.food_price}</h6>
+            <div>
+              <h6>Rating: {props.item.rating[0].star}</h6>
+            </div>
+          </div>
+          <h4>Reviews</h4>
+          <hr />
+          {reviews}
+        </div>
+      </div>
+    </Modal>
+  );
+}
 export default ShopPage;

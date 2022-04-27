@@ -91,7 +91,7 @@ function MyRestaurent({
           </h5>
         </div>
       </div>
-      <div className="container-fluid">
+      <div className="container-fluid food-items-container">
         <div className="row justify-content-center food--items">{foods}</div>
       </div>
       <EditFoodFloatingModal

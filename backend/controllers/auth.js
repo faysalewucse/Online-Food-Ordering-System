@@ -389,8 +389,15 @@ exports.getresfood = async (req, res, next) => {
 };
 
 exports.addtocart = async (req, res, next) => {
-  const { email, food_name, food_price, img_path, res_email, res_name } =
-    req.body;
+  const {
+    email,
+    food_id,
+    food_name,
+    food_price,
+    img_path,
+    res_email,
+    res_name,
+  } = req.body;
 
   try {
     const user = await User.findOneAndUpdate(
@@ -400,6 +407,7 @@ exports.addtocart = async (req, res, next) => {
       {
         $push: {
           cart: {
+            food_id: food_id,
             food_name: food_name,
             food_price: food_price,
             img_path: img_path,
@@ -410,6 +418,30 @@ exports.addtocart = async (req, res, next) => {
       }
     );
     sendToken(user, 201, res);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+exports.postreview = async (req, res, next) => {
+  const { res_email, food_id, review, rating } = req.body;
+  console.log(req.body);
+  try {
+    const restaurent = await Restaurent.findOneAndUpdate(
+      {
+        res_email: res_email,
+        "items._id": `${food_id}`,
+      },
+      {
+        $push: {
+          "items.$.reviews": { review: review, reply: "" },
+          "items.$.rating": { star: rating },
+        },
+      }
+    );
+
+    console.log("Restaurant", restaurent);
+    sendToken(restaurent, 201, res);
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -430,6 +462,7 @@ exports.add_order_history = async (req, res, next) => {
             res_email: res_email,
             result: result,
             status: "",
+            reviwed: true,
           },
         },
       }

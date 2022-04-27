@@ -1,0 +1,69 @@
+.review-card{
+    background-color: rgb(129, 129, 129);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    font-family: Poppins, sans-serif;
+    color: white;
+}
+
+.review-card:hover{
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    transition: 0.3s;
+}
+.review-card-textarea{
+    width: 40vw;
+    height: 10vh;
+    border-radius: 10px;
+    border: none;
+    padding: 10px;
+    color: white;
+    background-color: rgb(90, 90, 90);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.review-card-textarea:focus{
+    outline: none;
+}
+
+.fa-star:hover{
+    cursor: pointer;
+}
+
+.rvw-apply-btn{
+    color: #fff;
+    font-size: 18px;
+    outline: none;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    background: #20932a;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center
+}
+
+.rvw-apply-btn:hover{
+    background-color: #125017;
+}
+
+
+.star-button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+.on {
+color: rgb(253, 215, 0);
+}
+.off {
+color: #ccc;
+}
+
+.review-card-img{
+    width: 150px;
+    margin-right: 10px;
+    border-radius: 10px;
+}

@@ -3,30 +3,20 @@ import "../css/DeliveryStatus.css";
 import { ProgressBar } from "react-bootstrap";
 import io from "socket.io-client";
 
-function DeliveryStatus({ order_id, user, allUser }) {
+function DeliveryStatus({ order_id, user }) {
   console.log(order_id);
   const [status, setStatus] = useState();
   const [del_time, setDelTime] = useState(0);
   const [item, setItem] = useState();
   const [totalCost, setTotalCost] = useState(0);
-  const [orderInfo, setOrderInfo] = useState();
 
   useEffect(() => {
-    filterOrder(
-      order_id,
-      user,
-      setOrderInfo,
-      setDelTime,
-      setItem,
-      setTotalCost,
-      setStatus
-    );
+    filterOrder(order_id, user, setDelTime, setItem, setTotalCost, setStatus);
   }, []);
 
   function filterOrder(
     order_id,
     user,
-    setOrderInfo,
     setDelTime,
     setItem,
     setTotalCost,
@@ -35,7 +25,6 @@ function DeliveryStatus({ order_id, user, allUser }) {
     if (user.my_orders) {
       for (let order of user.my_orders) {
         if (order.order_id === order_id) {
-          setOrderInfo(order);
           if (order.delivery_time) setDelTime(order.delivery_time);
           setStatus(order.status);
           const items = order.result.map((food) => {

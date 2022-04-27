@@ -31,6 +31,9 @@ const UserSchema = new mongoose.Schema({
   },
   cart: [
     {
+      food_id: {
+        type: String,
+      },
       food_name: {
         type: String,
       },
@@ -62,6 +65,9 @@ const UserSchema = new mongoose.Schema({
       delivery_time: { type: String },
       time: { type: String },
       status: {
+        type: String,
+      },
+      reviewed: {
         type: String,
       },
     },

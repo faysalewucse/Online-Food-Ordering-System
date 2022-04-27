@@ -16,7 +16,7 @@ function RestaurentOrders({
     length = 0;
   if (restaurent.orders) {
     orders = restaurent.orders.map((item) => {
-      if (item.status !== "Delivered") {
+      if (item.status !== "Delivered" && item.status !== "Complete") {
         length += 1;
         return (
           <OrderCard

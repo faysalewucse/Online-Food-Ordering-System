@@ -48,6 +48,9 @@
   margin-right: auto;
 }
 
+.food-items-container{
+  min-height: 50vh
+}
 /* .change--food--img {
   background-color: rgb(201, 174, 21);
   text-align: center;

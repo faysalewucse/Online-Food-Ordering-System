@@ -1,8 +1,6 @@
-import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavbarComp from "./components/NavbarComp";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { fetchResData, fetchPrivateData, getAllUser } from "./api/resdata";
 
 const App = () => {

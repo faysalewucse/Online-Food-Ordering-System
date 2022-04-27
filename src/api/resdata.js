@@ -45,7 +45,8 @@ export const fetchResData = async (setRestaurent, setOrdersCount) => {
     setRestaurent(data.data);
     let order_length = 0;
     data.data.orders.map((item) => {
-      if (item.status !== "Delivered") order_length++;
+      if (item.status !== "Delivered" && item.status !== "Complete")
+        order_length++;
     });
     setOrdersCount(order_length);
   } catch (error) {
@@ -87,6 +88,7 @@ export const getResFood = async (setResFood, res_email) => {
 export const addtocart = async (
   setCartCount,
   email,
+  food_id,
   food_name,
   food_price,
   img_path,
@@ -96,6 +98,7 @@ export const addtocart = async (
   try {
     const { data } = await axios.post("/api/auth/addtocart", {
       email,
+      food_id,
       food_name,
       food_price,
       img_path,

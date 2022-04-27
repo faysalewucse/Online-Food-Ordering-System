@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import RestaurentCard from "../cards/RestaurentCard";
 import "../css/RestaurentList.css";
-import restaurentsData from "../database/RestaurentList";
 import ReactSearchBox from "react-search-box";
 import { getAllRes } from "../api/resdata";
 

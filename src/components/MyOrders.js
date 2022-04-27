@@ -12,9 +12,11 @@ function MyOrders({ user, setOrderID }) {
   }, []);
 
   const navigate = useNavigate();
-  function setOrderId(order_id) {
+  function setOrderId(order_id, status, reviewed) {
     setOrderID(order_id);
-    navigate("/delivery-status");
+    if (status !== "Complete" && reviewed !== "true")
+      navigate("/delivery-status");
+    else if (reviewed !== "false") navigate("/order-review-page");
   }
   let orders;
   if (user.my_orders) {
@@ -30,13 +32,18 @@ function MyOrders({ user, setOrderID }) {
 
       return (
         <tr>
-          <td className="order--id" onClick={() => setOrderId(order.order_id)}>
+          <td
+            className="order--id"
+            onClick={() =>
+              setOrderId(order.order_id, order.status, order.reviewed)
+            }
+          >
             {order.order_id}
           </td>
           <td>{order.status ? order.status : "Not Confirmed"}</td>
           <td>{totalCost}</td>
           <td>{order.time}</td>
-          <td>{order.status === "Complete" ? "N/A" : "Available"}</td>
+          <td>{order.reviewed === "false" ? "N/A" : "Available"}</td>
         </tr>
       );
     });

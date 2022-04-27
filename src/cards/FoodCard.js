@@ -5,6 +5,7 @@ import { addtocart, fetchPrivateData } from "../api/resdata";
 
 function FoodCard(props) {
   function addToCart(
+    food_id,
     food_name,
     food_price,
     img_path,
@@ -15,6 +16,7 @@ function FoodCard(props) {
     addtocart(
       props.setCartCount,
       props.user.email,
+      food_id,
       food_name,
       food_price,
       img_path,
@@ -27,10 +29,17 @@ function FoodCard(props) {
     setOpen({ open: true });
   }
 
+  function setModalProps(setReviewsModalShow, item, setItem) {
+    setReviewsModalShow(true);
+    setItem(item);
+  }
   return (
     <div
       className="card"
       style={{ width: "16rem", paddingLeft: "0px", paddingRight: "0px" }}
+      onClick={() =>
+        setModalProps(props.setReviewsModalShow, props.item, props.setItem)
+      }
     >
       <img
         className="card-img-top"
@@ -57,6 +66,7 @@ function FoodCard(props) {
           href="#"
           onClick={() =>
             addToCart(
+              props._id,
               props.food_name,
               props.food_price,
               props.img_path,

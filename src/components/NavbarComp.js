@@ -22,6 +22,7 @@ import ResetPasswordScreen from "./ResetPassword";
 import About from "./About";
 import ContactPage from "./ContactPage";
 import RiderRegister from "./RiderRegister";
+import ReviewPage from "./ReviewPage";
 
 export default function NavbarComp({
   user,
@@ -171,12 +172,13 @@ export default function NavbarComp({
 
           <Route
             path="/delivery-status"
+            element={<DeliveryStatus order_id={order_id} user={user} />}
+          />
+
+          <Route
+            path="/order-review-page"
             element={
-              <DeliveryStatus
-                order_id={order_id}
-                user={user}
-                allUser={allUser}
-              />
+              <ReviewPage order_id={order_id} user={user} allUser={allUser} />
             }
           />
 

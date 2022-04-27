@@ -67,6 +67,23 @@ const RestaurentSchema = new mongoose.Schema({
       sold: {
         type: String,
       },
+      rating: [
+        {
+          star: {
+            type: String,
+          },
+        },
+      ],
+      reviews: [
+        {
+          review: {
+            type: String,
+          },
+          reply: {
+            type: String,
+          },
+        },
+      ],
     },
   ],
   orders: [
