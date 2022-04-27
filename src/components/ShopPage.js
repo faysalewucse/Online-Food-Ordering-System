@@ -165,7 +165,25 @@ function FoodReviews(props) {
             <h6>Name: {props.item.food_name}</h6>
             <h6>Price: {props.item.food_price}</h6>
             <div>
-              <h6>Rating: {props.item.rating[0].star}</h6>
+              <h6>
+                Rating:{" "}
+                {[...Array(5)].map((star, index) => {
+                  index += 1;
+                  return (
+                    <button
+                      type="button"
+                      key={index}
+                      className={
+                        index <= props.item.rating[0].star
+                          ? "star-button on"
+                          : "star-button off"
+                      }
+                    >
+                      <span className="fa fa-star" />
+                    </button>
+                  );
+                })}
+              </h6>
             </div>
           </div>
           <h4>Reviews</h4>
