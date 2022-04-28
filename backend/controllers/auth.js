@@ -5,6 +5,153 @@ const ErrorResponse = require("../utils/errorResponse");
 const sendEmail = require("../utils/sendEmail");
 const mongoose = require("mongoose");
 
+exports.login = async (req, res, next) => {
+  const { email, password } = req.body;
+
+  // Check if email and password is provided
+  if (!email || !password) {
+    return next(new ErrorResponse("Please provide an email and password", 400));
+  }
+
+  try {
+    // Check that user exists by email
+    const user = await User.findOne({ email }).select("+password");
+
+    if (!user) {
+      return next(new ErrorResponse("Invalid credentials", 401));
+    }
+
+    // Check that password match
+    const isMatch = await user.matchPassword(password);
+
+    if (!isMatch) {
+      sendToken(user, 401, res);
+      return next(new ErrorResponse("Invalid credentials", 401));
+    }
+
+    sendToken(user, 201, res);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.reslogin = async (req, res, next) => {
+  const { res_email, res_password } = req.body;
+
+  // Check if email and password is provided
+  if (!res_email || !res_password) {
+    return next(new ErrorResponse("Please provide an email and password", 400));
+  }
+
+  try {
+    // Check that user exists by email
+    const restaurent = await Restaurent.findOne({ res_email }).select(
+      "+res_password"
+    );
+
+    if (!restaurent) {
+      return next(new ErrorResponse("Invalid credentials", 401));
+    }
+
+    // Check that password match
+    const isMatch = await restaurent.matchPassword(res_password);
+
+    if (!isMatch) {
+      return next(new ErrorResponse("Invalid credentials", 401));
+    }
+
+    sendToken(restaurent, 201, res);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false, error: "Invalid Cridentials" });
+  }
+};
+
+exports.forgotpassword = async (req, res, next) => {
+  // Send Email to email provided but first check if user exists
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return next(new ErrorResponse("No email could not be sent", 404));
+    }
+
+    console.log(user);
+    // Reset Token Gen and add to database hashed (private) version of token
+    const resetToken = user.getResetPasswordToken();
+
+    await user.save();
+
+    // Create reset url to email to provided email
+    const resetUrl = `http://localhost:3000/passwordreset/${resetToken}`;
+
+    // HTML Message
+    const message = `
+    <h1>You have requested a password reset</h1>
+    <p>Please make a put request to the following link:</p>
+    <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
+    `;
+
+    try {
+      const from = "faysal.ewucse@gmail.com";
+      const to = email;
+
+      const subject = "Reset FoodsBD Password";
+      await sendEmail(to, from, subject, message);
+
+      res.status(200).json({ success: true, data: "Email Sent" });
+    } catch (err) {
+      console.log(err);
+
+      user.resetPasswordToken = undefined;
+      user.resetPasswordExpire = undefined;
+
+      await user.save();
+
+      return next(new ErrorResponse("Email could not be sent", 500));
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.resetpassword = async (req, res, next) => {
+  const resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(req.params.resetToken)
+    .digest("hex");
+
+  try {
+    const user = await User.findOne({
+      resetPasswordToken,
+      resetPasswordExpire: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return next(new ErrorResponse("Invalid Token", 400));
+    }
+
+    user.password = req.body.password;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+
+    console.log(user.password);
+    console.log(user);
+
+    await user.save();
+
+    res.status(201).json({
+      success: true,
+      data: "Password Updated Success",
+      token: user.getSignedJwtToken(),
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.register = async (req, res, next) => {
   const { name, email, address, password, lattitude, longitude } = req.body;
 
@@ -213,151 +360,7 @@ exports.up_status_restaurent_deli = async (req, res, next) => {
     res.status(400).send(error.message);
   }
 };
-exports.login = async (req, res, next) => {
-  const { email, password } = req.body;
 
-  // Check if email and password is provided
-  if (!email || !password) {
-    return next(new ErrorResponse("Please provide an email and password", 400));
-  }
-
-  try {
-    // Check that user exists by email
-    const user = await User.findOne({ email }).select("+password");
-
-    if (!user) {
-      return next(new ErrorResponse("Invalid credentials", 401));
-    }
-
-    // Check that password match
-    const isMatch = await user.matchPassword(password);
-
-    if (!isMatch) {
-      return next(new ErrorResponse("Invalid credentials", 401));
-    }
-
-    sendToken(user, 201, res);
-  } catch (err) {
-    res.status(500).json({ success: false, error: "Invalid Cridentials" });
-  }
-};
-
-exports.reslogin = async (req, res, next) => {
-  const { res_email, res_password } = req.body;
-
-  // Check if email and password is provided
-  if (!res_email || !res_password) {
-    return next(new ErrorResponse("Please provide an email and password", 400));
-  }
-
-  try {
-    // Check that user exists by email
-    const restaurent = await Restaurent.findOne({ res_email }).select(
-      "+res_password"
-    );
-
-    if (!restaurent) {
-      return next(new ErrorResponse("Invalid credentials", 401));
-    }
-
-    // Check that password match
-    const isMatch = await restaurent.matchPassword(res_password);
-
-    if (!isMatch) {
-      return next(new ErrorResponse("Invalid credentials", 401));
-    }
-
-    sendToken(restaurent, 201, res);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ success: false, error: "Invalid Cridentials" });
-  }
-};
-
-exports.forgotpassword = async (req, res, next) => {
-  // Send Email to email provided but first check if user exists
-  const { email } = req.body;
-
-  try {
-    const user = await User.findOne({ email });
-
-    if (!user) {
-      return next(new ErrorResponse("No email could not be sent", 404));
-    }
-
-    console.log(user);
-    // Reset Token Gen and add to database hashed (private) version of token
-    const resetToken = user.getResetPasswordToken();
-
-    await user.save();
-
-    // Create reset url to email to provided email
-    const resetUrl = `http://localhost:3000/passwordreset/${resetToken}`;
-
-    // HTML Message
-    const message = `
-    <h1>You have requested a password reset</h1>
-    <p>Please make a put request to the following link:</p>
-    <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
-    `;
-
-    try {
-      const from = "faysal.ewucse@gmail.com";
-      const to = email;
-
-      const subject = "Reset FoodsBD Password";
-      await sendEmail(to, from, subject, message);
-
-      res.status(200).json({ success: true, data: "Email Sent" });
-    } catch (err) {
-      console.log(err);
-
-      user.resetPasswordToken = undefined;
-      user.resetPasswordExpire = undefined;
-
-      await user.save();
-
-      return next(new ErrorResponse("Email could not be sent", 500));
-    }
-  } catch (err) {
-    next(err);
-  }
-};
-
-exports.resetpassword = async (req, res, next) => {
-  const resetPasswordToken = crypto
-    .createHash("sha256")
-    .update(req.params.resetToken)
-    .digest("hex");
-
-  try {
-    const user = await User.findOne({
-      resetPasswordToken,
-      resetPasswordExpire: { $gt: Date.now() },
-    });
-
-    if (!user) {
-      return next(new ErrorResponse("Invalid Token", 400));
-    }
-
-    user.password = req.body.password;
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpire = undefined;
-
-    console.log(user.password);
-    console.log(user);
-
-    await user.save();
-
-    res.status(201).json({
-      success: true,
-      data: "Password Updated Success",
-      token: user.getSignedJwtToken(),
-    });
-  } catch (err) {
-    next(err);
-  }
-};
 exports.getAllRes = async (req, res, next) => {
   try {
     const files = await Restaurent.find();

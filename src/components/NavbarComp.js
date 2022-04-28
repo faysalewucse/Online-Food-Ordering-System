@@ -23,6 +23,7 @@ import About from "./About";
 import ContactPage from "./ContactPage";
 import RiderRegister from "./RiderRegister";
 import ReviewPage from "./ReviewPage";
+import NotFound from "./NotFound";
 
 export default function NavbarComp({
   user,
@@ -142,76 +143,65 @@ export default function NavbarComp({
             path="/"
             element={<Home user={user} restaurent={restaurent} />}
           />
-          <Route path="/login" element={<Login setUser={setUser} />} />
-          <Route path="/register" element={<Register />} />
           <Route path="/about" element={<About />} />
+          <Route path="/notFound" element={<NotFound />} />
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="/rider_registration" element={<RiderRegister />} />
-          <Route path="/profile" element={<Profile user={user} />} />
-          <Route
-            path="/restaurentlogin"
-            element={<RestaurentLogin setRestaurent={setRestaurent} />}
-          />
           <Route path="/forgotpassword" element={<ForgotPasswordScreen />} />
           <Route
             path="/passwordreset/:resetToken"
             element={<ResetPasswordScreen />}
           />
+
+          {/* User Routes */}
+          <Route path="/login" element={<Login setUser={setUser} />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/profile" element={<Profile user={user} />} />
           <Route
             path="/cart"
             element={
-              <Cart
-                user={user}
-                setUser={setUser}
-                setAllRestaurent={setAllRestaurent}
-                setCartCount={setCartCount}
-                cart_count={cart_count}
-              />
+              user ? (
+                <Cart
+                  user={user}
+                  setUser={setUser}
+                  setAllRestaurent={setAllRestaurent}
+                  setCartCount={setCartCount}
+                  cart_count={cart_count}
+                />
+              ) : (
+                <NotFound />
+              )
             }
           />
-
           <Route
             path="/delivery-status"
-            element={<DeliveryStatus order_id={order_id} user={user} />}
+            element={
+              user ? (
+                <DeliveryStatus order_id={order_id} user={user} />
+              ) : (
+                <NotFound />
+              )
+            }
           />
 
           <Route
             path="/order-review-page"
             element={
-              <ReviewPage order_id={order_id} user={user} allUser={allUser} />
+              user ? (
+                <ReviewPage order_id={order_id} user={user} allUser={allUser} />
+              ) : (
+                <NotFound />
+              )
             }
           />
 
           <Route
             path="/myorders"
-            element={<MyOrders user={user} setOrderID={setOrderID} />}
-          />
-          <Route path="/addrestaurent" element={<AddRestaurent />} />
-
-          <Route
-            path="/orders"
             element={
-              <RestaurentOrders
-                restaurent={restaurent}
-                user={user}
-                setAllUser={setAllUser}
-                setRestaurent={setRestaurent}
-                setOrdersCount={setOrdersCount}
-                setUser={setUser}
-                setAllRestaurent={setAllRestaurent}
-                setCartCount={setCartCount}
-              />
-            }
-          />
-          <Route
-            path="/myrestaurent"
-            element={
-              <MyRestaurent
-                restaurent={restaurent}
-                setRestaurent={setRestaurent}
-                orders_count={orders_count}
-                setOrdersCount={setOrdersCount}
-              />
+              user ? (
+                <MyOrders user={user} setOrderID={setOrderID} />
+              ) : (
+                <NotFound />
+              )
             }
           />
           <Route
@@ -239,6 +229,50 @@ export default function NavbarComp({
               />
             }
           />
+
+          {/* Restaurant Routes */}
+          <Route
+            path="/restaurentlogin"
+            element={<RestaurentLogin setRestaurent={setRestaurent} />}
+          />
+          <Route path="/addrestaurent" element={<AddRestaurent />} />
+          <Route
+            path="/orders"
+            element={
+              restaurent ? (
+                <RestaurentOrders
+                  restaurent={restaurent}
+                  user={user}
+                  setAllUser={setAllUser}
+                  setRestaurent={setRestaurent}
+                  setOrdersCount={setOrdersCount}
+                  setUser={setUser}
+                  setAllRestaurent={setAllRestaurent}
+                  setCartCount={setCartCount}
+                />
+              ) : (
+                <NotFound />
+              )
+            }
+          />
+          <Route
+            path="/myrestaurent"
+            element={
+              restaurent ? (
+                <MyRestaurent
+                  restaurent={restaurent}
+                  setRestaurent={setRestaurent}
+                  orders_count={orders_count}
+                  setOrdersCount={setOrdersCount}
+                />
+              ) : (
+                <NotFound />
+              )
+            }
+          />
+
+          {/* Rider Routes */}
+          <Route path="/rider_registration" element={<RiderRegister />} />
         </Routes>
       </div>
       <div>

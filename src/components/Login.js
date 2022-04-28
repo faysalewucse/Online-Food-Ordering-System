@@ -5,6 +5,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Nav } from "react-bootstrap";
 import { makeFormEffect } from "./FormStyle";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = ({ setUser }) => {
   const navigate = useNavigate();
@@ -36,13 +38,12 @@ const Login = ({ setUser }) => {
   const loginHandler = async (e) => {
     e.preventDefault();
 
-    const config = {
-      header: {
-        "Content-Type": "application/json",
-      },
-    };
-
     try {
+      const config = {
+        header: {
+          "Content-Type": "application/json",
+        },
+      };
       const { data } = await axios.post(
         "/api/auth/login",
         { email, password },
@@ -51,10 +52,15 @@ const Login = ({ setUser }) => {
 
       localStorage.setItem("authToken", data.token);
       localStorage.setItem("showSnackbar", true);
+
       fetchPrivateDate();
       navigate("/");
-    } catch (error) {
-      setError(error.response.data.error);
+    } catch (e) {
+      setError(e.response.data.error);
+      console.log("Error");
+      toast.error(e.response.data.error, {
+        position: "top-center",
+      });
       setTimeout(() => {
         setError("");
       }, 5000);
@@ -122,6 +128,7 @@ const Login = ({ setUser }) => {
           </div>
         </div>
       </div>
+      <ToastContainer toastClassName="dark-toast" />
     </div>
   );
 };

@@ -159,11 +159,16 @@ function FoodReviews(props) {
       <div>
         <div className="row food-reviews-modal-container">
           <div className="col">
-            <img className="img-fluid" src={props.item.img_path} alt="" />
+            <img
+              className="img-fluid"
+              style={{ borderRadius: "10px" }}
+              src={props.item.img_path}
+              alt=""
+            />
           </div>
           <div className="col">
-            <h6>Name: {props.item.food_name}</h6>
-            <h6>Price: {props.item.food_price}</h6>
+            <h4>Name: {props.item.food_name}</h4>
+            <h6>Price: {props.item.food_price} BDT</h6>
             <div>
               <h6>
                 Rating:{" "}
@@ -186,7 +191,7 @@ function FoodReviews(props) {
               </h6>
             </div>
           </div>
-          <h4>Reviews</h4>
+          <h4 style={{ marginTop: "20px" }}>Reviews</h4>
           <hr />
           {reviews}
         </div>
