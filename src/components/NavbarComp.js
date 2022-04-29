@@ -198,7 +198,13 @@ export default function NavbarComp({
             path="/myorders"
             element={
               user ? (
-                <MyOrders user={user} setOrderID={setOrderID} />
+                <MyOrders
+                  user={user}
+                  setOrderID={setOrderID}
+                  setUser={setUser}
+                  setAllRestaurent={setAllRestaurent}
+                  setCartCount={setCartCount}
+                />
               ) : (
                 <NotFound />
               )

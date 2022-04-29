@@ -86,7 +86,6 @@ export const getResFood = async (setResFood, res_email) => {
 };
 
 export const addtocart = async (
-  setCartCount,
   email,
   food_id,
   food_name,
@@ -159,6 +158,7 @@ export const confirmorder = async (
       res_email,
       result,
     });
+
     console.log("Removing");
     await axios.put("/api/auth/afterconfirm_removecart", {
       user_mail,

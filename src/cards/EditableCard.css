@@ -14,8 +14,10 @@
 
 .item--dlt--btn:hover {
   background-color: rgb(255, 0, 0);
+  cursor: pointer;
 }
 
 .item--edit--btn:hover {
   background-color: rgb(91, 136, 39);
+  cursor: pointer;
 }

@@ -1,5 +1,6 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ReviewCard from "../cards/ReviewCard";
 import "../css/ReviewPage.css";
 
@@ -7,6 +8,7 @@ function ReviewPage({ order_id, user }) {
   const [checked, setChecked] = useState(false);
   const [reviews, setReviews] = useState([]);
 
+  const navigate = useNavigate();
   let orders;
   if (order_id) {
     while (reviews.length > 0) {
@@ -62,17 +64,30 @@ function ReviewPage({ order_id, user }) {
   const postReview = async () => {
     reviews.forEach(async (item) => {
       try {
-        const { data } = await axios.post("/api/auth/postreview", {
+        await axios.post("/api/auth/postreview", {
           res_email: orders.result[0].res_email,
           food_id: item.id,
           review: item.review,
           rating: item.rating,
         });
-        return data;
       } catch (error) {
         throw error;
       }
     });
+    try {
+      // Update Review Status
+      const { data } = await axios.put("/api/auth/update_review_status", {
+        user_mail: user.email,
+        order_id: orders.order_id,
+      });
+
+      if (data) {
+        localStorage.setItem("reviewed", true);
+        navigate("/myorders");
+      }
+    } catch (error) {
+      throw error;
+    }
   };
   return (
     <div className="container review-page">

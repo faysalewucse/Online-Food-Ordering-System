@@ -48,3 +48,9 @@
 .styled-table tbody tr:last-of-type {
   border-bottom: 2px solid #009879;
 }
+
+.order-again-food-card{
+ margin-bottom: 5px;
+ padding: 5px;
+ font-family: Righteous, sans-serif;
+}

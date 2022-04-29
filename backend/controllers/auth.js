@@ -361,6 +361,34 @@ exports.up_status_restaurent_deli = async (req, res, next) => {
   }
 };
 
+exports.update_review_status = async (req, res, next) => {
+  const { order_id, user_mail } = req.body;
+
+  // const eventEmitter = req.app.get("eventEmitter");
+  // eventEmitter.emit("orderUpdated", {
+  //   id: order_id,
+  //   status: "Delivered",
+  // });
+
+  console.log("REVI", req.body);
+  try {
+    const user = await User.findOneAndUpdate(
+      {
+        email: user_mail,
+        "my_orders.order_id": `${order_id}`,
+      },
+      {
+        $set: {
+          "my_orders.$.reviewed": "true",
+        },
+      }
+    );
+    sendToken(user, 201, res);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 exports.getAllRes = async (req, res, next) => {
   try {
     const files = await Restaurent.find();
@@ -465,7 +493,7 @@ exports.add_order_history = async (req, res, next) => {
             res_email: res_email,
             result: result,
             status: "",
-            reviwed: true,
+            reviewed: "false",
           },
         },
       }

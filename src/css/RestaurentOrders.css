@@ -1,6 +1,6 @@
-/* .orders--container {
-  height: 80vh;
-} */
+.orders--container {
+  min-height: 80vh;
+}
 .status--box {
   background-color: green;
   text-align: center;

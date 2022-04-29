@@ -14,7 +14,6 @@ function FoodCard(props) {
     setOpen
   ) {
     addtocart(
-      props.setCartCount,
       props.user.email,
       food_id,
       food_name,
@@ -25,7 +24,6 @@ function FoodCard(props) {
     );
 
     fetchPrivateData(props.setUser, props.setAllRestaurent, props.setCartCount);
-
     setOpen({ open: true });
   }
 
@@ -37,11 +35,11 @@ function FoodCard(props) {
     <div
       className="card"
       style={{ width: "16rem", paddingLeft: "0px", paddingRight: "0px" }}
-      onClick={() =>
-        setModalProps(props.setReviewsModalShow, props.item, props.setItem)
-      }
     >
       <img
+        onClick={() =>
+          setModalProps(props.setReviewsModalShow, props.item, props.setItem)
+        }
         className="card-img-top"
         src={props.img_path}
         alt="Card image cap"
