@@ -51,13 +51,21 @@ export default function Home(props) {
                     >
                       My Restaurent
                     </Nav.Link>
-                  ) : (
+                  ) : props.user ? (
                     <Nav.Link
                       as={Link}
                       to={"/restaurents"}
                       className="order--now--btn"
                     >
                       Order Now
+                    </Nav.Link>
+                  ) : (
+                    <Nav.Link
+                      as={Link}
+                      to={"/riderpage"}
+                      className="order--now--btn"
+                    >
+                      My Orders
                     </Nav.Link>
                   )}
                 </div>
@@ -93,13 +101,21 @@ export default function Home(props) {
                     >
                       My Restaurent
                     </Nav.Link>
-                  ) : (
+                  ) : props.user ? (
                     <Nav.Link
                       as={Link}
                       to={"/restaurents"}
                       className="order--now--btn"
                     >
                       Order Now
+                    </Nav.Link>
+                  ) : (
+                    <Nav.Link
+                      as={Link}
+                      to={"/riderpage"}
+                      className="order--now--btn"
+                    >
+                      My Orders
                     </Nav.Link>
                   )}
                 </div>
@@ -135,13 +151,21 @@ export default function Home(props) {
                     >
                       My Restaurent
                     </Nav.Link>
-                  ) : (
+                  ) : props.user ? (
                     <Nav.Link
                       as={Link}
                       to={"/restaurents"}
                       className="order--now--btn"
                     >
                       Order Now
+                    </Nav.Link>
+                  ) : (
+                    <Nav.Link
+                      as={Link}
+                      to={"/riderpage"}
+                      className="order--now--btn"
+                    >
+                      My Orders
                     </Nav.Link>
                   )}
                 </div>
@@ -160,7 +184,7 @@ export default function Home(props) {
       <Snackbar
         anchorOrigin={{ vertical, horizontal }}
         open={open}
-        autoHideDuration={2000}
+        autoHideDuration={5000}
         onClose={handleClose}
       >
         <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>

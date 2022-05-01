@@ -51,7 +51,7 @@ function ShopPage(props) {
 
   let foods;
   if (allrestaurent) {
-    allrestaurent.map((res) => {
+    allrestaurent.forEach((res) => {
       if (res.res_email === props.res_email) {
         foods = res.items.map((item) => {
           return (

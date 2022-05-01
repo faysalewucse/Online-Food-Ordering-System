@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
-import Countdown from "react-countdown";
 import "./OrderCard.css";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { fetchPrivateData, fetchResData, getAllUser } from "../api/resdata";
@@ -15,8 +14,6 @@ function OrderCard({
   setAllRestaurent,
   setCartCount,
 }) {
-  var current = new Date();
-
   const [timeModalShow, SetTimeModalShow] = useState(false);
 
   let item;
@@ -53,16 +50,18 @@ function OrderCard({
     return items.delivery_time * 60 - ss;
   }
 
-  const orderDelivered = async (e) => {
+  const orderDeliveredorCanceled = async (status) => {
     try {
       await axios.put("/api/auth/updatestatus_user_deli", {
         order_id: items.order_id,
         user_mail: items.user.email,
+        status: status,
       });
 
       await axios.put("/api/auth/updatestatus_restaurent_deli", {
         order_id: items.order_id,
         res_mail: items.result[0].res_email,
+        status: status,
       });
 
       fetchResData(setRestaurent, setOrdersCount);
@@ -73,7 +72,13 @@ function OrderCard({
     }
   };
   function showSetTimeModal() {
-    items.status === "Confirm" ? SetTimeModalShow(true) : orderDelivered();
+    items.status === "Confirm"
+      ? SetTimeModalShow(true)
+      : orderDeliveredorCanceled("Delivered");
+  }
+
+  function cancelOrder() {
+    orderDeliveredorCanceled("Canceled");
   }
 
   return (
@@ -123,7 +128,12 @@ function OrderCard({
             <div className="status--box-confirm" onClick={showSetTimeModal}>
               {items.status === "Cooking" ? "Delivered" : "Confirm"}
             </div>
-            <div className="status--box-cancel">Cancel</div>
+            <div
+              className="status--box-cancel"
+              onClick={() => cancelOrder(items.order_id, items.user.email)}
+            >
+              Cancel
+            </div>
           </div>
         </div>
       </div>

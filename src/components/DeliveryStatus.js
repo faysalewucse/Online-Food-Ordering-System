@@ -4,7 +4,6 @@ import { ProgressBar } from "react-bootstrap";
 import io from "socket.io-client";
 
 function DeliveryStatus({ order_id, user }) {
-  console.log(order_id);
   const [status, setStatus] = useState();
   const [del_time, setDelTime] = useState(0);
   const [item, setItem] = useState();

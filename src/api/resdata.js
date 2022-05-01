@@ -32,6 +32,25 @@ export const fetchPrivateData = async (
   }
 };
 
+export const fetchRiderData = async (setRider, setAllRestaurent) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("authTokenRider")}`,
+    },
+  };
+
+  try {
+    const { data } = await axios.get("/api/riderdata", config);
+    getAllRes(setAllRestaurent);
+    setRider(data.data);
+  } catch (error) {
+    console.log(":EIJAYGAY HOSSE");
+    localStorage.removeItem("authTokenRider");
+    console.log("You are not authorized please login");
+  }
+};
+
 export const fetchResData = async (setRestaurent, setOrdersCount) => {
   const config = {
     headers: {

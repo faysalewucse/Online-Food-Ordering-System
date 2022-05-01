@@ -1,6 +1,7 @@
 const crypto = require("crypto");
 const Restaurent = require("../models/Restaurents");
 const User = require("../models/User");
+const Rider = require("../models/RiderSchema");
 const ErrorResponse = require("../utils/errorResponse");
 const sendEmail = require("../utils/sendEmail");
 const mongoose = require("mongoose");
@@ -35,6 +36,36 @@ exports.login = async (req, res, next) => {
   }
 };
 
+exports.riderlogin = async (req, res, next) => {
+  const { email, password } = req.body;
+
+  // Check if email and password is provided
+  if (!email || !password) {
+    return next(new ErrorResponse("Please provide an email and password", 400));
+  }
+
+  try {
+    // Check that user exists by email
+    const rider = await Rider.findOne({ email }).select("+password");
+
+    if (!rider) {
+      return next(new ErrorResponse("Invalid credentials", 401));
+    }
+
+    // Check that password match
+    const isMatch = await rider.matchPassword(password);
+
+    if (!isMatch) {
+      sendToken(rider, 401, res);
+      return next(new ErrorResponse("Invalid credentials", 401));
+    }
+
+    sendToken(rider, 201, res);
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.reslogin = async (req, res, next) => {
   const { res_email, res_password } = req.body;
 
@@ -62,7 +93,6 @@ exports.reslogin = async (req, res, next) => {
 
     sendToken(restaurent, 201, res);
   } catch (err) {
-    console.log(err);
     res.status(500).json({ success: false, error: "Invalid Cridentials" });
   }
 };
@@ -78,7 +108,6 @@ exports.forgotpassword = async (req, res, next) => {
       return next(new ErrorResponse("No email could not be sent", 404));
     }
 
-    console.log(user);
     // Reset Token Gen and add to database hashed (private) version of token
     const resetToken = user.getResetPasswordToken();
 
@@ -103,8 +132,6 @@ exports.forgotpassword = async (req, res, next) => {
 
       res.status(200).json({ success: true, data: "Email Sent" });
     } catch (err) {
-      console.log(err);
-
       user.resetPasswordToken = undefined;
       user.resetPasswordExpire = undefined;
 
@@ -137,9 +164,6 @@ exports.resetpassword = async (req, res, next) => {
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;
 
-    console.log(user.password);
-    console.log(user);
-
     await user.save();
 
     res.status(201).json({
@@ -166,6 +190,26 @@ exports.register = async (req, res, next) => {
     });
 
     sendToken(user, 201, res);
+  } catch (err) {
+    next(err);
+  }
+};
+exports.rider_register = async (req, res, next) => {
+  const { name, email, vehicle, address, password, lattitude, longitude } =
+    req.body;
+
+  try {
+    const rider = await Rider.create({
+      name,
+      email,
+      vehicle,
+      lattitude,
+      longitude,
+      address,
+      password,
+    });
+
+    sendToken(rider, 201, res);
   } catch (err) {
     next(err);
   }
@@ -208,7 +252,6 @@ exports.resregister = async (req, res, next) => {
 
     sendToken(restaurent, 201, res);
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
@@ -255,7 +298,7 @@ exports.updatefood = async (req, res, next) => {
         },
       }
     );
-    //console.log(restaurent);
+
     sendToken(restaurent, 201, res);
   } catch (error) {
     res.status(400).send(error.message);
@@ -283,7 +326,7 @@ exports.up_status_user = async (req, res, next) => {
         },
       }
     );
-    console.log(user);
+
     sendToken(user, 201, res);
   } catch (error) {
     res.status(400).send(error.message);
@@ -293,7 +336,6 @@ exports.up_status_restaurent = async (req, res, next) => {
   const { order_id, res_mail, delivery_time, time } = req.body;
 
   try {
-    console.log(req.body);
     const restaurent = await Restaurent.findOneAndUpdate(
       {
         res_email: res_mail,
@@ -314,13 +356,20 @@ exports.up_status_restaurent = async (req, res, next) => {
   }
 };
 exports.up_status_user_deli = async (req, res, next) => {
-  const { order_id, user_mail } = req.body;
+  const { order_id, user_mail, status } = req.body;
 
   const eventEmitter = req.app.get("eventEmitter");
+
   eventEmitter.emit("orderUpdated", {
     id: order_id,
-    status: "Delivered",
+    status: status,
   });
+
+  eventEmitter.emit("myorderUpdated", {
+    email: user_mail,
+    status: status,
+  });
+
   try {
     const user = await User.findOneAndUpdate(
       {
@@ -329,7 +378,7 @@ exports.up_status_user_deli = async (req, res, next) => {
       },
       {
         $set: {
-          "my_orders.$.status": "Delivered",
+          "my_orders.$.status": status,
         },
       }
     );
@@ -342,7 +391,6 @@ exports.up_status_restaurent_deli = async (req, res, next) => {
   const { order_id, res_mail } = req.body;
 
   try {
-    console.log(req.body);
     const restaurent = await Restaurent.findOneAndUpdate(
       {
         res_email: res_mail,
@@ -370,7 +418,6 @@ exports.update_review_status = async (req, res, next) => {
   //   status: "Delivered",
   // });
 
-  console.log("REVI", req.body);
   try {
     const user = await User.findOneAndUpdate(
       {
@@ -456,7 +503,6 @@ exports.addtocart = async (req, res, next) => {
 
 exports.postreview = async (req, res, next) => {
   const { res_email, food_id, review, rating } = req.body;
-  console.log(req.body);
   try {
     const restaurent = await Restaurent.findOneAndUpdate(
       {
@@ -471,7 +517,6 @@ exports.postreview = async (req, res, next) => {
       }
     );
 
-    console.log("Restaurant", restaurent);
     sendToken(restaurent, 201, res);
   } catch (error) {
     res.status(400).send(error.message);
@@ -507,7 +552,12 @@ exports.add_order_history = async (req, res, next) => {
 exports.confirmorder = async (req, res, next) => {
   const { user, res_email, result } = req.body;
 
-  console.log("Result:", result);
+  const eventEmitter = req.app.get("eventEmitter");
+  eventEmitter.emit("myorderUpdated", {
+    email: user.email,
+    status: "Confirm",
+  });
+
   const commentId = new mongoose.Types.ObjectId();
   try {
     const restaurent = await Restaurent.findOneAndUpdate(
@@ -535,7 +585,6 @@ exports.confirmorder = async (req, res, next) => {
 exports.removefromcart = async (req, res, next) => {
   const { email, food_name, food_price, img_path, res_email } = req.body;
 
-  console.log(img_path);
   try {
     const user = await User.findOneAndUpdate(
       {
@@ -555,8 +604,6 @@ exports.removefromcart = async (req, res, next) => {
 
 exports.reducefromcart = async (req, res, next) => {
   const { email, food_id } = req.body;
-
-  console.log("I M Working");
 
   try {
     const user = await User.findOneAndUpdate(
@@ -578,7 +625,6 @@ exports.reducefromcart = async (req, res, next) => {
 exports.deletefood = async (req, res, next) => {
   const { res_email, food_id } = req.body;
 
-  console.log(req.body);
   try {
     const restaurent = await Restaurent.findOneAndUpdate(
       {
@@ -590,7 +636,6 @@ exports.deletefood = async (req, res, next) => {
         },
       }
     );
-    //console.log(restaurent);
     sendToken(restaurent, 201, res);
   } catch (error) {
     res.status(400).send(error.message);
@@ -600,7 +645,6 @@ exports.deletefood = async (req, res, next) => {
 exports.emptycart = async (req, res, next) => {
   const { user_mail } = req.body;
 
-  console.log(req.body);
   try {
     const user = await User.findOneAndUpdate(
       {
@@ -609,7 +653,6 @@ exports.emptycart = async (req, res, next) => {
       { $set: { cart: [] } },
       { multi: true }
     );
-    //console.log(restaurent);
     sendToken(user, 201, res);
   } catch (error) {
     res.status(400).send(error.message);

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import "../css/Register.css";
 import { useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { makeFormEffect } from "./FormStyle";
 import { useState } from "react";
 import axios from "axios";
@@ -15,6 +14,7 @@ export default function RiderRegister() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
+  const [vehicle, setVehicle] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [lattitude, setLattitude] = useState();
@@ -27,7 +27,7 @@ export default function RiderRegister() {
     });
   }, []);
 
-  const registerHandler = async (e) => {
+  const riderRegisterHandler = async (e) => {
     e.preventDefault();
 
     const config = {
@@ -38,10 +38,11 @@ export default function RiderRegister() {
 
     try {
       const { data } = await axios.post(
-        "/api/auth/register",
+        "/api/auth/rider_register",
         {
           name,
           email,
+          vehicle,
           lattitude,
           longitude,
           address,
@@ -50,7 +51,6 @@ export default function RiderRegister() {
         config
       );
 
-      localStorage.setItem("authToken", data.token);
       navigate("/");
     } catch (error) {
       setError(error.response.data.error);
@@ -67,16 +67,17 @@ export default function RiderRegister() {
         className="rider--register--body"
         style={{ height: "90vh", alignItems: "center" }}
       >
-        <img class="wave" src="images/wave.png" />
+        <img class="wave" src="images/wave.png" alt="wavepng" />
         <div class="container" id="form--container">
           <div className="img">
-            <img src="images/undraw_bike_ride.svg" />
+            <img src="images/undraw_bike_ride.svg" alt="wavepng" />
           </div>
           <div class="login-content">
             <div className="form">
               <img
                 style={{ marginTop: 10 }}
                 src="images/undraw_bike_ride.svg"
+                alt="wavepng"
               />
               <h2 class="title">Register</h2>
               {error && <span className="error-message">{error}</span>}
@@ -89,6 +90,7 @@ export default function RiderRegister() {
                   <input
                     type="text"
                     name="name"
+                    required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     class="input"
@@ -104,6 +106,7 @@ export default function RiderRegister() {
                   <input
                     name="email"
                     value={email}
+                    required
                     onChange={(e) => setEmail(e.target.value)}
                     type="email"
                     class="input"
@@ -125,14 +128,16 @@ export default function RiderRegister() {
                 </div>
               </div>
               <div className="text-start radio--input">
-                <h4>Vehicle Type</h4>
+                <h4 style={{ fontFamily: "Righteous" }}>Vehicle Type</h4>
                 <form>
                   <label className="radio-inline" style={{ marginRight: 25 }}>
                     <input
                       style={{ marginRight: 10 }}
                       type="radio"
                       name="optradio"
-                      defaultChecked=""
+                      value="Bicycle"
+                      required
+                      onChange={(e) => setVehicle(e.target.value)}
                     />
                     Bicycle
                   </label>
@@ -141,6 +146,9 @@ export default function RiderRegister() {
                       style={{ marginRight: 10 }}
                       type="radio"
                       name="optradio"
+                      value="Bike"
+                      required
+                      onChange={(e) => setVehicle(e.target.value)}
                     />
                     Bike
                   </label>
@@ -158,12 +166,13 @@ export default function RiderRegister() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     type="password"
+                    required
                     class="input"
                   ></input>
                 </div>
               </div>
               <input
-                onClick={registerHandler}
+                onClick={riderRegisterHandler}
                 type="submit"
                 class="btn"
                 value="Register"

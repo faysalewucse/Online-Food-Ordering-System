@@ -26,11 +26,15 @@ const {
   up_status_restaurent_deli,
   postreview,
   update_review_status,
+  rider_register,
+  riderlogin,
 } = require("../controllers/auth");
 
 router.route("/register").post(register);
+router.route("/rider_register").post(rider_register);
 // router.route("/resregister").post(resregister);
 router.route("/login").post(login);
+router.route("/riderlogin").post(riderlogin);
 router.route("/reslogin").post(reslogin);
 router.route("/forgotpassword").post(forgotpassword);
 router.route("/resetpassword/:resetToken").put(resetpassword);

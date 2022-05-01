@@ -1,11 +1,17 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavbarComp from "./components/NavbarComp";
 import { useState, useEffect } from "react";
-import { fetchResData, fetchPrivateData, getAllUser } from "./api/resdata";
+import {
+  fetchResData,
+  fetchPrivateData,
+  getAllUser,
+  fetchRiderData,
+} from "./api/resdata";
 
 const App = () => {
   const [error, setError] = useState("");
   const [user, setUser] = useState("");
+  const [rider, setRider] = useState("");
   const [allUser, setAllUser] = useState("");
   const [restaurent, setRestaurent] = useState("");
   const [allrestaurent, setAllRestaurent] = useState("");
@@ -14,24 +20,23 @@ const App = () => {
 
   useEffect(() => {
     fetchPrivateData(setUser, setAllRestaurent, setCartCount);
-  }, []);
-
-  useEffect(() => {
+    fetchRiderData(setRider, setAllRestaurent);
     getAllUser(setAllUser);
-  }, []);
-
-  useEffect(() => {
     fetchResData(setRestaurent, setOrdersCount);
+
+    console.log(rider);
   }, []);
 
   return (
     <div className="App">
       <NavbarComp
         user={user}
+        setUser={setUser}
         allUser={allUser}
+        rider={rider}
+        setRider={setRider}
         setAllUser={setAllUser}
         restaurent={restaurent}
-        setUser={setUser}
         setRestaurent={setRestaurent}
         allrestaurent={allrestaurent}
         setAllRestaurent={setAllRestaurent}

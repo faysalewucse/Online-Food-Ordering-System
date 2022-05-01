@@ -12,3 +12,10 @@ exports.getResRoute = (req, res, next) => {
     data: req.restaurent,
   });
 };
+
+exports.getRiderRoute = (req, res, next) => {
+  res.status(200).json({
+    success: true,
+    data: req.rider,
+  });
+};

@@ -24,10 +24,15 @@ import ContactPage from "./ContactPage";
 import RiderRegister from "./RiderRegister";
 import ReviewPage from "./ReviewPage";
 import NotFound from "./NotFound";
+import Dashboard from "./Dashboard";
+import RiderLogin from "./RiderLogin";
+import RiderPage from "./RiderPage";
 
 export default function NavbarComp({
   user,
   allUser,
+  rider,
+  setRider,
   setAllUser,
   setUser,
   restaurent,
@@ -47,15 +52,16 @@ export default function NavbarComp({
     localStorage.removeItem("authTokenRes");
     setRestaurent("");
   };
+  const riderlogoutHandler = () => {
+    localStorage.removeItem("authTokenRider");
+    setRider("");
+  };
 
-  console.log(allUser);
+  console.log(rider);
 
-  const [res_id, setResId] = useState();
   const [res_email, setResEmail] = useState(restaurent.res_email);
   const [restaurent_path, setRestaurentPath] = useState();
-  //For User Food Tracking
   const [order_id, setOrderID] = React.useState();
-  //For User Food Tracking
 
   return (
     <Router>
@@ -89,28 +95,50 @@ export default function NavbarComp({
                   </NavDropdown.Item>
                 </NavDropdown>
               </Nav>
-              {user || restaurent ? (
+              {user || restaurent || rider ? (
                 <Nav>
-                  {user ? <Nav.Link href="/myorders">Track</Nav.Link> : null}
                   {user ? (
-                    <Nav.Link href="/cart">
+                    <Nav.Link as={Link} to={"/myorders"}>
+                      Track
+                    </Nav.Link>
+                  ) : null}
+                  {user ? (
+                    <Nav.Link as={Link} to={"/cart"}>
                       <i className="fa badge fa-lg" value={cart_count}>
                         <img src="images/cart.png" alt="cart" />
                       </i>
                     </Nav.Link>
                   ) : null}
                   <NavDropdown
-                    title={user ? user.name : restaurent.res_name}
+                    title={
+                      user
+                        ? user.name
+                        : restaurent
+                        ? restaurent.res_name
+                        : rider.name
+                    }
                     id="basic-nav-dropdown"
                     menuVariant="dark"
                   >
                     <NavDropdown.Item
-                      href={user ? "/profile" : "/myrestaurent"}
+                      href={
+                        user
+                          ? "/profile"
+                          : restaurent
+                          ? "/myrestaurent"
+                          : "/riderpage"
+                      }
                     >
-                      {user ? "Profile" : "My Shop"}
+                      {user ? "Profile" : restaurent ? "My Shop" : "My Orders"}
                     </NavDropdown.Item>
                     <NavDropdown.Item
-                      onClick={user ? logoutHandler : reslogoutHandler}
+                      onClick={
+                        user
+                          ? logoutHandler
+                          : restaurent
+                          ? reslogoutHandler
+                          : riderlogoutHandler
+                      }
                       href="/"
                     >
                       Logout
@@ -141,11 +169,12 @@ export default function NavbarComp({
         <Routes>
           <Route
             path="/"
-            element={<Home user={user} restaurent={restaurent} />}
+            element={<Home user={user} restaurent={restaurent} rider={rider} />}
           />
           <Route path="/about" element={<About />} />
           <Route path="/notFound" element={<NotFound />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/adminDash" element={<Dashboard />} />
           <Route path="/forgotpassword" element={<ForgotPasswordScreen />} />
           <Route
             path="/passwordreset/:resetToken"
@@ -187,7 +216,7 @@ export default function NavbarComp({
             path="/order-review-page"
             element={
               user ? (
-                <ReviewPage order_id={order_id} user={user} allUser={allUser} />
+                <ReviewPage order_id={order_id} user={user} />
               ) : (
                 <NotFound />
               )
@@ -278,7 +307,21 @@ export default function NavbarComp({
           />
 
           {/* Rider Routes */}
+          <Route
+            path="/riderlogin"
+            element={<RiderLogin setRider={setRider} />}
+          />
           <Route path="/rider_registration" element={<RiderRegister />} />
+          <Route
+            path="/riderpage"
+            element={
+              rider ? (
+                <RiderPage rider={rider} setRider={setRider} />
+              ) : (
+                <NotFound />
+              )
+            }
+          />
         </Routes>
       </div>
       <div>
@@ -367,7 +410,7 @@ export default function NavbarComp({
                         <div className="col">
                           <Nav.Link
                             as={Link}
-                            to={"/restaurentlogin"}
+                            to={"/riderlogin"}
                             className="business--btn--login"
                             style={{ color: "white" }}
                           >
@@ -380,7 +423,7 @@ export default function NavbarComp({
                         <div className="col d-flex justify-content-center">
                           <Nav.Link
                             as={Link}
-                            onClick={reslogoutHandler}
+                            onClick={riderlogoutHandler}
                             to={"/"}
                             className="business--btn--logout"
                             style={{ color: "white", width: "20vw" }}

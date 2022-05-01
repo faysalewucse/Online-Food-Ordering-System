@@ -4,6 +4,13 @@ import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { addtocart, fetchPrivateData } from "../api/resdata";
 import "../css/MyOrders.css";
+import io from "socket.io-client";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 function MyOrders({
   user,
@@ -22,11 +29,32 @@ function MyOrders({
       localStorage.removeItem("reviewed");
     }
   }, []);
+  const [open, setOpen] = React.useState(false);
+  const vertical = "center",
+    horizontal = "center";
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
+  const navigate = useNavigate();
+  var socket = io();
+
+  if (user.email) {
+    socket.emit("join", `order_${user.email}`);
+    socket.on("myorderUpdated", (data) => {
+      if (data) {
+        setOpen(true);
+      }
+    });
+  }
 
   const [orderAgainModalShow, setOrderAgainModalShow] = useState(false);
   const [orderID, setORDERID] = useState();
 
-  const navigate = useNavigate();
   function setOrderId(order_id, status, reviewed) {
     setOrderID(order_id);
     setORDERID(order_id);
@@ -82,6 +110,16 @@ function MyOrders({
         </thead>
         <tbody>{orders}</tbody>
       </table>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        autoHideDuration={5000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          Delivery Status Updated Reload Page
+        </Alert>
+      </Snackbar>
       <OrderAgainFloatingModal
         show={orderAgainModalShow}
         onHide={() => setOrderAgainModalShow(false)}

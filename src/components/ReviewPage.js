@@ -17,7 +17,7 @@ function ReviewPage({ order_id, user }) {
     for (let order of user.my_orders) {
       if (order.order_id === order_id) {
         orders = order;
-        orders.result.map((items) => {
+        orders.result.forEach((items) => {
           reviews.push({ id: items.food_id, review: "", rating: 0 });
         });
         break;
