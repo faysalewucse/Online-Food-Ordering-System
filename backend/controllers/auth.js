@@ -277,6 +277,9 @@ exports.addfood = async (req, res, next) => {
             food_price: food_price,
             img_path: img_path,
             sold: 0,
+            rating: {
+              star: 0,
+            },
           },
         },
       }

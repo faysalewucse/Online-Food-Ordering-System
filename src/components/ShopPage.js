@@ -1,16 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FoodCard from "../cards/FoodCard";
 import ReactSearchBox from "react-search-box";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { Modal } from "react-bootstrap";
 import "../css/ShopPage.css";
+import Select from "react-select";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
 function ShopPage(props) {
+  useEffect(() => {
+    if (props.allrestaurent) {
+      props.allrestaurent.forEach((res) => {
+        if (res.res_email === props.res_email) {
+          setFoodsArray(res.items);
+          setRes(res);
+        }
+      });
+    }
+  }, []);
+
   const [open, setOpen] = React.useState(false);
   const vertical = "bottom",
     horizontal = "right";
@@ -50,32 +62,93 @@ function ShopPage(props) {
   };
 
   let foods;
-  if (allrestaurent) {
-    allrestaurent.forEach((res) => {
-      if (res.res_email === props.res_email) {
-        foods = res.items.map((item) => {
-          return (
-            <FoodCard
-              {...item}
-              item={item}
-              setCartCount={props.setCartCount}
-              user={props.user}
-              setUser={props.setUser}
-              setAllRestaurent={props.setAllRestaurent}
-              res_email={props.res_email}
-              res_name={res.res_name}
-              res_address={res.res_address}
-              latlong={`${res.lattitude}, ${res.longitude}`}
-              setOpen={setOpen}
-              className="col"
-              setReviewsModalShow={setReviewsModalShow}
-              setItem={setItem}
-            />
-          );
-        });
-      }
+  let [foodsArray, setFoodsArray] = useState();
+  let [res, setRes] = useState();
+  if (foodsArray) {
+    foods = foodsArray.map((item) => {
+      return (
+        <FoodCard
+          {...item}
+          item={item}
+          setCartCount={props.setCartCount}
+          user={props.user}
+          setUser={props.setUser}
+          setAllRestaurent={props.setAllRestaurent}
+          res_email={props.res_email}
+          res_name={res.res_name}
+          res_address={res.res_address}
+          latlong={`${res.lattitude}, ${res.longitude}`}
+          setOpen={setOpen}
+          className="col"
+          setReviewsModalShow={setReviewsModalShow}
+          setItem={setItem}
+        />
+      );
     });
   }
+
+  // const [selection, setSelection] = useState();
+  const sortFoodsArray = async (value) => {
+    console.log(value);
+  };
+
+  const lowh = () => {
+    const newArray = [...foodsArray].sort((a, b) => {
+      return a.food_price - b.food_price;
+    });
+
+    if (newArray) setFoodsArray(newArray);
+  };
+
+  const highl = () => {
+    const newArray = [...foodsArray].sort((a, b) => {
+      return b.food_price - a.food_price;
+    });
+
+    if (newArray) setFoodsArray(newArray);
+  };
+
+  const rating = () => {
+    const newArray = [...foodsArray].sort((a, b) => {
+      return (
+        Math.max(...b.rating.map((o) => o.y)) -
+        Math.max(...a.rating.map((o) => o.y))
+      );
+    });
+
+    if (newArray) setFoodsArray(newArray);
+  };
+
+  const sell = () => {
+    const newArray = [...foodsArray].sort((a, b) => {
+      return b.sold - a.sold;
+    });
+
+    if (newArray) setFoodsArray(newArray);
+  };
+
+  const name = () => {
+    const newArray = [...foodsArray].sort((a, b) => {
+      let fa = a.food_name.toLowerCase(),
+        fb = b.food_name.toLowerCase();
+      if (fa < fb) {
+        return -1;
+      }
+      if (fa > fb) {
+        return 1;
+      }
+      return 0;
+    });
+    if (newArray) setFoodsArray(newArray);
+  };
+
+  const aquaticCreatures = [
+    { label: "Name", value: "name" },
+    { label: "Price(Low > High)", value: "lowh" },
+    { label: "Price (High > Low", value: "highl" },
+    { label: "Rating", value: "rating" },
+    { label: "Sell", value: "sell" },
+  ];
 
   return (
     <div className="p-4 container">
@@ -97,7 +170,7 @@ function ShopPage(props) {
             <div className="col">
               <ReactSearchBox
                 className="react-search-box"
-                placeholder="Search Restaurent"
+                placeholder="Search Food"
                 value="Doe"
                 data={data}
                 callback={(record) => console.log(record)}
@@ -107,12 +180,22 @@ function ShopPage(props) {
               />
             </div>
             <div className="box col">
-              <select>
-                <option>Delivery Charge</option>
-                <option>Name</option>
-                <option>Rating</option>
-                <option>Popularity</option>
-              </select>
+              <Select
+                className="mb-3 sort-by-select"
+                options={aquaticCreatures}
+                placeholder="-Sort By-"
+                onChange={(e) =>
+                  e.value === "name"
+                    ? name()
+                    : e.value === "highl"
+                    ? highl()
+                    : e.value === "lowh"
+                    ? lowh()
+                    : e.value === "rating"
+                    ? rating()
+                    : sell()
+                }
+              />
             </div>
           </div>
           <div className="row">

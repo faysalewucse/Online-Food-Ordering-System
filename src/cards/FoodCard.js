@@ -56,11 +56,22 @@ function FoodCard(props) {
         <h6 className="card-title cost">BDT: {props.food_price} /-</h6>
         <small className="fa fa-person-biking">: {props.delivery} Tk</small>
         <br />
-        <span className="fa fa-star checked" />
-        <span className="fa fa-star checked" />
-        <span className="fa fa-star checked" />
-        <span className="fa fa-star checked" />
-        <span className="fa fa-star" />
+        {[...Array(5)].map((star, index) => {
+          index += 1;
+          return (
+            <button
+              type="button"
+              key={index}
+              className={
+                props.rating.length > 0 && index <= props.rating[0].star
+                  ? "star-button on"
+                  : "star-button off"
+              }
+            >
+              <span className="fa fa-star" />
+            </button>
+          );
+        })}
       </div>
       <div className="card-body-btn d-flex">
         {/* <Nav.Link href="#" className="buy--now--btn">
