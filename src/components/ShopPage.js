@@ -31,28 +31,6 @@ function ShopPage(props) {
   const [itemInReviewModel, setItem] = useState();
 
   let allrestaurent = props.allrestaurent;
-  const data = [
-    {
-      key: "john",
-      value: "John Doe",
-    },
-    {
-      key: "jane",
-      value: "Jane Doe",
-    },
-    {
-      key: "mary",
-      value: "Mary Phillips",
-    },
-    {
-      key: "robert",
-      value: "Robert",
-    },
-    {
-      key: "karius",
-      value: "Karius",
-    },
-  ];
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -87,10 +65,13 @@ function ShopPage(props) {
     });
   }
 
-  // const [selection, setSelection] = useState();
-  const sortFoodsArray = async (value) => {
-    console.log(value);
-  };
+  let searchData = [{}];
+  for (let index in foodsArray) {
+    searchData.push({
+      key: foodsArray[index].food_name.toLowerCase().replace(/\s+/g, ""),
+      value: foodsArray[index].food_name,
+    });
+  }
 
   const lowh = () => {
     const newArray = [...foodsArray].sort((a, b) => {
@@ -142,6 +123,33 @@ function ShopPage(props) {
     if (newArray) setFoodsArray(newArray);
   };
 
+  const searchSort = () => {
+    Array.closest = (function () {
+      function levenshtein(s, t) {
+        if (!s.food_name.length) return t.food_name.length;
+        if (!t.food_name.length) return s.food_name.length;
+
+        return Math.min(
+          levenshtein(
+            (s.substring(1), t) + 1,
+            levenshtein(
+              (t.substring(1), s) + 1,
+              levenshtein(
+                (s.substring(1), t.substring(1)) + (s[0] !== t[0] ? 1 : 0)
+              )
+            )
+          )
+        );
+      }
+
+      return function (arr, str) {
+        return arr.sort(function (a, b) {
+          return levenshtein((a, str) - levenshtein((b, str)));
+        });
+      };
+    })();
+  };
+
   const aquaticCreatures = [
     { label: "Name", value: "name" },
     { label: "Price(Low > High)", value: "lowh" },
@@ -172,8 +180,8 @@ function ShopPage(props) {
                 className="react-search-box"
                 placeholder="Search Food"
                 value="Doe"
-                data={data}
-                callback={(record) => console.log(record)}
+                data={searchData}
+                onSelect={(record) => console.log(record.item.value)}
                 inputBackgroundColor="#128db3"
                 inputFontColor="white"
                 inputFontSize="20px"
@@ -264,7 +272,7 @@ function FoodReviews(props) {
                       type="button"
                       key={index}
                       className={
-                        index <= props.item.rating[0].star
+                        index <= props.item.rating[1].star
                           ? "star-button on"
                           : "star-button off"
                       }
