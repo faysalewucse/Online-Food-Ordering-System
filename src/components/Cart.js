@@ -12,7 +12,8 @@ function Cart({ user, setCartCount, setUser, setAllRestaurent, cart_count }) {
     result,
     totalCost = 0,
     res_name,
-    res_email;
+    res_email,
+    res_address;
 
   if (user.cart) {
     result = [
@@ -30,6 +31,7 @@ function Cart({ user, setCartCount, setUser, setAllRestaurent, cart_count }) {
         totalCost += item.food_price * item.count;
         res_name = item.res_name;
         res_email = item.res_email;
+        res_address = item.res_address;
       });
     }
 
@@ -51,6 +53,7 @@ function Cart({ user, setCartCount, setUser, setAllRestaurent, cart_count }) {
       user.email,
       user,
       res_email,
+      res_address,
       result,
       setCartCount
     );
@@ -130,8 +133,8 @@ function Cart({ user, setCartCount, setUser, setAllRestaurent, cart_count }) {
                   if (data) {
                     fetchPrivateData(setUser, setAllRestaurent, setCartCount);
                     fetchResData(setAllRestaurent, setCartCount);
-                    localStorage.setItem("loadOrders", true);
-                    navigate("/myorders");
+                    // localStorage.setItem("loadOrders", true);
+                    navigate("/");
                   }
                 }}
               >

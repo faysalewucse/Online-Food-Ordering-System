@@ -7,15 +7,37 @@ import {
 } from "../api/resdata";
 import "./CartCard.css";
 
+// props.user.email,
+//       food_id,
+//       food_name,
+//       food_price,
+//       img_path,
+//       res_email,
+//       res_name,
+//       res_address,
+//       latlong
+
 function CartCard(props) {
-  function addQuantity(food_name, food_price, img_path, res_email) {
+  function addQuantity(
+    food_id,
+    food_name,
+    food_price,
+    img_path,
+    res_email,
+    res_name,
+    res_address,
+    latlong
+  ) {
     addtocart(
-      props.setCartCount,
       props.user.email,
+      food_id,
       food_name,
       food_price,
       img_path,
-      res_email
+      res_email,
+      res_name,
+      res_address,
+      latlong
     );
     fetchPrivateData(props.setUser, props.setAllRestaurent, props.setCartCount);
   }
@@ -61,10 +83,14 @@ function CartCard(props) {
                 <i
                   onClick={() =>
                     addQuantity(
+                      props.food_id,
                       props.food_name,
                       props.food_price,
                       props.img_path,
-                      props.res_email
+                      props.res_email,
+                      props.res_name,
+                      props.res_address,
+                      props.latlong
                     )
                   }
                   class="fas fa-plus plus"

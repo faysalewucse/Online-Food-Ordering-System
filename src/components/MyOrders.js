@@ -20,19 +20,20 @@ function MyOrders({
   setCartCount,
 }) {
   useEffect(() => {
-    if (localStorage.getItem("loadOrders")) {
-      window.location.reload(false);
-      localStorage.removeItem("loadOrders");
-    }
+    // if (localStorage.getItem("loadOrders")) {
+    //   window.location.reload(false);
+    //   localStorage.removeItem("loadOrders");
+    // }
     if (localStorage.getItem("reviewed")) {
       window.location.reload(false);
       localStorage.removeItem("reviewed");
     }
   }, []);
-  const [open, setOpen] = React.useState(false);
-  const vertical = "center",
-    horizontal = "center";
 
+  const [open, setOpen] = React.useState(false);
+  const vertical = "bottom",
+    horizontal = "right";
+  const [status, setStatus] = useState();
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -42,13 +43,13 @@ function MyOrders({
 
   const navigate = useNavigate();
   var socket = io();
-
-  if (user.email) {
-    socket.emit("join", `order_${user.email}`);
-    socket.on("myorderUpdated", (data) => {
-      if (data) {
-        setOpen(true);
-      }
+  if (window.location.pathname.includes("myorders")) {
+    socket.emit("join", "user_orders");
+    socket.on("userOrder", (data) => {
+      console.log(data.status);
+      setOpen(true);
+      fetchPrivateData(setUser, setAllRestaurent, setCartCount);
+      setStatus(data.status);
     });
   }
 
@@ -58,10 +59,12 @@ function MyOrders({
   function setOrderId(order_id, status, reviewed) {
     setOrderID(order_id);
     setORDERID(order_id);
-    if (status !== "Complete" && reviewed !== "true")
+    if (status !== "Completed" && reviewed !== "true" && status !== "Canceled")
       navigate("/delivery-status");
-    else if (reviewed !== "true") navigate("/order-review-page");
-    else if (reviewed === "true") setOrderAgainModalShow(true);
+    else if (reviewed !== "true" && status !== "Canceled")
+      navigate("/order-review-page");
+    else if (reviewed === "true" || status === "Canceled")
+      setOrderAgainModalShow(true);
   }
   let orders;
   if (user.my_orders) {
@@ -117,7 +120,9 @@ function MyOrders({
         onClose={handleClose}
       >
         <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-          Delivery Status Updated Reload Page
+          {status === "Canceled"
+            ? "Your Order is Canceled"
+            : "Your Order is Updated One Step"}
         </Alert>
       </Snackbar>
       <OrderAgainFloatingModal

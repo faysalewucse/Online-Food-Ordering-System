@@ -102,7 +102,10 @@ function DeliveryStatus({ order_id, user }) {
             </div>
             <div
               style={{
-                opacity: status === "Cooking" || "Delivered" ? "1" : "0.5",
+                opacity:
+                  status === "Cooking" || "Delivered" || "Completed"
+                    ? "1"
+                    : "0.5",
               }}
               className="col progress--line"
             >
@@ -111,7 +114,7 @@ function DeliveryStatus({ order_id, user }) {
                 now={
                   status === "Cooking"
                     ? "75"
-                    : status === "Delivered"
+                    : status === "Delivered" || "Completed"
                     ? "100"
                     : "0.5"
                 }
@@ -120,7 +123,7 @@ function DeliveryStatus({ order_id, user }) {
             <div
               style={{
                 opacity:
-                  status === "Delivered"
+                  status === "Delivered" || "Completed"
                     ? "1"
                     : status === "Cooking"
                     ? "0.5"
@@ -134,7 +137,7 @@ function DeliveryStatus({ order_id, user }) {
             <div
               style={{
                 opacity:
-                  status === "Delivered"
+                  status === "Delivered" || "Completed"
                     ? "1"
                     : status === "Cooking"
                     ? "0.5"
@@ -144,10 +147,16 @@ function DeliveryStatus({ order_id, user }) {
             >
               <ProgressBar
                 animated
-                now={status === "Delivered" ? "75" : "0.5"}
+                now={status === "Delivered" || "Completed" ? "75" : "0.5"}
               />
             </div>
-            <div style={{ opacity: 0.5 }} className="col text-center">
+            <div
+              style={{
+                opacity:
+                  status === "Completed" ? "1" : "Delivered" ? "0.5" : "0.5",
+              }}
+              className="col text-center"
+            >
               <i class="fas fa-laugh-wink"></i>
               <h6>Complete</h6>
             </div>

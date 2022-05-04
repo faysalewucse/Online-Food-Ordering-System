@@ -49,7 +49,12 @@ eventEmitter.on("orderUpdated", (data) => {
   io.to(`order_${data.id}`).emit("orderUpdated", data);
 });
 
-eventEmitter.on("myorderUpdated", (data) => {
+eventEmitter.on("riderAvail", (data) => {
   console.log("EMMIT", data);
-  io.to(`order_${data.email}`).emit("myorderUpdated", data);
+  io.to("restaurant_orders").emit("riderAvail", data);
+});
+
+eventEmitter.on("userOrder", (data) => {
+  console.log("EMMIT", data);
+  io.to("user_orders").emit("userOrder", data);
 });

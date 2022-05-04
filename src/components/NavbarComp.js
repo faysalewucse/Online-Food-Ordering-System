@@ -32,6 +32,8 @@ export default function NavbarComp({
   user,
   allUser,
   rider,
+  allRider,
+  setAllRider,
   setRider,
   setAllUser,
   setUser,
@@ -282,6 +284,8 @@ export default function NavbarComp({
                   setRestaurent={setRestaurent}
                   setOrdersCount={setOrdersCount}
                   setUser={setUser}
+                  allRider={allRider}
+                  setAllRider={setAllRider}
                   setAllRestaurent={setAllRestaurent}
                   setCartCount={setCartCount}
                 />

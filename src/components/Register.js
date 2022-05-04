@@ -15,6 +15,7 @@ export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [lattitude, setLattitude] = useState();
@@ -45,6 +46,7 @@ export default function Register() {
           lattitude,
           longitude,
           address,
+          phone,
           password,
         },
         config
@@ -114,6 +116,20 @@ export default function Register() {
                     name="address"
                     onChange={(e) => setAddress(e.target.value)}
                     type="text"
+                    class="input"
+                  ></input>
+                </div>
+              </div>
+              <div onClick={form_effect} class="input-div address">
+                <div class="i">
+                  <i class="fas fa-user"></i>
+                </div>
+                <div class="div">
+                  <h5>Phone No</h5>
+                  <input
+                    name="phone"
+                    onChange={(e) => setPhone(e.target.value)}
+                    type="number"
                     class="input"
                   ></input>
                 </div>

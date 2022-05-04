@@ -94,6 +94,16 @@ export const getAllUser = async (setAllUser) => {
   }
 };
 
+export const getAllRider = async (setAllRider) => {
+  try {
+    const { data } = await axios.get("/api/auth/getallrider");
+    setAllRider(data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getResFood = async (setResFood, res_email) => {
   try {
     const { data } = await axios.post("/api/auth/getresfood", { res_email });
@@ -111,7 +121,9 @@ export const addtocart = async (
   food_price,
   img_path,
   res_email,
-  res_name
+  res_name,
+  res_address,
+  latlong
 ) => {
   try {
     const { data } = await axios.post("/api/auth/addtocart", {
@@ -122,6 +134,8 @@ export const addtocart = async (
       img_path,
       res_email,
       res_name,
+      res_address,
+      latlong,
     });
     return data;
   } catch (error) {
@@ -167,6 +181,7 @@ export const confirmorder = async (
   user_mail,
   user,
   res_email,
+  res_address,
   result,
   setCartCount
 ) => {
@@ -175,6 +190,7 @@ export const confirmorder = async (
     const { data } = await axios.post("/api/auth/confirmorder", {
       user,
       res_email,
+      res_address,
       result,
     });
 
@@ -192,6 +208,7 @@ export const confirmorder = async (
         result,
         user_mail,
         res_email,
+        res_address,
       }
     );
 

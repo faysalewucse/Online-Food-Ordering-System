@@ -10,8 +10,8 @@
   font-family: "Righteous", cursive;
 }
 #basic-nav-dropdown {
-  color: #2da8cd;
-  border: 1px solid #2da8cd;
+  color: #2dcd62;
+  border: 1px solid #2dcd62;
   border-radius: 30px;
   margin-left: 10px;
   margin-top: 8px;
@@ -19,8 +19,8 @@
 }
 
 #basic-nav-dropdown:hover {
-  color: tomato;
-  border: 1px solid tomato;
+  color: rgb(255, 252, 71);
+  border: 1px solid rgb(255, 252, 71);;
   border-radius: 30px;
 }
 

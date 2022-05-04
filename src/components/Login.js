@@ -57,7 +57,6 @@ const Login = ({ setUser }) => {
       navigate("/");
     } catch (e) {
       setError(e.response.data.error);
-      console.log("Error");
       toast.error(e.response.data.error, {
         position: "top-center",
       });

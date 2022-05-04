@@ -39,6 +39,11 @@
   color: white;
 }
 
+.add--to--cart--btn:active {
+  background-color: rgb(0, 0, 0);
+  color: white;
+}
+
 .cost {
   color: blueviolet;
   font-size: 20px;

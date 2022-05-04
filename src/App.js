@@ -6,14 +6,16 @@ import {
   fetchPrivateData,
   getAllUser,
   fetchRiderData,
+  getAllRider,
 } from "./api/resdata";
 
 const App = () => {
   const [error, setError] = useState("");
   const [user, setUser] = useState("");
   const [rider, setRider] = useState("");
-  const [allUser, setAllUser] = useState("");
   const [restaurent, setRestaurent] = useState("");
+  const [allUser, setAllUser] = useState("");
+  const [allRider, setAllRider] = useState("");
   const [allrestaurent, setAllRestaurent] = useState("");
   const [cart_count, setCartCount] = useState();
   const [orders_count, setOrdersCount] = useState();
@@ -22,9 +24,8 @@ const App = () => {
     fetchPrivateData(setUser, setAllRestaurent, setCartCount);
     fetchRiderData(setRider, setAllRestaurent);
     getAllUser(setAllUser);
+    getAllRider(setAllRider);
     fetchResData(setRestaurent, setOrdersCount);
-
-    console.log(rider);
   }, []);
 
   return (
@@ -34,7 +35,9 @@ const App = () => {
         setUser={setUser}
         allUser={allUser}
         rider={rider}
+        allRider={allRider}
         setRider={setRider}
+        setAllRider={setAllRider}
         setAllUser={setAllUser}
         restaurent={restaurent}
         setRestaurent={setRestaurent}

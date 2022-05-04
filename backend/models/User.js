@@ -21,6 +21,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please add a Address"],
   },
+  phone: {
+    type: String,
+    required: [true, "Please add a Address"],
+  },
   lattitude: {
     type: String,
     required: [true, "Please add a Lattitude"],
@@ -49,6 +53,8 @@ const UserSchema = new mongoose.Schema({
       res_name: {
         type: String,
       },
+      res_address: { type: String },
+      latlong: { type: String },
     },
   ],
   my_orders: [
@@ -59,10 +65,14 @@ const UserSchema = new mongoose.Schema({
       res_email: {
         type: String,
       },
+      res_address: {
+        type: String,
+      },
       result: {
         type: Object,
       },
       delivery_time: { type: String },
+      rider_mail: { type: String },
       time: { type: String },
       status: {
         type: String,

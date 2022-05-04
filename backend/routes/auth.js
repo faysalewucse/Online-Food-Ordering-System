@@ -28,6 +28,10 @@ const {
   update_review_status,
   rider_register,
   riderlogin,
+  getAllRider,
+  update_rider_orders,
+  rider_avail_update,
+  get_order_state,
 } = require("../controllers/auth");
 
 router.route("/register").post(register);
@@ -43,7 +47,9 @@ router.route("/updatefood").put(upload.single("file"), updatefood);
 router.route("/deletefood").put(deletefood);
 router.route("/updatestatus_user").put(up_status_user);
 router.route("/updatestatus_restaurent").put(up_status_restaurent);
+router.route("/update_rider_orders").put(update_rider_orders);
 router.route("/updatestatus_user_deli").put(up_status_user_deli);
+router.route("/rider_avail_update").put(rider_avail_update);
 router.route("/update_review_status").put(update_review_status);
 router.route("/updatestatus_restaurent_deli").put(up_status_restaurent_deli);
 router.route("/afterconfirm_removecart").put(emptycart);
@@ -58,7 +64,9 @@ router.post("/addfood", upload.single("file"), addfood);
 router.post("/resregister", upload.single("file"), resregister);
 
 router.get("/getallres", getAllRes);
+router.get("/get_order_state", get_order_state);
 router.get("/getalluser", getAllUser);
+router.get("/getallrider", getAllRider);
 router.post("/getresfood", getresfood);
 
 module.exports = router;

@@ -1,10 +1,14 @@
 import React from "react";
 import "../css/RestaurentOrders.css";
 import OrderCard from "../cards/OrderCard";
+import io from "socket.io-client";
+import { getAllRider } from "../api/resdata";
 
 function RestaurentOrders({
   restaurent,
   user,
+  allRider,
+  setAllRider,
   setAllUser,
   setRestaurent,
   setUser,
@@ -12,11 +16,24 @@ function RestaurentOrders({
   setAllRestaurent,
   setCartCount,
 }) {
+  var socket = io();
+  if (window.location.pathname.includes("orders")) {
+    socket.emit("join", "restaurant_orders");
+    socket.on("riderAvail", (data) => {
+      getAllRider(setAllRider);
+      console.log(allRider);
+    });
+  }
   let orders,
     length = 0;
   if (restaurent.orders) {
     orders = restaurent.orders.map((item) => {
-      if (item.status !== "Delivered" && item.status !== "Complete") {
+      console.log(item.status);
+      if (
+        item.status !== "Delivered" &&
+        item.status !== "Complete" &&
+        item.status !== "Canceled"
+      ) {
         length += 1;
         return (
           <OrderCard
@@ -24,6 +41,7 @@ function RestaurentOrders({
             setRestaurent={setRestaurent}
             setUser={setUser}
             setAllUser={setAllUser}
+            allRider={allRider}
             setOrdersCount={setOrdersCount}
             setAllRestaurent={setAllRestaurent}
             setCartCount={setCartCount}

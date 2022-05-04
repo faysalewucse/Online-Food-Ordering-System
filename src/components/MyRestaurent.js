@@ -120,9 +120,9 @@ function MyRestaurent({
 // Floating Card
 function EditFoodFloatingModal(props) {
   const [food_name, setFoodName] = useState(props.food_name);
-  const [img_path, setImgPath] = useState(props.img_path);
+  //const [img_path, setImgPath] = useState(props.img_path);
   const [food_price, setFoodPrice] = useState(props.food_price);
-  const [food_id, setFoodId] = useState(props.food_id);
+  //const [food_id, setFoodId] = useState(props.food_id);
   const [photoFile, setPhotoFile] = useState("");
 
   const PhotoChange = (e) => {

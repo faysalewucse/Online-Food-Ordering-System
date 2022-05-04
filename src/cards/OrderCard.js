@@ -1,14 +1,16 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal, Dropdown } from "react-bootstrap";
 import "./OrderCard.css";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { fetchPrivateData, fetchResData, getAllUser } from "../api/resdata";
+import Select from "react-select";
 
 function OrderCard({
   items,
   setRestaurent,
   setUser,
+  allRider,
   setAllUser,
   setOrdersCount,
   setAllRestaurent,
@@ -27,7 +29,7 @@ function OrderCard({
     });
   }
 
-  console.log(items);
+  console.log(allRider);
 
   function delivery_time() {
     var current = new Date();
@@ -126,7 +128,7 @@ function OrderCard({
           </div>
           <div className="d-flex justify-content-between confirm--cancel--btn">
             <div className="status--box-confirm" onClick={showSetTimeModal}>
-              {items.status === "Cooking" ? "Delivered" : "Confirm"}
+              {items.status === "Cooking" ? "Deliver" : "Confirm"}
             </div>
             <div
               className="status--box-cancel"
@@ -141,12 +143,15 @@ function OrderCard({
         show={timeModalShow}
         onHide={() => SetTimeModalShow(false)}
         order_id={items.order_id}
+        result={items.result}
+        user={items.user}
         user_mail={items.user.email}
         res_mail={items.result[0].res_email}
         setTimeModalShow={SetTimeModalShow}
         setRestaurent={setRestaurent}
         setOrdersCount={setOrdersCount}
         setUser={setUser}
+        allRider={allRider}
         setAllUser={setAllUser}
         setAllRestaurent={setAllRestaurent}
         setCartCount={setCartCount}
@@ -157,6 +162,7 @@ function OrderCard({
 
 function SetTimeModal(props) {
   const [del_time, setDeliveryTime] = useState(10);
+  const [riderEmail, setRiderEmail] = useState();
 
   const orderConfirmed = async (e) => {
     try {
@@ -166,6 +172,7 @@ function SetTimeModal(props) {
         order_id: props.order_id,
         user_mail: props.user_mail,
         delivery_time: del_time,
+        rider_mail: riderEmail,
         time:
           current_time.toLocaleDateString("en-US") +
           " " +
@@ -176,11 +183,27 @@ function SetTimeModal(props) {
         order_id: props.order_id,
         res_mail: props.res_mail,
         delivery_time: del_time,
+        rider_mail: riderEmail,
         time:
           current_time.toLocaleDateString("en-US") +
           " " +
           current_time.toLocaleTimeString(),
       });
+
+      await axios.put("/api/auth/update_rider_orders", {
+        order_id: props.order_id,
+        rider_mail: riderEmail,
+        result: props.result,
+        res_name: props.result[0].res_name,
+        user_name: props.user.name,
+        user_email: props.user.email,
+        user_phone: props.user.phone,
+        res_address: props.result[0].res_address,
+        res_latlong: props.result[0].latlong,
+        user_latlong: `${props.user.lattitude}, ${props.user.longitude}`,
+        user_address: props.user.address,
+      });
+
       fetchResData(props.setRestaurent, props.setOrdersCount);
       fetchPrivateData(
         props.setUser,
@@ -193,6 +216,13 @@ function SetTimeModal(props) {
       throw error;
     }
   };
+
+  const aquaticCreatures = [{ label: "Name(Address, Charge)", value: "null" }];
+
+  props.allRider.forEach((rider) => {
+    if (rider.availibility === "true")
+      aquaticCreatures.push({ label: rider.name, value: rider.email });
+  });
   return (
     <Modal
       {...props}
@@ -202,7 +232,10 @@ function SetTimeModal(props) {
     >
       <div>
         <div className="row p-3 justify-content-center">
-          <h4 className="text-center" style={{ fontFamily: "Righteous" }}>
+          <h4
+            className="text-center d-flex"
+            style={{ fontFamily: "Righteous", fontSize: "20px" }}
+          >
             Set Expectation Time to Deliver <br />
             <input
               name="delivery_time"
@@ -211,8 +244,16 @@ function SetTimeModal(props) {
               defaultValue={10}
               onChange={(e) => setDeliveryTime(e.target.value)}
             />
-            <h4>Minutes</h4>
+            <h4 style={{ fontFamily: "Righteous", fontSize: "20px" }}>
+              Minutes
+            </h4>
           </h4>
+          <Select
+            className="mb-3"
+            options={aquaticCreatures}
+            placeholder="Select Rider"
+            onChange={(e) => setRiderEmail(e.value)}
+          />
           <div className="status--box-confirm" onClick={orderConfirmed}>
             Confirm
           </div>

@@ -177,7 +177,8 @@ exports.resetpassword = async (req, res, next) => {
 };
 
 exports.register = async (req, res, next) => {
-  const { name, email, address, password, lattitude, longitude } = req.body;
+  const { name, email, address, phone, password, lattitude, longitude } =
+    req.body;
 
   try {
     const user = await User.create({
@@ -186,6 +187,7 @@ exports.register = async (req, res, next) => {
       lattitude,
       longitude,
       address,
+      phone,
       password,
     });
 
@@ -194,6 +196,7 @@ exports.register = async (req, res, next) => {
     next(err);
   }
 };
+
 exports.rider_register = async (req, res, next) => {
   const { name, email, vehicle, address, password, lattitude, longitude } =
     req.body;
@@ -207,6 +210,7 @@ exports.rider_register = async (req, res, next) => {
       longitude,
       address,
       password,
+      availibility: "false",
     });
 
     sendToken(rider, 201, res);
@@ -305,7 +309,7 @@ exports.updatefood = async (req, res, next) => {
   }
 };
 exports.up_status_user = async (req, res, next) => {
-  const { order_id, user_mail, delivery_time, time } = req.body;
+  const { order_id, user_mail, delivery_time, rider_mail, time } = req.body;
   const eventEmitter = req.app.get("eventEmitter");
   eventEmitter.emit("orderUpdated", {
     id: order_id,
@@ -322,6 +326,7 @@ exports.up_status_user = async (req, res, next) => {
         $set: {
           "my_orders.$.status": "Cooking",
           "my_orders.$.delivery_time": delivery_time,
+          "my_orders.$.rider_mail": rider_mail,
           "my_orders.$.time": time,
         },
       }
@@ -333,7 +338,7 @@ exports.up_status_user = async (req, res, next) => {
   }
 };
 exports.up_status_restaurent = async (req, res, next) => {
-  const { order_id, res_mail, delivery_time, time } = req.body;
+  const { order_id, res_mail, delivery_time, rider_mail, time } = req.body;
 
   try {
     const restaurent = await Restaurent.findOneAndUpdate(
@@ -345,6 +350,7 @@ exports.up_status_restaurent = async (req, res, next) => {
         $set: {
           "orders.$.status": "Cooking",
           "orders.$.delivery_time": delivery_time,
+          "orders.$.rider_mail": rider_mail,
           "orders.$.time": time,
         },
       }
@@ -355,17 +361,68 @@ exports.up_status_restaurent = async (req, res, next) => {
     res.status(400).send(error.message);
   }
 };
+
+exports.update_rider_orders = async (req, res, next) => {
+  const {
+    order_id,
+    rider_mail,
+    result,
+    res_name,
+    user_name,
+    user_email,
+    user_phone,
+    res_address,
+    user_address,
+    user_latlong,
+    res_latlong,
+  } = req.body;
+  // const eventEmitter = req.app.get("eventEmitter");
+  // eventEmitter.emit("orderUpdated", {
+  //   id: order_id,
+  //   status: "Cooking",
+  //   time: delivery_time,
+  // });
+  try {
+    const rider = await Rider.findOneAndUpdate(
+      {
+        email: rider_mail,
+      },
+      {
+        $push: {
+          my_orders: {
+            order_id: order_id,
+            user_name: user_name,
+            user_email: user_email,
+            user_phone: user_phone,
+            user_address: user_address,
+            res_name: res_name,
+            res_address: res_address,
+            user_latlong: user_latlong,
+            res_latlong: res_latlong,
+            result: result,
+          },
+        },
+      }
+    );
+
+    res.status(201).send(rider);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 exports.up_status_user_deli = async (req, res, next) => {
   const { order_id, user_mail, status } = req.body;
 
-  const eventEmitter = req.app.get("eventEmitter");
+  console.log(req.body);
 
+  const eventEmitter = req.app.get("eventEmitter");
   eventEmitter.emit("orderUpdated", {
     id: order_id,
     status: status,
   });
 
-  eventEmitter.emit("myorderUpdated", {
+  eventEmitter.emit("userOrder", {
     email: user_mail,
     status: status,
   });
@@ -382,13 +439,13 @@ exports.up_status_user_deli = async (req, res, next) => {
         },
       }
     );
-    sendToken(user, 201, res);
+    res.status(201).send(user);
   } catch (error) {
     res.status(400).send(error.message);
   }
 };
 exports.up_status_restaurent_deli = async (req, res, next) => {
-  const { order_id, res_mail } = req.body;
+  const { order_id, res_mail, status } = req.body;
 
   try {
     const restaurent = await Restaurent.findOneAndUpdate(
@@ -398,13 +455,39 @@ exports.up_status_restaurent_deli = async (req, res, next) => {
       },
       {
         $set: {
-          "orders.$.status": "Delivered",
+          "orders.$.status": status,
         },
       }
     );
 
-    sendToken(restaurent, 201, res);
+    res.status(201).send(restaurent);
   } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+exports.rider_avail_update = async (req, res, next) => {
+  const { rider_mail, status } = req.body;
+
+  console.log(status);
+  try {
+    const rider = await Rider.findOneAndUpdate(
+      {
+        email: rider_mail,
+      },
+      {
+        $set: {
+          availibility: status,
+        },
+      }
+    );
+    const eventEmitter = req.app.get("eventEmitter");
+    eventEmitter.emit("riderAvail", {
+      status: rider,
+    });
+    sendToken(rider, 201, res);
+  } catch (error) {
+    console.log("Error");
     res.status(400).send(error.message);
   }
 };
@@ -454,6 +537,26 @@ exports.getAllUser = async (req, res, next) => {
   }
 };
 
+exports.get_order_state = async (req, res, next) => {
+  try {
+    const files = await Restaurent.find({
+      res_email: req.query.res_email,
+    });
+    res.status(200).send(files);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+exports.getAllRider = async (req, res, next) => {
+  try {
+    const files = await Rider.find();
+    res.status(200).send(files);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 exports.getresfood = async (req, res, next) => {
   try {
     const res_email = req.body.res_email;
@@ -475,8 +578,11 @@ exports.addtocart = async (req, res, next) => {
     img_path,
     res_email,
     res_name,
+    res_address,
+    latlong,
   } = req.body;
 
+  console.log("ITEMS", req.body);
   try {
     const user = await User.findOneAndUpdate(
       {
@@ -491,6 +597,8 @@ exports.addtocart = async (req, res, next) => {
             img_path: img_path,
             res_email: res_email,
             res_name: res_name,
+            res_address: res_address,
+            latlong: latlong,
           },
         },
       }

@@ -13,7 +13,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 function ShopPage(props) {
   const [open, setOpen] = React.useState(false);
   const vertical = "bottom",
-    horizontal = "center";
+    horizontal = "right";
 
   const [reviewsModalShow, setReviewsModalShow] = useState(false);
   const [itemInReviewModel, setItem] = useState();
@@ -64,6 +64,8 @@ function ShopPage(props) {
               setAllRestaurent={props.setAllRestaurent}
               res_email={props.res_email}
               res_name={res.res_name}
+              res_address={res.res_address}
+              latlong={`${res.lattitude}, ${res.longitude}`}
               setOpen={setOpen}
               className="col"
               setReviewsModalShow={setReviewsModalShow}

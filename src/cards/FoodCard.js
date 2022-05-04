@@ -11,7 +11,9 @@ function FoodCard(props) {
     img_path,
     res_email,
     res_name,
-    setOpen
+    setOpen,
+    res_address,
+    latlong
   ) {
     addtocart(
       props.user.email,
@@ -20,7 +22,9 @@ function FoodCard(props) {
       food_price,
       img_path,
       res_email,
-      res_name
+      res_name,
+      res_address,
+      latlong
     );
 
     fetchPrivateData(props.setUser, props.setAllRestaurent, props.setCartCount);
@@ -28,8 +32,10 @@ function FoodCard(props) {
   }
 
   function setModalProps(setReviewsModalShow, item, setItem) {
-    setReviewsModalShow(true);
-    setItem(item);
+    if (item.reviews.length > 0) {
+      setReviewsModalShow(true);
+      setItem(item);
+    }
   }
   return (
     <div
@@ -70,7 +76,9 @@ function FoodCard(props) {
               props.img_path,
               props.res_email,
               props.res_name,
-              props.setOpen
+              props.setOpen,
+              props.res_address,
+              props.latlong
             )
           }
           style={{ color: "white" }}

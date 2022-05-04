@@ -21,6 +21,9 @@ const RiderSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please add a Vehicle"],
   },
+  availibility: {
+    type: String,
+  },
   address: {
     type: String,
     required: [true, "Please add a Address"],
@@ -35,10 +38,29 @@ const RiderSchema = new mongoose.Schema({
   },
   my_orders: [
     {
-      user_mail: {
+      order_id: { type: String },
+      user_name: {
         type: String,
       },
-      res_email: {
+      user_email: {
+        type: String,
+      },
+      user_phone: {
+        type: String,
+      },
+      user_address: {
+        type: String,
+      },
+      res_name: {
+        type: String,
+      },
+      res_address: {
+        type: String,
+      },
+      user_latlong: {
+        type: String,
+      },
+      res_latlong: {
         type: String,
       },
       result: {

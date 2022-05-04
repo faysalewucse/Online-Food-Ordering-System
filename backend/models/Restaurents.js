@@ -92,11 +92,13 @@ const RestaurentSchema = new mongoose.Schema({
       user: {
         type: Object,
       },
+      res_address: { type: String },
       result: {
         type: Object,
       },
       status: { type: String },
       delivery_time: { type: String },
+      rider_mail: { type: String },
       time: { type: String },
     },
   ],
