@@ -85,25 +85,11 @@ export default function NavbarComp({
                 <Nav.Link as={Link} to={"/about"}>
                   About
                 </Nav.Link>
-                <NavDropdown title="Categories">
-                  <NavDropdown.Item href="#action/3.1">Burger</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.2">Cakes</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.3">
-                    Chicken
-                  </NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item href="#action/3.4">
-                    Rice Item
-                  </NavDropdown.Item>
-                </NavDropdown>
+                {user && <Nav.Link href={"/restaurents"}>Restaurants</Nav.Link>}
               </Nav>
               {user || restaurent || rider ? (
                 <Nav>
-                  {user ? (
-                    <Nav.Link as={Link} to={"/myorders"}>
-                      Track
-                    </Nav.Link>
-                  ) : null}
+                  {user ? <Nav.Link href="/myorders">Track</Nav.Link> : null}
                   {user ? (
                     <Nav.Link as={Link} to={"/cart"}>
                       <i className="fa badge fa-lg" value={cart_count}>
@@ -207,7 +193,13 @@ export default function NavbarComp({
             path="/delivery-status"
             element={
               user ? (
-                <DeliveryStatus order_id={order_id} user={user} />
+                <DeliveryStatus
+                  order_id={order_id}
+                  user={user}
+                  setUser={setUser}
+                  setAllRestaurent={setAllRestaurent}
+                  setCartCount={setCartCount}
+                />
               ) : (
                 <NotFound />
               )
@@ -320,7 +312,11 @@ export default function NavbarComp({
             path="/riderpage"
             element={
               rider ? (
-                <RiderPage rider={rider} setRider={setRider} />
+                <RiderPage
+                  rider={rider}
+                  setRider={setRider}
+                  setAllRestaurent={setAllRestaurent}
+                />
               ) : (
                 <NotFound />
               )

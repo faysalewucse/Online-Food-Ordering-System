@@ -64,7 +64,11 @@ export const fetchResData = async (setRestaurent, setOrdersCount) => {
     setRestaurent(data.data);
     let order_length = 0;
     data.data.orders.map((item) => {
-      if (item.status !== "Delivered" && item.status !== "Complete")
+      if (
+        item.status !== "Delivered" &&
+        item.status !== "Completed" &&
+        item.status !== "Canceled"
+      )
         order_length++;
     });
     setOrdersCount(order_length);

@@ -37,6 +37,12 @@ function FoodCard(props) {
       setItem(item);
     }
   }
+
+  let foodTotal = 0;
+  let length = props.item.rating.length - 1;
+  props.item.rating.forEach(({ star }) => (foodTotal += parseInt(star)));
+  let avgStar = Math.floor(foodTotal / length);
+
   return (
     <div
       className="card"
@@ -63,9 +69,7 @@ function FoodCard(props) {
               type="button"
               key={index}
               className={
-                props.rating.length > 0 && index <= props.rating[0].star
-                  ? "star-button on"
-                  : "star-button off"
+                index <= avgStar ? "star-button on" : "star-button off"
               }
             >
               <span className="fa fa-star" />

@@ -20,12 +20,12 @@ function MyOrders({
   setCartCount,
 }) {
   useEffect(() => {
-    // if (localStorage.getItem("loadOrders")) {
-    //   window.location.reload(false);
-    //   localStorage.removeItem("loadOrders");
-    // }
+    if (localStorage.getItem("loadOrders")) {
+      fetchPrivateData(setUser, setAllRestaurent, setCartCount);
+      localStorage.removeItem("loadOrders");
+    }
     if (localStorage.getItem("reviewed")) {
-      window.location.reload(false);
+      fetchPrivateData(setUser, setAllRestaurent, setCartCount);
       localStorage.removeItem("reviewed");
     }
   }, []);
@@ -42,16 +42,16 @@ function MyOrders({
   };
 
   const navigate = useNavigate();
-  var socket = io();
-  if (window.location.pathname.includes("myorders")) {
-    socket.emit("join", "user_orders");
-    socket.on("userOrder", (data) => {
-      console.log(data.status);
-      setOpen(true);
-      fetchPrivateData(setUser, setAllRestaurent, setCartCount);
-      setStatus(data.status);
-    });
-  }
+  // var socket = io();
+  // if (window.location.pathname.includes("myorders")) {
+  //   socket.emit("join", "user_orders");
+  //   socket.on("userOrder", (data) => {
+  //     console.log(data.status);
+  //     setOpen(true);
+  //     fetchPrivateData(setUser, setAllRestaurent, setCartCount);
+  //     setStatus(data.status);
+  //   });
+  // }
 
   const [orderAgainModalShow, setOrderAgainModalShow] = useState(false);
   const [orderID, setORDERID] = useState();

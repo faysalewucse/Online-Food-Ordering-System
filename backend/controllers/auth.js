@@ -402,6 +402,7 @@ exports.update_rider_orders = async (req, res, next) => {
             res_address: res_address,
             user_latlong: user_latlong,
             res_latlong: res_latlong,
+            status: "notcompleted",
             result: result,
           },
         },
@@ -425,10 +426,10 @@ exports.up_status_user_deli = async (req, res, next) => {
     status: status,
   });
 
-  eventEmitter.emit("userOrder", {
-    email: user_mail,
-    status: status,
-  });
+  // eventEmitter.emit("userOrder", {
+  //   email: user_mail,
+  //   status: status,
+  // });
 
   try {
     const user = await User.findOneAndUpdate(
@@ -443,6 +444,27 @@ exports.up_status_user_deli = async (req, res, next) => {
       }
     );
     res.status(201).send(user);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+exports.updatestatus_rider = async (req, res, next) => {
+  const { order_id, rider_email, status } = req.body;
+
+  try {
+    const rider = await Rider.findOneAndUpdate(
+      {
+        email: rider_email,
+        "my_orders.order_id": `${order_id}`,
+      },
+      {
+        $set: {
+          "my_orders.$.status": status,
+        },
+      }
+    );
+    res.status(201).send(rider);
   } catch (error) {
     res.status(400).send(error.message);
   }

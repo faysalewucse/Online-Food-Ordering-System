@@ -4,8 +4,9 @@ import { Navbar, Container, Nav } from "react-bootstrap";
 import "../css/RiderPage.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { fetchRiderData } from "../api/resdata";
 
-function RiderPage({ rider }) {
+function RiderPage({ rider, setRider, setAllRestaurent }) {
   const [value, setValue] = useState(rider.availibility);
 
   const orderCompleted = async (order_id, res_email, user_email) => {
@@ -20,6 +21,13 @@ function RiderPage({ rider }) {
         res_mail: res_email,
         status: "Completed",
       });
+
+      await axios.put("/api/auth/updatestatus_rider", {
+        order_id: order_id,
+        rider_email: rider.email,
+        status: "completed",
+      });
+      fetchRiderData(setRider, setAllRestaurent);
     };
 
     try {
@@ -55,73 +63,75 @@ function RiderPage({ rider }) {
 
   console.log(value);
 
-  let orders;
+  let orders,
+    order_length = 0;
   if (rider) {
     orders = rider.my_orders.map((order) => {
-      return (
-        <div className="rider-order-card d-flex justify-content-between">
-          <div>
+      if (order.status === "notcompleted") {
+        order_length += 1;
+        return (
+          <div className="rider-order-card col-4 mr-5">
             <div>
-              <h3 style={{ color: "green" }}>Restaurant</h3>
-              <h6>{order.res_address}</h6>
-              <h6>{order.res_name}</h6>
-              <div className="d-flex align-items-center location">
-                <div>
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={`https://www.google.com/maps/search/${order.res_latlong}/@${order.res_latlong},17z`}
-                  >
-                    <i
-                      style={{ color: "white", fontSize: "25px" }}
-                      class="fa-solid fa-map-location-dot"
-                    ></i>
-                  </a>
+              <div>
+                <h3 style={{ color: "green" }}>Restaurant</h3>
+                <h6>{order.res_address}</h6>
+                <h6>{order.res_name}</h6>
+                <div className="d-flex align-items-center location">
+                  <div>
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={`https://www.google.com/maps/search/${order.res_latlong}/@${order.res_latlong},17z`}
+                    >
+                      <i
+                        style={{ color: "white", fontSize: "25px" }}
+                        class="fa-solid fa-map-location-dot"
+                      ></i>
+                    </a>
+                  </div>
+                  <h6 style={{ marginTop: "10px", marginLeft: "10px" }}>
+                    Watch Location In Google Map
+                  </h6>
                 </div>
-                <h6 style={{ marginTop: "10px", marginLeft: "10px" }}>
-                  Watch Location In Google Map
-                </h6>
-              </div>
-              <br />
-              <h3 style={{ color: "green" }}>Customer</h3>
-              <h6>{order.user_name}</h6>
-              <h6>{order.user_address}</h6>
-              <h6>{order.user_phone}</h6>
-              <div className="d-flex align-items-center location">
-                <div>
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={`https://www.google.com/maps/search/${order.user_latlong}/@${order.user_latlong},17z`}
-                  >
-                    <i
-                      style={{ color: "white", fontSize: "25px" }}
-                      class="fa-solid fa-map-location-dot"
-                    ></i>
-                  </a>
+                <br />
+                <h3 style={{ color: "green" }}>Customer</h3>
+                <h6>{order.user_name}</h6>
+                <h6>{order.user_address}</h6>
+                <h6>{order.user_phone}</h6>
+                <div className="d-flex align-items-center location">
+                  <div>
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={`https://www.google.com/maps/search/${order.user_latlong}/@${order.user_latlong},17z`}
+                    >
+                      <i
+                        style={{ color: "white", fontSize: "25px" }}
+                        class="fa-solid fa-map-location-dot"
+                      ></i>
+                    </a>
+                  </div>
+                  <h6 style={{ marginTop: "10px", marginLeft: "10px" }}>
+                    Watch Location In Google Map
+                  </h6>
                 </div>
-                <h6 style={{ marginTop: "10px", marginLeft: "10px" }}>
-                  Watch Location In Google Map
+                <h6
+                  onClick={() =>
+                    orderCompleted(
+                      order.order_id,
+                      order.result[0].res_email,
+                      order.user_email
+                    )
+                  }
+                  className="rider-confirm-btn text-center"
+                >
+                  Complete
                 </h6>
               </div>
             </div>
           </div>
-          <div>
-            <h6
-              onClick={() =>
-                orderCompleted(
-                  order.order_id,
-                  order.result[0].res_email,
-                  order.user_email
-                )
-              }
-              className="rider-confirm-btn"
-            >
-              Complete
-            </h6>
-          </div>
-        </div>
-      );
+        );
+      }
     });
   }
 
@@ -174,7 +184,7 @@ function RiderPage({ rider }) {
             </div>
             <h3>I'm Available to Receive Order</h3>
           </div>
-          {orders.length === 0 ? (
+          {order_length === 0 ? (
             <div className="row empty-orders">
               <div className="col">
                 <div className="text-center">
@@ -193,7 +203,7 @@ function RiderPage({ rider }) {
               </div>
             </div>
           ) : (
-            <div>{orders}</div>
+            <div className="row">{orders}</div>
           )}
         </div>
       </div>

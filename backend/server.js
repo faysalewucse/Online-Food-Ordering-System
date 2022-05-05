@@ -54,7 +54,7 @@ eventEmitter.on("riderAvail", (data) => {
   io.to("restaurant_orders").emit("riderAvail", data);
 });
 
-eventEmitter.on("userOrder", (data) => {
-  console.log("EMMIT", data);
-  io.to("user_orders").emit("userOrder", data);
-});
+// eventEmitter.on("userOrder", (data) => {
+//   console.log("EMMIT", data);
+//   io.to("user_orders").emit("userOrder", data);
+// });

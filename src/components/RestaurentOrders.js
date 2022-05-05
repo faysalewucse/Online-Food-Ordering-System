@@ -31,7 +31,7 @@ function RestaurentOrders({
       console.log(item.status);
       if (
         item.status !== "Delivered" &&
-        item.status !== "Complete" &&
+        item.status !== "Completed" &&
         item.status !== "Canceled"
       ) {
         length += 1;

@@ -91,10 +91,13 @@ function ShopPage(props) {
 
   const rating = () => {
     const newArray = [...foodsArray].sort((a, b) => {
-      return (
-        Math.max(...b.rating.map((o) => o.y)) -
-        Math.max(...a.rating.map((o) => o.y))
-      );
+      let x = 0,
+        xl = [...a.rating].length;
+      [...a.rating].forEach(({ star }) => (x += parseInt(star)));
+      let y = 0,
+        yl = [...b.rating].length;
+      [...b.rating].forEach(({ star }) => (y += parseInt(star)));
+      return Math.floor(y / yl) - Math.ceil(x / xl);
     });
 
     if (newArray) setFoodsArray(newArray);
@@ -235,13 +238,18 @@ function ShopPage(props) {
 }
 
 function FoodReviews(props) {
-  console.log(props);
   let reviews;
   if (props.item.reviews) {
     reviews = props.item.reviews.map((review) => {
       return <div className="reviews-card">{review.review}</div>;
     });
   }
+
+  let foodTotal = 0;
+  let length = props.item.rating.length - 1;
+  props.item.rating.forEach(({ star }) => (foodTotal += parseInt(star)));
+  let avgStar = Math.floor(foodTotal / length);
+
   return (
     <Modal
       {...props}
@@ -272,9 +280,7 @@ function FoodReviews(props) {
                       type="button"
                       key={index}
                       className={
-                        index <= props.item.rating[1].star
-                          ? "star-button on"
-                          : "star-button off"
+                        index <= avgStar ? "star-button on" : "star-button off"
                       }
                     >
                       <span className="fa fa-star" />

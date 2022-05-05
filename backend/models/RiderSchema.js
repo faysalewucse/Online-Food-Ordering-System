@@ -63,6 +63,7 @@ const RiderSchema = new mongoose.Schema({
       res_latlong: {
         type: String,
       },
+      status: { type: String },
       result: {
         type: Object,
       },

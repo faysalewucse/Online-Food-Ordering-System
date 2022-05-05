@@ -2,8 +2,15 @@ import React, { useState, useEffect } from "react";
 import "../css/DeliveryStatus.css";
 import { ProgressBar } from "react-bootstrap";
 import io from "socket.io-client";
+import { fetchPrivateData } from "../api/resdata";
 
-function DeliveryStatus({ order_id, user }) {
+function DeliveryStatus({
+  order_id,
+  user,
+  setUser,
+  setAllRestaurent,
+  setCartCount,
+}) {
   const [status, setStatus] = useState();
   const [del_time, setDelTime] = useState(0);
   const [item, setItem] = useState();
@@ -52,8 +59,8 @@ function DeliveryStatus({ order_id, user }) {
     socket.on("orderUpdated", (data) => {
       setStatus(data.status);
       localStorage.setItem("loadOrders", true);
+      fetchPrivateData(setUser, setAllRestaurent, setCartCount);
       data.time ?? setDelTime(data.time);
-      console.log(status);
     });
   }
 
@@ -114,7 +121,9 @@ function DeliveryStatus({ order_id, user }) {
                 now={
                   status === "Cooking"
                     ? "75"
-                    : status === "Delivered" || "Completed"
+                    : status === "Delivered"
+                    ? "100"
+                    : status === "Completed"
                     ? "100"
                     : "0.5"
                 }
@@ -123,10 +132,12 @@ function DeliveryStatus({ order_id, user }) {
             <div
               style={{
                 opacity:
-                  status === "Delivered" || "Completed"
-                    ? "1"
-                    : status === "Cooking"
+                  status === "Cooking"
                     ? "0.5"
+                    : status === "Delivered"
+                    ? "1"
+                    : status === "Completed"
+                    ? "1"
                     : "0.5",
               }}
               className="col text-center"
@@ -137,23 +148,33 @@ function DeliveryStatus({ order_id, user }) {
             <div
               style={{
                 opacity:
-                  status === "Delivered" || "Completed"
+                  status === "Delivered"
                     ? "1"
-                    : status === "Cooking"
-                    ? "0.5"
+                    : status === "Completed"
+                    ? "1"
                     : "0.5",
               }}
               className="col progress--line"
             >
               <ProgressBar
                 animated
-                now={status === "Delivered" || "Completed" ? "75" : "0.5"}
+                now={
+                  status === "Delivered"
+                    ? "75"
+                    : status === "Completed"
+                    ? "100"
+                    : "0.5"
+                }
               />
             </div>
             <div
               style={{
                 opacity:
-                  status === "Completed" ? "1" : "Delivered" ? "0.5" : "0.5",
+                  status === "Completed"
+                    ? "1"
+                    : status === "Delivered"
+                    ? "0.5"
+                    : "0.5",
               }}
               className="col text-center"
             >

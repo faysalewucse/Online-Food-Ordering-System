@@ -32,6 +32,7 @@ const {
   update_rider_orders,
   rider_avail_update,
   get_order_state,
+  updatestatus_rider,
 } = require("../controllers/auth");
 
 router.route("/register").post(register);
@@ -49,6 +50,7 @@ router.route("/updatestatus_user").put(up_status_user);
 router.route("/updatestatus_restaurent").put(up_status_restaurent);
 router.route("/update_rider_orders").put(update_rider_orders);
 router.route("/updatestatus_user_deli").put(up_status_user_deli);
+router.route("/updatestatus_rider").put(updatestatus_rider);
 router.route("/rider_avail_update").put(rider_avail_update);
 router.route("/update_review_status").put(update_review_status);
 router.route("/updatestatus_restaurent_deli").put(up_status_restaurent_deli);
