@@ -9,7 +9,7 @@ import { fetchRiderData } from "../api/resdata";
 function RiderPage({ rider, setRider, setAllRestaurent }) {
   const [value, setValue] = useState(rider.availibility);
 
-  const orderCompleted = async (order_id, res_email, user_email) => {
+  const orderCompleted = async (order_id, res_email, user_email, result) => {
     const updateUserResState = async (order_id, res_email, user_email) => {
       await axios.put("/api/auth/updatestatus_user_deli", {
         order_id: order_id,
@@ -27,6 +27,29 @@ function RiderPage({ rider, setRider, setAllRestaurent }) {
         rider_email: rider.email,
         status: "completed",
       });
+
+      for (let index = 0; index < result.length; index++) {
+        const res = await axios.post("/api/auth/get_res", {
+          res_mail: res_email,
+        });
+
+        console.log(res);
+
+        let sold;
+        await res.data.items.forEach((item) => {
+          if (item._id === result[index].food_id) {
+            sold = item.sold;
+            console.log(sold);
+          }
+        });
+
+        await axios.put("/api/auth/increase_item_sell", {
+          food_id: result[index].food_id,
+          res_email: res_email,
+          sold: parseInt(sold) + 1,
+        });
+      }
+
       fetchRiderData(setRider, setAllRestaurent);
     };
 
@@ -34,12 +57,11 @@ function RiderPage({ rider, setRider, setAllRestaurent }) {
       const data = await axios.get("/api/auth/get_order_state", {
         params: { res_email: res_email },
       });
-      console.log(data.data[0].orders);
+
       if (data.data[0].orders) {
         data.data[0].orders.forEach((order) => {
           console.log(order);
           if (order.order_id === order_id) {
-            console.log(order.status);
             if (order.status === "Delivered") {
               updateUserResState(order_id, res_email, user_email);
             } else {
@@ -60,8 +82,6 @@ function RiderPage({ rider, setRider, setAllRestaurent }) {
       setTimeout(() => {}, 5000);
     }
   };
-
-  console.log(value);
 
   let orders,
     order_length = 0;
@@ -120,7 +140,8 @@ function RiderPage({ rider, setRider, setAllRestaurent }) {
                     orderCompleted(
                       order.order_id,
                       order.result[0].res_email,
-                      order.user_email
+                      order.user_email,
+                      order.result
                     )
                   }
                   className="rider-confirm-btn text-center"

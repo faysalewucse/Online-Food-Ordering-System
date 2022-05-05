@@ -57,10 +57,11 @@ function FoodCard(props) {
         alt="Card image cap"
         style={{ width: "100%", height: "20vh", objectFit: "cover" }}
       />
-      <div className="card-body">
+      <div className="card-body text-center">
         <h4 className="card-title text-success">{props.food_name}</h4>
         <h6 className="card-title cost">BDT: {props.food_price} /-</h6>
-        <small className="fa fa-person-biking">: {props.delivery} Tk</small>
+        <h6 className="card-title">Sold: {props.sold}</h6>
+        <small className="fa fa-person-biking">: {15} Tk</small>
         <br />
         {[...Array(5)].map((star, index) => {
           index += 1;

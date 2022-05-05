@@ -469,6 +469,7 @@ exports.updatestatus_rider = async (req, res, next) => {
     res.status(400).send(error.message);
   }
 };
+
 exports.up_status_restaurent_deli = async (req, res, next) => {
   const { order_id, res_mail, status } = req.body;
 
@@ -556,6 +557,32 @@ exports.getAllRes = async (req, res, next) => {
 exports.getAllUser = async (req, res, next) => {
   try {
     const files = await User.find();
+    res.status(200).send(files);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+exports.increase_item_sell = async (req, res, next) => {
+  const { food_id, res_email, sold } = req.body;
+
+  console.log(req.body);
+
+  try {
+    const files = await Restaurent.updateOne(
+      { res_email: res_email, "items._id": food_id },
+      { $set: { "items.$.sold": sold } }
+    );
+    res.status(200).send(files);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+exports.get_res = async (req, res, next) => {
+  const { res_mail } = req.body;
+  try {
+    const files = await Restaurent.findOneAndUpdate({ res_email: res_mail });
     res.status(200).send(files);
   } catch (error) {
     res.status(400).send(error.message);

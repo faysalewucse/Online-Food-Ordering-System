@@ -12,6 +12,9 @@ const RestaurentCard = (props) => {
     navigate(`/${url}`);
   }
 
+  let totalSold = 0;
+  props.items.forEach(({ sold }) => (totalSold += parseInt(sold)));
+
   return (
     <div
       className="card"
@@ -26,17 +29,9 @@ const RestaurentCard = (props) => {
       <div className="card-body">
         <h6 className="card-title">
           {props.res_name}
-          {` (${props.sold})`}
+          {` (${totalSold})`}
         </h6>
-        <small className="fa fa-person-biking">
-          : {props.delivery_charge} Tk
-        </small>
-        <br />
-        <span className="fa fa-star checked" />
-        <span className="fa fa-star checked" />
-        <span className="fa fa-star checked" />
-        <span className="fa fa-star checked" />
-        <span className="fa fa-star" />
+        <small className="fa fa-person-biking">: {15} Tk</small>
       </div>
     </div>
   );
