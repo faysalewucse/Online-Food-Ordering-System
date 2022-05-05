@@ -6,6 +6,7 @@ import MuiAlert from "@mui/material/Alert";
 import { Modal } from "react-bootstrap";
 import "../css/ShopPage.css";
 import Select from "react-select";
+import Levenshtein from "levenshtein";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -126,31 +127,16 @@ function ShopPage(props) {
     if (newArray) setFoodsArray(newArray);
   };
 
-  const searchSort = () => {
-    Array.closest = (function () {
-      function levenshtein(s, t) {
-        if (!s.food_name.length) return t.food_name.length;
-        if (!t.food_name.length) return s.food_name.length;
+  const searchSort = (value) => {
+    function compare(a, b) {
+      var leva = new Levenshtein(a.food_name, searchkey).distance;
+      var levb = new Levenshtein(b.food_name, searchkey).distance;
+      return leva - levb;
+    }
 
-        return Math.min(
-          levenshtein(
-            (s.substring(1), t) + 1,
-            levenshtein(
-              (t.substring(1), s) + 1,
-              levenshtein(
-                (s.substring(1), t.substring(1)) + (s[0] !== t[0] ? 1 : 0)
-              )
-            )
-          )
-        );
-      }
-
-      return function (arr, str) {
-        return arr.sort(function (a, b) {
-          return levenshtein((a, str) - levenshtein((b, str)));
-        });
-      };
-    })();
+    var searchkey = value;
+    var copyArray = foodsArray;
+    setFoodsArray([...copyArray].sort(compare));
   };
 
   const aquaticCreatures = [
@@ -184,9 +170,9 @@ function ShopPage(props) {
                 placeholder="Search Food"
                 value="Doe"
                 data={searchData}
-                onSelect={(record) => console.log(record.item.value)}
-                inputBackgroundColor="#128db3"
-                inputFontColor="white"
+                onSelect={(record) => searchSort(record.item.value)}
+                inputBackgroundColor="white"
+                inputFontColor="black"
                 inputFontSize="20px"
               />
             </div>

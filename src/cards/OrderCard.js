@@ -162,7 +162,7 @@ function OrderCard({
 
 function SetTimeModal(props) {
   const [del_time, setDeliveryTime] = useState(10);
-  const [riderEmail, setRiderEmail] = useState();
+  const [riderEmail, setRiderEmail] = useState("null");
 
   const orderConfirmed = async (e) => {
     try {
@@ -254,7 +254,10 @@ function SetTimeModal(props) {
             placeholder="Select Rider"
             onChange={(e) => setRiderEmail(e.value)}
           />
-          <div className="status--box-confirm" onClick={orderConfirmed}>
+          <div
+            className="status--box-confirm"
+            onClick={riderEmail !== "null" && orderConfirmed}
+          >
             Confirm
           </div>
         </div>
