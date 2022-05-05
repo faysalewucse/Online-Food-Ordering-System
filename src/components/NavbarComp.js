@@ -157,7 +157,14 @@ export default function NavbarComp({
         <Routes>
           <Route
             path="/"
-            element={<Home user={user} restaurent={restaurent} rider={rider} />}
+            element={
+              <Home
+                user={user}
+                restaurent={restaurent}
+                rider={rider}
+                allrestaurent={allrestaurent}
+              />
+            }
           />
           <Route path="/about" element={<About />} />
           <Route path="/notFound" element={<NotFound />} />
@@ -324,59 +331,59 @@ export default function NavbarComp({
           />
         </Routes>
       </div>
-      <div>
-        <footer className="bg-dark text-center text-white">
-          <div className="container p-4 pb-0">
-            <section className="">
-              <form action="">
-                <div className="row d-flex justify-content-center">
-                  <div className="col-md-4">
-                    <div className="row">
-                      <h3>FoodsBD for Business</h3>
-                      <h6>Add Your Restaurent & Make Money</h6>
-                    </div>
-                    {localStorage.getItem("authTokenRes") == null ? (
-                      <div className="row">
-                        <div className="col">
-                          <Nav.Link
-                            as={Link}
-                            to={"/addrestaurent"}
-                            className="business--btn--reg"
-                            style={{ color: "black" }}
-                          >
-                            Register
-                          </Nav.Link>
-                        </div>
-                        <div className="col">
-                          <Nav.Link
-                            as={Link}
-                            to={"/restaurentlogin"}
-                            className="business--btn--login"
-                            style={{ color: "white" }}
-                          >
-                            Login
-                          </Nav.Link>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="row">
-                        <div className="col d-flex justify-content-center">
-                          <Nav.Link
-                            as={Link}
-                            onClick={reslogoutHandler}
-                            to={"/"}
-                            className="business--btn--logout"
-                            style={{ color: "white", width: "20vw" }}
-                          >
-                            Logout
-                          </Nav.Link>
-                        </div>
-                      </div>
-                    )}
+
+      <footer className="bg-dark text-center text-white">
+        <div className="container p-4 pb-0">
+          <section className="">
+            <form action="">
+              <div className="row d-flex justify-content-center">
+                <div className="col-md-4">
+                  <div className="row">
+                    <h3>FoodsBD for Business</h3>
+                    <h6>Add Your Restaurent & Make Money</h6>
                   </div>
-                  <div className="col-4"></div>
-                  <div className="col-md-4">
-                    {/* <div>
+                  {localStorage.getItem("authTokenRes") == null ? (
+                    <div className="row">
+                      <div className="col">
+                        <Nav.Link
+                          as={Link}
+                          to={"/addrestaurent"}
+                          className="business--btn--reg"
+                          style={{ color: "black" }}
+                        >
+                          Register
+                        </Nav.Link>
+                      </div>
+                      <div className="col">
+                        <Nav.Link
+                          as={Link}
+                          to={"/restaurentlogin"}
+                          className="business--btn--login"
+                          style={{ color: "white" }}
+                        >
+                          Login
+                        </Nav.Link>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="row">
+                      <div className="col d-flex justify-content-center">
+                        <Nav.Link
+                          as={Link}
+                          onClick={reslogoutHandler}
+                          to={"/"}
+                          className="business--btn--logout"
+                          style={{ color: "white", width: "20vw" }}
+                        >
+                          Logout
+                        </Nav.Link>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div className="col-4"></div>
+                <div className="col-md-4">
+                  {/* <div>
                       <h6>JavaScript</h6>
                       <h6>NodeJs</h6>
                       <h6>MongoDB</h6>
@@ -391,62 +398,61 @@ export default function NavbarComp({
                       <h6>CSS</h6>
                       <h6>React Bootstrap</h6>
                     </div> */}
-                    <div>
-                      <h3>Are you like to ride?</h3>
-                      <h6>Create an Account for make your profession</h6>
-                    </div>
-                    {localStorage.getItem("authTokenRider") == null ? (
-                      <div className="row">
-                        <div className="col">
-                          <Nav.Link
-                            as={Link}
-                            to={"/rider_registration"}
-                            className="business--btn--reg"
-                            style={{ color: "black" }}
-                          >
-                            Register
-                          </Nav.Link>
-                        </div>
-                        <div className="col">
-                          <Nav.Link
-                            as={Link}
-                            to={"/riderlogin"}
-                            className="business--btn--login"
-                            style={{ color: "white" }}
-                          >
-                            Login
-                          </Nav.Link>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="row">
-                        <div className="col d-flex justify-content-center">
-                          <Nav.Link
-                            as={Link}
-                            onClick={riderlogoutHandler}
-                            to={"/"}
-                            className="business--btn--logout"
-                            style={{ color: "white", width: "20vw" }}
-                          >
-                            Logout
-                          </Nav.Link>
-                        </div>
-                      </div>
-                    )}
+                  <div>
+                    <h3>Are you like to ride?</h3>
+                    <h6>Create an Account for make your profession</h6>
                   </div>
+                  {localStorage.getItem("authTokenRider") == null ? (
+                    <div className="row">
+                      <div className="col">
+                        <Nav.Link
+                          as={Link}
+                          to={"/rider_registration"}
+                          className="business--btn--reg"
+                          style={{ color: "black" }}
+                        >
+                          Register
+                        </Nav.Link>
+                      </div>
+                      <div className="col">
+                        <Nav.Link
+                          as={Link}
+                          to={"/riderlogin"}
+                          className="business--btn--login"
+                          style={{ color: "white" }}
+                        >
+                          Login
+                        </Nav.Link>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="row">
+                      <div className="col d-flex justify-content-center">
+                        <Nav.Link
+                          as={Link}
+                          onClick={riderlogoutHandler}
+                          to={"/"}
+                          className="business--btn--logout"
+                          style={{ color: "white", width: "20vw" }}
+                        >
+                          Logout
+                        </Nav.Link>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </form>
-            </section>
-          </div>
+              </div>
+            </form>
+          </section>
+        </div>
 
-          <div
-            className="text-center p-3 mt-3"
-            style={{ backgroundColor: "rgba(0, 0, 0, 0.0)" }}
-          >
-            © 2022 Copyright: <strong>AAF Production</strong>
-          </div>
-        </footer>
-      </div>
+        <div
+          className="text-center p-3 mt-3"
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.0)" }}
+        >
+          © 2022 Copyright: <strong>AAF Production</strong>
+        </div>
+      </footer>
     </Router>
   );
 }
