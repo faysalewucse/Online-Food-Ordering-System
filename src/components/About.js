@@ -10,44 +10,35 @@ function About() {
           <h1>About FoodsBD</h1>
           <hr style={{ height: 5, color: "green" }} />
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut
-            ducimus sequi praesentium, quos ad deleniti aspernatur, aliquid
-            provident dolorem nostrum harum non. Ipsam itaque repellendus
-            doloremque magni tempora mollitia corporis deserunt ratione?
-            Distinctio quos quod repellat voluptate consequatur delectus nemo
-            exercitationem! Velit voluptatibus, animi tempora magni repellendus
-            expedita vitae natus, rem obcaecati placeat et accusantium culpa eos
-            earum est beatae nihil odio quasi ducimus minus. Molestias quasi
-            earum soluta optio exercitationem. Consequatur ullam aperiam
-            laboriosam voluptatum! Tempora beatae, quia nesciunt ratione vero
-            eum? Facere cum nostrum culpa et voluptatibus pariatur, in
-            consequuntur ullam iste natus eligendi, nam cumque numquam
-            repellendus!
+            Our Heritage Our story begins in 2005 along the cobblestone streets
+            of Seattle’s historic Pike Place Market. It was here where FoodsBD
+            opened its first store, offering fresh-roasted Burger,Kacchi and
+            spices from around the world for our customers to take home. Our
+            name was inspired by the classic tale, “Food-Panda,” evoking the
+            seafaring tradition of the early Burger traders.
           </p>
 
           <h6>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro
-            provident eveniet ipsum cupiditate a blanditiis repellat nemo
-            voluptas aspernatur iusto, pariatur perferendis accusantium, quo
-            incidunt at officia non dignissimos quia. Error doloribus eius ab
-            officiis, tenetur iure pariatur delectus vel amet nihil facere
-            recusandae! Porro sunt explicabo accusamus maxime repellendus.
+            Ten years later, a young man named Faysak Ahmed would walk through
+            these doors and become captivated with FoodsBD Burger from his first
+            sip. After joining the company in 2010, a different cobblestone road
+            would lead him to another discovery. It was on a trip to Milan in
+            2012 that Faysal first experienced Bangaladeshi Burgerhouses, and he
+            returned to Seattle inspired to bring the warmth and artistry of its
+            Burger culture to FoodsBD . By 2015, we swapped our brown aprons for
+            green ones and embarked on our next chapter as a Burgerhouse.
           </h6>
 
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut
-            ducimus sequi praesentium, quos ad deleniti aspernatur, aliquid
-            provident dolorem nostrum harum non. Ipsam itaque repellendus
-            doloremque magni tempora mollitia corporis deserunt ratione?
-            Distinctio quos quod repellat voluptate consequatur delectus nemo
-            exercitationem! Velit voluptatibus, animi tempora magni repellendus
-            expedita vitae natus, rem obcaecati placeat et accusantium culpa eos
-            earum est beatae nihil odio quasi ducimus minus. Molestias quasi
-            earum soluta optio exercitationem. Consequatur ullam aperiam
-            laboriosam voluptatum! Tempora beatae, quia nesciunt ratione vero
-            eum? Facere cum nostrum culpa et voluptatibus pariatur, in
-            consequuntur ullam iste natus eligendi, nam cumque numquam
-            repellendus!
+            FoodsBD would soon expand to Chitagong and sylhet, Rajshahi and then
+            on to CoxsBazar. By 2018, we would cross the Pacific to open our
+            first store in Japan, followed by Europe in 2021 and China in 2022.
+            Over the next one decades, we would grow to welcome millions of
+            customers each week and become a part of the fabric of tens of
+            thousands of neighborhoods all around the world. In everything we
+            do, we are always dedicated to Our Mission: to inspire and nurture
+            the human spirit – one person, one cup, and one neighborhood at a
+            time.
           </p>
 
           <h4 className="read--more">Read More</h4>

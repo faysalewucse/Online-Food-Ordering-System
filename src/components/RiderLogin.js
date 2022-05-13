@@ -125,7 +125,7 @@ const RiderLogin = ({ setRider }) => {
             ></input>
             <h6>
               Don't Have an Account?{" "}
-              <span onClick={() => navigate("/register")} id="sign--up">
+              <span onClick={() => navigate("/rider_registration")} id="sign--up">
                 Sign Up
               </span>
             </h6>
