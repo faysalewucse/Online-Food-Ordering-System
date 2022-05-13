@@ -1,3 +1,6 @@
+.cart-page-container{
+  min-height: 85vh;
+}
 .cart--header {
   font-family: Poppins, sans-serif;
 }
@@ -62,4 +65,12 @@
 
 .cart-empty-text {
   font-family: Poppins, sans-serif;
+}
+
+.final-confirm-btn{
+  margin-top: 13px;
+  background-color: tomato;
+  border-radius: 5px;
+  color: white;
+  padding: 5px 10px;
 }

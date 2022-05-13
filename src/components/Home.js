@@ -10,6 +10,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 export default function Home(props) {
   const [open, setOpen] = React.useState(false);
+  const [msg, setMsg] = React.useState("Logged In Successfully");
   const vertical = "bottom",
     horizontal = "center";
 
@@ -24,6 +25,11 @@ export default function Home(props) {
     if (localStorage.getItem("showSnackbar")) {
       setOpen(true);
       localStorage.removeItem("showSnackbar");
+    }
+    if (localStorage.getItem("mailsent")) {
+      setMsg(localStorage.getItem("mailsent"));
+      setOpen(true);
+      localStorage.removeItem("mailsent");
     }
   });
 
@@ -188,7 +194,7 @@ export default function Home(props) {
         onClose={handleClose}
       >
         <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-          Logged In Successfully
+          {msg}
         </Alert>
       </Snackbar>
     </>

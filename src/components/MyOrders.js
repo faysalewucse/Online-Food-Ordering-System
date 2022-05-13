@@ -4,7 +4,7 @@ import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { addtocart, fetchPrivateData } from "../api/resdata";
 import "../css/MyOrders.css";
-import io from "socket.io-client";
+//import io from "socket.io-client";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
@@ -42,16 +42,6 @@ function MyOrders({
   };
 
   const navigate = useNavigate();
-  // var socket = io();
-  // if (window.location.pathname.includes("myorders")) {
-  //   socket.emit("join", "user_orders");
-  //   socket.on("userOrder", (data) => {
-  //     console.log(data.status);
-  //     setOpen(true);
-  //     fetchPrivateData(setUser, setAllRestaurent, setCartCount);
-  //     setStatus(data.status);
-  //   });
-  // }
 
   const [orderAgainModalShow, setOrderAgainModalShow] = useState(false);
   const [orderID, setORDERID] = useState();

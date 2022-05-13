@@ -28,6 +28,23 @@ const App = () => {
     fetchResData(setRestaurent, setOrdersCount);
   }, []);
 
+  let total = 0,
+    pending = 0,
+    totalSpent = 0;
+  if (user) {
+    user.my_orders.forEach((order) => {
+      order.result.forEach((item) => {
+        totalSpent += parseInt(item.food_price);
+      });
+      total += 1;
+      if (order.status === "Cooking" || order.status === "Delivered")
+        pending += 1;
+    });
+    localStorage.setItem("totalOrder", total);
+    localStorage.setItem("pendingOrder", pending);
+    localStorage.setItem("totalSpent", totalSpent);
+  }
+
   return (
     <div className="App">
       <NavbarComp

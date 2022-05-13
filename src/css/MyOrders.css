@@ -1,5 +1,5 @@
 .delivery-status-container {
-  height: 80vh;
+  min-height: 80vh;
 }
 .styled-table {
   border-collapse: collapse;

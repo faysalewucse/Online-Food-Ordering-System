@@ -46,5 +46,3 @@ module.exports = sendEmail;
 //     }
 //   });
 // };
-
-module.exports = sendEmail;

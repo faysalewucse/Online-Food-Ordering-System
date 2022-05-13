@@ -31,8 +31,6 @@ function ShopPage(props) {
   const [reviewsModalShow, setReviewsModalShow] = useState(false);
   const [itemInReviewModel, setItem] = useState();
 
-  let allrestaurent = props.allrestaurent;
-
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;

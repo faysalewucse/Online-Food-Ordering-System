@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../css/RestaurentOrders.css";
 import OrderCard from "../cards/OrderCard";
 import io from "socket.io-client";
@@ -16,14 +16,19 @@ function RestaurentOrders({
   setAllRestaurent,
   setCartCount,
 }) {
-  var socket = io();
-  if (window.location.pathname.includes("orders")) {
-    socket.emit("join", "restaurant_orders");
-    socket.on("riderAvail", (data) => {
-      getAllRider(setAllRider);
-      console.log(allRider);
-    });
-  }
+  // var socket = io();
+  // if (window.location.pathname.includes("orders")) {
+  //   socket.emit("join", "restaurant_orders");
+  //   socket.on("riderAvail", (data) => {
+  //     getAllRider(setAllRider);
+  //     console.log(allRider);
+  //   });
+  // }
+
+  useEffect(() => {
+    getAllRider(setAllRider);
+  }, []);
+
   let orders,
     length = 0;
   if (restaurent.orders) {
@@ -45,6 +50,8 @@ function RestaurentOrders({
             setOrdersCount={setOrdersCount}
             setAllRestaurent={setAllRestaurent}
             setCartCount={setCartCount}
+            getAllRider={getAllRider}
+            setAllRider={setAllRider}
           />
         );
       }

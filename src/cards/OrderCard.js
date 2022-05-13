@@ -5,6 +5,7 @@ import "./OrderCard.css";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { fetchPrivateData, fetchResData, getAllUser } from "../api/resdata";
 import Select from "react-select";
+import { ToastContainer, toast } from "react-toastify";
 
 function OrderCard({
   items,
@@ -15,6 +16,8 @@ function OrderCard({
   setOrdersCount,
   setAllRestaurent,
   setCartCount,
+  getAllRider,
+  setAllRider,
 }) {
   const [timeModalShow, SetTimeModalShow] = useState(false);
 
@@ -155,7 +158,10 @@ function OrderCard({
         setAllUser={setAllUser}
         setAllRestaurent={setAllRestaurent}
         setCartCount={setCartCount}
+        setAllRider={setAllRider}
+        getAllRider={getAllRider}
       />
+      <ToastContainer toastClassName="dark-toast" />
     </div>
   );
 }
@@ -165,8 +171,7 @@ function SetTimeModal(props) {
   const [riderEmail, setRiderEmail] = useState("null");
 
   const orderConfirmed = async (e) => {
-    try {
-      //console.log(props.user_mail);
+    const statusTrueConfirmOrder = async (props, del_time, riderEmail) => {
       var current_time = new Date();
       await axios.put("/api/auth/updatestatus_user", {
         order_id: props.order_id,
@@ -212,8 +217,27 @@ function SetTimeModal(props) {
       );
       getAllUser(props.setAllUser);
       props.setTimeModalShow(false);
-    } catch (error) {
-      throw error;
+    };
+
+    try {
+      const rider = await axios.post("/api/auth/get_rider", {
+        rider_mail: riderEmail,
+      });
+
+      if (rider.data.availibility === "true") {
+        statusTrueConfirmOrder(props, del_time, riderEmail);
+      } else {
+        toast.error("Rider is Not Available", {
+          position: "top-center",
+        });
+        setTimeout(() => {}, 5000);
+      }
+    } catch (e) {
+      // toast.error("Error Occured", {
+      //   position: "top-center",
+      // });
+      // setTimeout(() => {}, 5000);
+      console.log(e);
     }
   };
 
@@ -252,6 +276,8 @@ function SetTimeModal(props) {
             className="mb-3"
             options={aquaticCreatures}
             placeholder="Select Rider"
+            onMenuOpen={() => props.getAllRider(props.setAllRider)}
+            onMenuClose={() => props.getAllRider(props.setAllRider)}
             onChange={(e) => setRiderEmail(e.value)}
           />
           <div

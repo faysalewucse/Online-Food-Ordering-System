@@ -26,8 +26,7 @@ exports.login = async (req, res, next) => {
     const isMatch = await user.matchPassword(password);
 
     if (!isMatch) {
-      sendToken(user, 401, res);
-      return next(new ErrorResponse("Invalid credentials", 401));
+      return next(new ErrorResponse("Password Does Not Match", 401));
     }
 
     sendToken(user, 201, res);
@@ -117,20 +116,10 @@ exports.forgotpassword = async (req, res, next) => {
     const resetUrl = `http://localhost:3000/passwordreset/${resetToken}`;
 
     // HTML Message
-    const message = `
-    <h1>You have requested a password reset</h1>
-    <p>Please make a put request to the following link:</p>
-    <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
-    `;
+    const message = `Visit this link ${resetUrl} to reset your password`;
 
     try {
-      const from = "faysal.ewucse@gmail.com";
-      const to = email;
-
-      const subject = "Reset FoodsBD Password";
-      await sendEmail(to, from, subject, message);
-
-      res.status(200).json({ success: true, data: "Email Sent" });
+      res.status(200).json({ success: true, data: message });
     } catch (err) {
       user.resetPasswordToken = undefined;
       user.resetPasswordExpire = undefined;
@@ -147,7 +136,7 @@ exports.forgotpassword = async (req, res, next) => {
 exports.resetpassword = async (req, res, next) => {
   const resetPasswordToken = crypto
     .createHash("sha256")
-    .update(req.params.resetToken)
+    .update(req.body.resetToken)
     .digest("hex");
 
   try {
@@ -166,11 +155,7 @@ exports.resetpassword = async (req, res, next) => {
 
     await user.save();
 
-    res.status(201).json({
-      success: true,
-      data: "Password Updated Success",
-      token: user.getSignedJwtToken(),
-    });
+    res.status(201).send(user);
   } catch (err) {
     next(err);
   }
@@ -311,6 +296,28 @@ exports.updatefood = async (req, res, next) => {
     res.status(400).send(error.message);
   }
 };
+
+exports.update_user_name = async (req, res, next) => {
+  const { newName, user_mail } = req.body;
+
+  try {
+    const user = await User.findOneAndUpdate(
+      {
+        email: user_mail,
+      },
+      {
+        $set: {
+          name: newName,
+        },
+      }
+    );
+
+    sendToken(user, 201, res);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 exports.up_status_user = async (req, res, next) => {
   const { order_id, user_mail, delivery_time, rider_mail, time } = req.body;
   const eventEmitter = req.app.get("eventEmitter");
@@ -507,10 +514,10 @@ exports.rider_avail_update = async (req, res, next) => {
         },
       }
     );
-    const eventEmitter = req.app.get("eventEmitter");
-    eventEmitter.emit("riderAvail", {
-      status: rider,
-    });
+    // const eventEmitter = req.app.get("eventEmitter");
+    // eventEmitter.emit("riderAvail", {
+    //   status: rider,
+    // });
     sendToken(rider, 201, res);
   } catch (error) {
     console.log("Error");
@@ -584,6 +591,17 @@ exports.get_res = async (req, res, next) => {
   try {
     const files = await Restaurent.findOneAndUpdate({ res_email: res_mail });
     res.status(200).send(files);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+exports.get_rider = async (req, res, next) => {
+  const { rider_mail } = req.body;
+  try {
+    const rider = await Rider.findOne({ email: rider_mail });
+    console.log(rider);
+    res.status(200).send(rider);
   } catch (error) {
     res.status(400).send(error.message);
   }

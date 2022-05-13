@@ -51,7 +51,7 @@ const Login = ({ setUser }) => {
       );
 
       localStorage.setItem("authToken", data.token);
-      localStorage.setItem("showSnackbar", true);
+      localStorage.setItem("showSnackbar", "Logged In Successfully");
 
       fetchPrivateDate();
       navigate("/");

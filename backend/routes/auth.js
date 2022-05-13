@@ -35,6 +35,8 @@ const {
   updatestatus_rider,
   increase_item_sell,
   get_res,
+  get_rider,
+  update_user_name,
 } = require("../controllers/auth");
 
 router.route("/register").post(register);
@@ -44,9 +46,10 @@ router.route("/login").post(login);
 router.route("/riderlogin").post(riderlogin);
 router.route("/reslogin").post(reslogin);
 router.route("/forgotpassword").post(forgotpassword);
-router.route("/resetpassword/:resetToken").put(resetpassword);
+router.route("/resetpassword").put(resetpassword);
 
 router.route("/updatefood").put(upload.single("file"), updatefood);
+router.route("/update_user_name").put(update_user_name);
 router.route("/deletefood").put(deletefood);
 router.route("/updatestatus_user").put(up_status_user);
 router.route("/updatestatus_restaurent").put(up_status_restaurent);
@@ -70,6 +73,7 @@ router.post("/resregister", upload.single("file"), resregister);
 
 router.get("/getallres", getAllRes);
 router.post("/get_res", get_res);
+router.post("/get_rider", get_rider);
 router.get("/get_order_state", get_order_state);
 router.get("/getalluser", getAllUser);
 router.get("/getallrider", getAllRider);

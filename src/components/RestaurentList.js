@@ -3,34 +3,23 @@ import RestaurentCard from "../cards/RestaurentCard";
 import "../css/RestaurentList.css";
 import ReactSearchBox from "react-search-box";
 import { getAllRes } from "../api/resdata";
+import Levenshtein from "levenshtein";
 
 function RestaurentList(props) {
   useEffect(() => {
     getAllRes(props.setAllRestaurent);
+    setResArray(props.allrestaurent);
   }, []);
 
-  const data = [
-    {
-      key: "john",
-      value: "John Doe",
-    },
-    {
-      key: "jane",
-      value: "Jane Doe",
-    },
-    {
-      key: "mary",
-      value: "Mary Phillips",
-    },
-    {
-      key: "robert",
-      value: "Robert",
-    },
-    {
-      key: "karius",
-      value: "Karius",
-    },
-  ];
+  let [resArray, setResArray] = useState();
+
+  let data = [{}];
+  for (let index in resArray) {
+    data.push({
+      key: resArray[index].res_name.toLowerCase().replace(/\s+/g, ""),
+      value: resArray[index].res_name,
+    });
+  }
 
   let restaurents;
   if (props.allrestaurent) {
@@ -46,6 +35,19 @@ function RestaurentList(props) {
     });
   }
 
+  const searchSort = (value) => {
+    function compare(a, b) {
+      var leva = new Levenshtein(a.res_name, searchkey).distance;
+      var levb = new Levenshtein(b.res_name, searchkey).distance;
+      return leva - levb;
+    }
+
+    var searchkey = value;
+    var copyArray = resArray;
+    props.setAllRestaurent([...copyArray].sort(compare));
+  };
+
+  console.log(data);
   return (
     <div className="p-4 container">
       <div className="row mb-5">
@@ -72,22 +74,15 @@ function RestaurentList(props) {
             <div className="col">
               <ReactSearchBox
                 className="react-search-box"
-                placeholder="Search Restaurent"
+                placeholder="Search Restaurent..........."
                 value="Doe"
                 data={data}
-                callback={(record) => console.log(record)}
-                inputBackgroundColor="#128db3"
-                inputFontColor="white"
+                onSelect={(record) => searchSort(record.item.value)}
+                inputBackgroundColor="#fffff"
+                inputFontColor="black"
                 inputFontSize="20px"
+                inputHeight="50px"
               />
-            </div>
-            <div className="box col">
-              <select>
-                <option>Delivery Charge</option>
-                <option>Name</option>
-                <option>Rating</option>
-                <option>Popularity</option>
-              </select>
             </div>
           </div>
           <div className="row">

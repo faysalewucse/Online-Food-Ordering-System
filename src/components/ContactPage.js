@@ -1,7 +1,32 @@
-import React from "react";
+import React, { useRef } from "react";
 import "../css/ContactPage.css";
+import emailjs from "@emailjs/browser";
+import { useNavigate } from "react-router-dom";
 
 function ContactPage() {
+  const form = useRef();
+  const navigate = useNavigate();
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    emailjs
+      .sendForm(
+        "service_3v0w01r",
+        "template_7o3awvk",
+        form.current,
+        "YiqxE4MGs2K72WJZl"
+      )
+      .then(
+        (result) => {
+          localStorage.setItem("mailsent", "Mail Sent Successfully");
+          navigate("/");
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  };
+
   return (
     <div className="contact-page">
       <div className="container contact-page-container">
@@ -33,22 +58,33 @@ function ContactPage() {
               tutorial, you can send me message from here. It's my pleasure to
               help you.
             </p>
-            <form action="#">
+            <form ref={form} onSubmit={sendEmail}>
               <div className="input-box">
-                <input required type="text" placeholder="Enter your name" />
+                <input
+                  required
+                  type="text"
+                  placeholder="Enter your name"
+                  name="user_name"
+                />
               </div>
               <div className="input-box">
-                <input required type="text" placeholder="Enter your email" />
+                <input
+                  required
+                  type="text"
+                  placeholder="Enter your email"
+                  name="user_email"
+                />
               </div>
               <div className="input-box message-box">
                 <textarea
                   required
                   type="text"
                   placeholder="Write Your Message"
+                  name="message"
                 />
               </div>
               <div className="button">
-                <input type="button" defaultValue="Send Now" />
+                <input type="submit" defaultValue="Send Now" />
               </div>
             </form>
           </div>

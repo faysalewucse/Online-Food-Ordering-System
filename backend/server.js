@@ -27,6 +27,10 @@ app.use("/api/riderdata", require("./routes/riderdata"));
 app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 
+if (process.env.NODE_ENV == "production") {
+  app.use(express.static("khaudau/build"));
+}
+
 const server = app.listen(PORT, () =>
   console.log(`Server running on port ${PORT}`)
 );
@@ -49,10 +53,10 @@ eventEmitter.on("orderUpdated", (data) => {
   io.to(`order_${data.id}`).emit("orderUpdated", data);
 });
 
-eventEmitter.on("riderAvail", (data) => {
-  console.log("EMMIT", data);
-  io.to("restaurant_orders").emit("riderAvail", data);
-});
+// eventEmitter.on("riderAvail", (data) => {
+//   console.log("EMMIT", data);
+//   io.to("restaurant_orders").emit("riderAvail", data);
+// });
 
 // eventEmitter.on("userOrder", (data) => {
 //   console.log("EMMIT", data);

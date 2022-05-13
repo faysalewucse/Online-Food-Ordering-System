@@ -24,7 +24,7 @@ import ContactPage from "./ContactPage";
 import RiderRegister from "./RiderRegister";
 import ReviewPage from "./ReviewPage";
 import NotFound from "./NotFound";
-import Dashboard from "./Dashboard";
+//import Dashboard from "./Dashboard";
 import RiderLogin from "./RiderLogin";
 import RiderPage from "./RiderPage";
 
@@ -119,6 +119,11 @@ export default function NavbarComp({
                     >
                       {user ? "Profile" : restaurent ? "My Shop" : "My Orders"}
                     </NavDropdown.Item>
+                    <NavDropdown.Item href="/myorders">
+                      My Orders
+                    </NavDropdown.Item>
+                    <NavDropdown.Item href="/">Settings</NavDropdown.Item>
+                    <NavDropdown.Divider />
                     <NavDropdown.Item
                       onClick={
                         user
@@ -131,11 +136,6 @@ export default function NavbarComp({
                     >
                       Logout
                     </NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.3">
-                      Settings
-                    </NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item href="#">Separated link</NavDropdown.Item>
                   </NavDropdown>
                 </Nav>
               ) : (
@@ -169,7 +169,7 @@ export default function NavbarComp({
           <Route path="/about" element={<About />} />
           <Route path="/notFound" element={<NotFound />} />
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="/adminDash" element={<Dashboard />} />
+          {/* <Route path="/adminDash" element={<Dashboard />} /> */}
           <Route path="/forgotpassword" element={<ForgotPasswordScreen />} />
           <Route
             path="/passwordreset/:resetToken"
@@ -179,7 +179,17 @@ export default function NavbarComp({
           {/* User Routes */}
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/profile" element={<Profile user={user} />} />
+          <Route
+            path="/profile"
+            element={
+              <Profile
+                user={user}
+                setUser={setUser}
+                setAllRestaurent={setAllRestaurent}
+                setCartCount={setCartCount}
+              />
+            }
+          />
           <Route
             path="/cart"
             element={
