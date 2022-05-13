@@ -1,3 +1,6 @@
+.status-box{
+  min-height: 60vh;
+}
 .status-box .row {
   margin: 100px 0px 100px 0px;
   align-items: center;
@@ -7,4 +10,9 @@
 }
 .progress--line {
   border-radius: 10px;
+}
+
+.order-cancel-res-btn:hover{
+  cursor: pointer;
+  background-color: rgb(0, 151, 0);
 }

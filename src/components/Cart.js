@@ -39,6 +39,7 @@ function Cart({ user, setCartCount, setUser, setAllRestaurent, cart_count }) {
           fetchPrivateData(setUser, setAllRestaurent, setCartCount);
           fetchResData(setAllRestaurent, setCartCount);
           localStorage.setItem("loadOrders", true);
+          localStorage.setItem("orderSent", true);
           navigate("/myorders");
         },
         (error) => {

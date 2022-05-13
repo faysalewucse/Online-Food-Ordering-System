@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../css/RestaurentOrders.css";
 import OrderCard from "../cards/OrderCard";
 import io from "socket.io-client";
@@ -29,6 +30,7 @@ function RestaurentOrders({
     getAllRider(setAllRider);
   }, []);
 
+  const navigate = useNavigate();
   let orders,
     length = 0;
   if (restaurent.orders) {

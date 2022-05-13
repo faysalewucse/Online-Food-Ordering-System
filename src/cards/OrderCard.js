@@ -57,7 +57,7 @@ function OrderCard({
 
   const orderDeliveredorCanceled = async (status) => {
     try {
-      await axios.put("/api/auth/updatestatus_user_deli", {
+      const data = await axios.put("/api/auth/updatestatus_user_deli", {
         order_id: items.order_id,
         user_mail: items.user.email,
         status: status,

@@ -119,9 +119,9 @@ export default function NavbarComp({
                     >
                       {user ? "Profile" : restaurent ? "My Shop" : "My Orders"}
                     </NavDropdown.Item>
-                    <NavDropdown.Item href="/myorders">
+                    {user && <NavDropdown.Item href="/myorders">
                       My Orders
-                    </NavDropdown.Item>
+                    </NavDropdown.Item>}
                     <NavDropdown.Item href="/">Settings</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item

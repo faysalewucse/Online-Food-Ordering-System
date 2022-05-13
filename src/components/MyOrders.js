@@ -28,6 +28,10 @@ function MyOrders({
       fetchPrivateData(setUser, setAllRestaurent, setCartCount);
       localStorage.removeItem("reviewed");
     }
+    if (localStorage.getItem("orderSent")) {
+      setOpen(true);
+      localStorage.removeItem("orderSent");
+    }
   }, []);
 
   const [open, setOpen] = React.useState(false);
@@ -110,9 +114,7 @@ function MyOrders({
         onClose={handleClose}
       >
         <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-          {status === "Canceled"
-            ? "Your Order is Canceled"
-            : "Your Order is Updated One Step"}
+          Your Order has been Sent to the Restaurant Successfully
         </Alert>
       </Snackbar>
       <OrderAgainFloatingModal
