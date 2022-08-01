@@ -1,6 +1,7 @@
 const crypto = require("crypto");
 const Restaurent = require("../models/Restaurents");
 const User = require("../models/User");
+const Post = require("../models/Post");
 const Rider = require("../models/RiderSchema");
 const ErrorResponse = require("../utils/errorResponse");
 const sendEmail = require("../utils/sendEmail");
@@ -162,8 +163,15 @@ exports.resetpassword = async (req, res, next) => {
 };
 
 exports.register = async (req, res, next) => {
-  const { name, email, address, phone, password, lattitude, longitude } =
-    req.body;
+  const {
+    name,
+    email,
+    address,
+    phone,
+    password,
+    lattitude,
+    longitude,
+  } = req.body;
 
   try {
     const user = await User.create({
@@ -183,8 +191,15 @@ exports.register = async (req, res, next) => {
 };
 
 exports.rider_register = async (req, res, next) => {
-  const { name, email, vehicle, address, password, lattitude, longitude } =
-    req.body;
+  const {
+    name,
+    email,
+    vehicle,
+    address,
+    password,
+    lattitude,
+    longitude,
+  } = req.body;
 
   try {
     const rider = await Rider.create({
@@ -832,6 +847,44 @@ exports.emptycart = async (req, res, next) => {
       { multi: true }
     );
     sendToken(user, 201, res);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+exports.addPost = async (req, res, next) => {
+  const {
+    location,
+    con,
+    brand,
+    model,
+    title,
+    description,
+    price,
+    phone,
+  } = req.body;
+
+  console.log(req.body);
+
+  const images = [];
+
+  await req.files.map((file) => {
+    images.push(file.path);
+  });
+
+  try {
+    const post = await Post.create({
+      location: location,
+      condition: con,
+      images: images,
+      brand: brand,
+      model: model,
+      title: title,
+      description: description,
+      price: price,
+      phone: phone,
+    });
+    res.status(200).send(post);
   } catch (error) {
     res.status(400).send(error.message);
   }

@@ -16,6 +16,11 @@ app.set("eventEmitter", eventEmitter);
 
 app.use(bodyParser.json());
 app.use(cors());
+
+app.get("/", (req, res) => {
+  res.send("App is running");
+});
+
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/api/auth", require("./routes/auth"));

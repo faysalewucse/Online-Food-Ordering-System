@@ -7,8 +7,7 @@
     "build": "cd khaudau && npm run build",
     "install-client": "cd khaudau && npm install",
     "heroku-postbuild": "npm run install-client && npm run build",
-    "start": "node server.js",
-    "server": "nodemon server.js"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
@@ -18,7 +17,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.2",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.0",
+    "dotenv": "^16.0.1",
     "ejs": "^3.1.6",
     "express": "^4.17.3",
     "jsonwebtoken": "^8.5.1",

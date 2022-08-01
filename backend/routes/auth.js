@@ -37,6 +37,7 @@ const {
   get_res,
   get_rider,
   update_user_name,
+  addPost,
 } = require("../controllers/auth");
 
 router.route("/register").post(register);
@@ -69,6 +70,7 @@ router.route("/removefromcart").post(removefromcart);
 router.route("/reducefromcart").post(reducefromcart);
 
 router.post("/addfood", upload.single("file"), addfood);
+router.post("/addPost", upload.array("images", 5), addPost);
 router.post("/resregister", upload.single("file"), resregister);
 
 router.get("/getallres", getAllRes);
