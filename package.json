@@ -1,7 +1,7 @@
 {
   "name": "khaudau",
   "version": "0.1.0",
-  "proxy": "http://localhost:5000",
+  "proxy": "https://online-food-delivery-app-mern.herokuapp.com/",
   "private": true,
   "dependencies": {
     "@emailjs/browser": "^3.6.2",
