@@ -1,0 +1,39 @@
+.order--now--btn {
+  background-color: rgb(95, 52, 17);
+  width: 40%;
+  padding: 10px 10px;
+  text-align: center;
+  border-radius: 50px;
+  color: white;
+  font-size: 25px;
+  font-weight: 400;
+  font-family: Poppins, sans-serif;
+}
+
+.dont--wait {
+  font-size: 70px;
+}
+.order--now--btn:hover {
+  background-color: rgb(212, 57, 1);
+  color: beige;
+  cursor: pointer;
+}
+
+.homepage-section {
+  height: 90vh;
+  align-items: center;
+}
+
+.homepage-pizza {
+  width: 120%;
+}
+
+.font-italic {
+  font-style: italic;
+  font-size: 25px;
+  margin-left: 10px;
+}
+
+.search-row {
+  margin-bottom: 50px;
+}

@@ -1,0 +1,141 @@
+.res--cover {
+  position: relative;
+  color: white;
+  padding: 2vh;
+}
+
+.res--cover--image {
+  filter: brightness(0.5);
+  border-radius: 20px;
+}
+
+.top-left {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+  text-align: left;
+  padding: 2vh;
+}
+
+.restaurent--name {
+  font-size: 45px;
+  font-weight: 900;
+}
+
+.edit-text {
+  align-items: center;
+  padding: 0px 40px;
+  font-family: Poppins, sans-serif;
+}
+
+.add--item--btn {
+  background-color: rgb(255, 72, 41);
+  border-radius: 10px;
+  padding: 10px;
+  color: white;
+}
+
+.add--item--btn:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.add--food {
+  margin-left: 10px;
+}
+.food--items {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.food-items-container{
+  min-height: 50vh
+}
+/* .change--food--img {
+  background-color: rgb(201, 174, 21);
+  text-align: center;
+  width: 30%;
+  padding: 5px;
+  margin: 5px 20px;
+  border-radius: 10px;
+  color: white;
+}
+.change--food--img:hover {
+  background-color: rgb(156, 135, 17);
+  cursor: pointer;
+} */
+
+.change--food--input {
+  width: 50%;
+  margin: 5px 20px;
+  border-radius: 10px;
+  padding: 5px 10px;
+  border: 1px solid rgb(156, 135, 17);
+}
+
+.change--food--title {
+  margin-left: 10px;
+}
+
+.update--food--btn {
+  background-color: rgb(36, 190, 36);
+  margin: 10px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 10px;
+  text-align: center;
+  font-family: Poppins, sans-serif;
+  color: rgb(71, 70, 66);
+  width: 95%;
+}
+
+.update--food--btn:hover {
+  background-color: rgb(28, 150, 28);
+  transition: 0.3s;
+  cursor: pointer;
+  color: wheat;
+}
+
+.fa-camera {
+  font-size: 1000%;
+}
+
+.orders--btn {
+  background-color: rgb(41, 255, 123);
+  border-radius: 10px;
+  padding: 14px;
+  margin-right: 5px;
+  color: black;
+  font-family: Josefin, sans-serif;
+}
+
+.orders--btn:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.orders-badge {
+  margin-top: 13px;
+}
+.orders-badge::after {
+  content: attr(value);
+  font-size: 15px;
+  color: #fff;
+  background: rgb(0, 0, 0);
+  border-radius: 50%;
+  padding: 5px 9px;
+  position: relative;
+  left: 80px;
+  top: -55px;
+}
+
+.refresh--btn {
+  font-size: 25px;
+  background-color: rgb(25, 0, 255);
+  padding: 5px;
+  border-radius: 5px;
+  color: white;
+}
+.refresh--btn:hover {
+  background-color: rgb(63, 42, 255);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}

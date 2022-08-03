@@ -1,0 +1,39 @@
+.business--btn--reg {
+  color: black;
+  background-color: yellowgreen;
+  border-radius: 10px;
+  width: 10vw;
+  font-weight: bold;
+  margin-left: auto;
+}
+
+.business--btn--login {
+  color: white;
+  font-weight: bold;
+  background-color: rgb(32, 133, 29);
+  border-radius: 10px;
+  width: 10vw;
+}
+.business--btn--logout {
+  color: white;
+  background-color: rgb(230, 34, 0);
+  font-weight: 700;
+  text-align: center;
+  border-radius: 10px;
+}
+.business--btn--logout:hover {
+  color: white;
+  background-color: rgb(139, 21, 0);
+  font-weight: 700;
+  border-radius: 10px;
+}
+
+.business--btn--reg:hover {
+  background-color: rgb(124, 177, 17);
+  color: white;
+}
+
+.business--btn--login:hover {
+  background-color: rgb(43, 167, 38);
+  color: white;
+}

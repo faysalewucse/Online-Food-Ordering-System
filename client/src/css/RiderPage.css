@@ -1,0 +1,96 @@
+.rider-page{
+    min-height: 80vh;
+    font-family: Poppins, sans-serif;
+}
+
+.rider-order-card{
+    align-items: center;
+    font-family:Righteous, sans-serif;
+    background-color: rgb(221, 212, 199);
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    width: 50%;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+}
+
+.rider-order-card:hover{
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
+}
+
+.rider-confirm-btn{
+    background-color: rgb(0, 161, 0);
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.rider-confirm-btn:hover{
+    background-color: green;
+    cursor: pointer;
+}
+
+.react-switch-checkbox {
+    height: 0;
+    width: 0;
+    visibility: hidden;
+  }
+  
+  .react-switch-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    width: 100px;
+    height: 50px;
+    background: rgb(177, 32, 32);
+    border-radius: 100px;
+    position: relative;
+    transition: background-color .2s;
+  }
+  
+  .react-switch-label .react-switch-button {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 45px;
+    height: 45px;
+    border-radius: 45px;
+    transition: 0.2s;
+    background: #fff;
+    box-shadow: 0 0 2px 0 rgba(10, 10, 10, 0.29);
+  }
+  
+  .react-switch-checkbox:checked + .react-switch-label .react-switch-button {
+    left: calc(100% - 2px);
+    transform: translateX(-100%);
+  }
+  
+  .react-switch-label:active .react-switch-button {
+    width: 60px;
+  }
+
+  .switch-btn{
+      font-family: Poppins, sans-serif;
+      margin-top: 2%;
+  }
+
+  .location{
+    background-color: tomato;
+    padding: 0 10px;
+    border-radius: 5px;
+    color: white;
+    align-items: center;
+  }
+
+  .location:hover{
+    background-color: rgb(160, 47, 27);
+    cursor: pointer;
+  }
+
+  .location:active{
+    background-color: black;
+  }
