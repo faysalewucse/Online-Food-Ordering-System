@@ -38,7 +38,7 @@ export default function RiderRegister() {
 
     try {
       const { data } = await axios.post(
-        "/api/auth/rider_register",
+        "http://localhost:3000/api/auth/rider_register",
         {
           name,
           email,
@@ -67,25 +67,25 @@ export default function RiderRegister() {
         className="rider--register--body"
         style={{ height: "90vh", alignItems: "center" }}
       >
-        <img class="wave" src="images/wave.png" alt="wavepng" />
-        <div class="container" id="form--container">
+        <img className="wave" src="images/wave.png" alt="wavepng" />
+        <div className="container" id="form--container">
           <div className="img">
             <img src="images/undraw_bike_ride.svg" alt="wavepng" />
           </div>
-          <div class="login-content">
+          <div className="login-content">
             <div className="form">
               <img
                 style={{ marginTop: 10 }}
                 src="images/undraw_bike_ride.svg"
                 alt="wavepng"
               />
-              <h2 class="title">Register</h2>
+              <h2 className="title">Register</h2>
               {error && <span className="error-message">{error}</span>}
-              <div onClick={form_effect} class="input-div one">
-                <div class="i">
-                  <i class="fas fa-user"></i>
+              <div onClick={form_effect} className="input-div one">
+                <div className="i">
+                  <i className="fas fa-user"></i>
                 </div>
-                <div class="div">
+                <div className="div">
                   <h5>Name</h5>
                   <input
                     type="text"
@@ -93,15 +93,15 @@ export default function RiderRegister() {
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    class="input"
+                    className="input"
                   ></input>
                 </div>
               </div>
-              <div onClick={form_effect} class="input-div one">
-                <div class="i">
-                  <i class="fas fa-at"></i>
+              <div onClick={form_effect} className="input-div one">
+                <div className="i">
+                  <i className="fas fa-at"></i>
                 </div>
-                <div class="div">
+                <div className="div">
                   <h5>Email</h5>
                   <input
                     name="email"
@@ -109,21 +109,21 @@ export default function RiderRegister() {
                     required
                     onChange={(e) => setEmail(e.target.value)}
                     type="email"
-                    class="input"
+                    className="input"
                   ></input>
                 </div>
               </div>
-              <div onClick={form_effect} class="input-div address">
-                <div class="i">
-                  <i class="fas fa-user"></i>
+              <div onClick={form_effect} className="input-div address">
+                <div className="i">
+                  <i className="fas fa-user"></i>
                 </div>
-                <div class="div">
+                <div className="div">
                   <h5>Address</h5>
                   <input
                     name="address"
                     onChange={(e) => setAddress(e.target.value)}
                     type="text"
-                    class="input"
+                    className="input"
                   ></input>
                 </div>
               </div>
@@ -155,11 +155,11 @@ export default function RiderRegister() {
                 </form>
               </div>
 
-              <div onClick={form_effect} class="input-div pass">
-                <div class="i">
-                  <i class="fas fa-lock"></i>
+              <div onClick={form_effect} className="input-div pass">
+                <div className="i">
+                  <i className="fas fa-lock"></i>
                 </div>
-                <div class="div">
+                <div className="div">
                   <h5>Password</h5>
                   <input
                     name="password"
@@ -167,14 +167,14 @@ export default function RiderRegister() {
                     onChange={(e) => setPassword(e.target.value)}
                     type="password"
                     required
-                    class="input"
+                    className="input"
                   ></input>
                 </div>
               </div>
               <input
                 onClick={riderRegisterHandler}
                 type="submit"
-                class="btn"
+                className="btn"
                 value="Register"
               ></input>
               <h6>

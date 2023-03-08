@@ -57,17 +57,23 @@ function OrderCard({
 
   const orderDeliveredorCanceled = async (status) => {
     try {
-      const data = await axios.put("/api/auth/updatestatus_user_deli", {
-        order_id: items.order_id,
-        user_mail: items.user.email,
-        status: status,
-      });
+      const data = await axios.put(
+        "http://localhost:3000/api/auth/updatestatus_user_deli",
+        {
+          order_id: items.order_id,
+          user_mail: items.user.email,
+          status: status,
+        }
+      );
 
-      await axios.put("/api/auth/updatestatus_restaurent_deli", {
-        order_id: items.order_id,
-        res_mail: items.result[0].res_email,
-        status: status,
-      });
+      await axios.put(
+        "http://localhost:3000/api/auth/updatestatus_restaurent_deli",
+        {
+          order_id: items.order_id,
+          res_mail: items.result[0].res_email,
+          status: status,
+        }
+      );
 
       fetchResData(setRestaurent, setOrdersCount);
       fetchPrivateData(setUser, setAllRestaurent, setCartCount);
@@ -173,7 +179,7 @@ function SetTimeModal(props) {
   const orderConfirmed = async (e) => {
     const statusTrueConfirmOrder = async (props, del_time, riderEmail) => {
       var current_time = new Date();
-      await axios.put("/api/auth/updatestatus_user", {
+      await axios.put("http://localhost:3000/api/auth/updatestatus_user", {
         order_id: props.order_id,
         user_mail: props.user_mail,
         delivery_time: del_time,
@@ -184,18 +190,21 @@ function SetTimeModal(props) {
           current_time.toLocaleTimeString(),
       });
 
-      await axios.put("/api/auth/updatestatus_restaurent", {
-        order_id: props.order_id,
-        res_mail: props.res_mail,
-        delivery_time: del_time,
-        rider_mail: riderEmail,
-        time:
-          current_time.toLocaleDateString("en-US") +
-          " " +
-          current_time.toLocaleTimeString(),
-      });
+      await axios.put(
+        "http://localhost:3000/api/auth/updatestatus_restaurent",
+        {
+          order_id: props.order_id,
+          res_mail: props.res_mail,
+          delivery_time: del_time,
+          rider_mail: riderEmail,
+          time:
+            current_time.toLocaleDateString("en-US") +
+            " " +
+            current_time.toLocaleTimeString(),
+        }
+      );
 
-      await axios.put("/api/auth/update_rider_orders", {
+      await axios.put("http://localhost:3000/api/auth/update_rider_orders", {
         order_id: props.order_id,
         rider_mail: riderEmail,
         result: props.result,
@@ -220,9 +229,12 @@ function SetTimeModal(props) {
     };
 
     try {
-      const rider = await axios.post("/api/auth/get_rider", {
-        rider_mail: riderEmail,
-      });
+      const rider = await axios.post(
+        "http://localhost:3000/api/auth/get_rider",
+        {
+          rider_mail: riderEmail,
+        }
+      );
 
       if (rider.data.availibility === "true") {
         statusTrueConfirmOrder(props, del_time, riderEmail);

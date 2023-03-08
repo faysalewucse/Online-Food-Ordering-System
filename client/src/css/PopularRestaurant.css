@@ -1,0 +1,44 @@
+.popular-restaurant {
+  font-family: "Poppins", sans-serif;
+}
+.res-card {
+  background-color: rgba(246, 246, 246, 0.583);
+  cursor: pointer;
+  padding: 0;
+  border-radius: 20px;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-out;
+}
+
+.res-card:hover {
+  transform: scale(105%);
+}
+
+.res-img {
+  width: 100%;
+  border-radius: 20px 20px 0 0;
+  object-fit: cover;
+}
+
+.enter-res-btn {
+  background: linear-gradient(#49ca45 0%, #38ac33 100%) transparent !important;
+  padding: 5px 20px;
+  border-radius: 5px;
+  color: white;
+}
+
+.all-res-btn {
+  background: linear-gradient(#49ca45 0%, #38ac33 100%) transparent !important;
+  width: 15%;
+  padding: 10px;
+  border-radius: 10px;
+  color: white;
+  margin: 0 auto;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.all-res-btn:hover {
+  cursor: pointer;
+  box-shadow: 0px 5px 15px rgba(123, 226, 119, 0.763);
+}

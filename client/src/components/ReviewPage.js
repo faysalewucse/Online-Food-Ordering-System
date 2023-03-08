@@ -64,7 +64,7 @@ function ReviewPage({ order_id, user }) {
   const postReview = async () => {
     reviews.forEach(async (item) => {
       try {
-        await axios.post("/api/auth/postreview", {
+        await axios.post("http://localhost:3000/api/auth/postreview", {
           res_email: orders.result[0].res_email,
           food_id: item.id,
           review: item.review,
@@ -76,10 +76,13 @@ function ReviewPage({ order_id, user }) {
     });
     try {
       // Update Review Status
-      const { data } = await axios.put("/api/auth/update_review_status", {
-        user_mail: user.email,
-        order_id: orders.order_id,
-      });
+      const { data } = await axios.put(
+        "http://localhost:3000/api/auth/update_review_status",
+        {
+          user_mail: user.email,
+          order_id: orders.order_id,
+        }
+      );
 
       if (data) {
         localStorage.setItem("reviewed", true);

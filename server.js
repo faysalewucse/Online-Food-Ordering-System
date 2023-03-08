@@ -11,11 +11,11 @@ connectDB();
 
 const app = express();
 
+app.use(cors());
+app.use(bodyParser.json());
+
 const eventEmitter = new Emmiter();
 app.set("eventEmitter", eventEmitter);
-
-app.use(bodyParser.json());
-app.use(cors());
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
@@ -60,13 +60,3 @@ io.on("connection", (socket) => {
 eventEmitter.on("orderUpdated", (data) => {
   io.to(`order_${data.id}`).emit("orderUpdated", data);
 });
-
-// eventEmitter.on("riderAvail", (data) => {
-//   console.log("EMMIT", data);
-//   io.to("restaurant_orders").emit("riderAvail", data);
-// });
-
-// eventEmitter.on("userOrder", (data) => {
-//   console.log("EMMIT", data);
-//   io.to("user_orders").emit("userOrder", data);
-// });

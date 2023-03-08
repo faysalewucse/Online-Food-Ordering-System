@@ -1,0 +1,43 @@
+.order-procedure {
+  font-family: "Poppins", sans-serif;
+}
+.order-procedure-card {
+  padding: 10px;
+}
+
+.order-procedure-card .col img {
+  width: 50%;
+}
+.order-procedure-card h4 {
+  font-weight: bold;
+}
+.order-procedure-card p {
+  width: 30px;
+  height: 30px;
+  margin: 30px auto;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed #38ac33;
+}
+
+@media screen and (max-width: 767px) {
+  .order-procedure-card {
+    padding: 0;
+  }
+  .order-procedure-card h4 {
+    font-size: 0.8rem;
+  }
+  .order-procedure-card p {
+    width: 20px;
+    height: 20px;
+    margin: 30px auto;
+    border-radius: 50%;
+    display: flex;
+    font-size: small;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed #38ac33;
+  }
+}

@@ -1,0 +1,18 @@
+.healthy-food {
+  font-family: "Poppins", sans-serif;
+}
+
+.healthy-food h1 {
+  font-size: 60px;
+}
+
+.healthy-food p {
+  margin: 30px 0;
+}
+
+.healthy-food .reviewer {
+  background-color: rgba(246, 246, 246, 0.583);
+  padding: 10px 20px;
+  border-radius: 20px;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+}

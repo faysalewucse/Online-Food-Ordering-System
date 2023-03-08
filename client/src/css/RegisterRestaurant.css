@@ -1,0 +1,213 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+
+.register-restaurant {
+  font-family: "Poppins", sans-serif;
+  overflow-x: hidden;
+  padding: 50px 0;
+  z-index: -1;
+}
+
+.register-restaurant .row {
+  max-width: 100rem;
+  margin: 0 auto;
+}
+
+.signup-form {
+  z-index: 1;
+  box-shadow: 5px 5px 25px rgba(255, 255, 255, 0.3);
+  width: 650px;
+  margin: 30px auto;
+  border-radius: 10px;
+}
+
+.form-header {
+  background-color: #1b1e21;
+  border-radius: 10px 10px 0 0px;
+}
+
+.form-header h1 {
+  font-size: 30px;
+  text-align: center;
+  color: white;
+  padding: 20px 0;
+}
+
+/*---------------------------------------*/
+/* Form Body */
+/*---------------------------------------*/
+.form-body {
+  padding: 10px 40px;
+  color: #1b1e21;
+  text-align: left;
+  background-color: #1b1e21;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-body .label-title {
+  color: white;
+  font-size: 17px;
+}
+
+.form-body .form-input {
+  font-size: 17px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 34px;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #333333;
+  text-align: left;
+  border: 1px solid #d6d6d6;
+  border-radius: 4px;
+  background: white;
+  outline: none;
+}
+
+.horizontal-group .left {
+  float: left;
+  width: 49%;
+}
+
+.horizontal-group .right {
+  float: right;
+  width: 49%;
+}
+
+input[type="file"] {
+  outline: none;
+  cursor: pointer;
+  font-size: 17px;
+}
+
+::-webkit-input-placeholder {
+  color: #d9d9d9;
+}
+
+/*---------------------------------------*/
+/* Form Footer */
+/*---------------------------------------*/
+.signup-form .form-footer {
+  background-color: #1b1e21;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 10px 40px;
+  text-align: right;
+  border-top: 1px solid #cccccc;
+}
+
+.form-footer span {
+  float: left;
+  margin-top: 10px;
+  color: white;
+  font-style: italic;
+  font-weight: thin;
+}
+
+.create-btn {
+  width: 100%;
+  padding: 5px;
+  margin: 20px 0;
+  font-size: large;
+  font-weight: normal;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+}
+.advise-to-add-res {
+  background-color: #1b1e21;
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+}
+
+/* --------- */
+/* Modal Css */
+/* --------- */
+.success {
+  background-color: #1b1e21e1;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-confirm {
+  color: #636363;
+  width: 325px;
+  font-size: 14px;
+  background-color: white;
+}
+.modal-confirm .modal-content {
+  padding: 20px;
+  border-radius: 5px;
+  border: none;
+}
+.modal-confirm .modal-header {
+  border-bottom: none;
+  position: relative;
+}
+.modal-confirm h4 {
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+  margin: 30px 0 -15px;
+}
+.modal-confirm .form-control,
+.modal-confirm .btn {
+  min-height: 40px;
+  border-radius: 3px;
+}
+.modal-confirm .close {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+}
+.modal-confirm .modal-footer {
+  border: none;
+  text-align: center;
+  border-radius: 5px;
+  font-size: 13px;
+}
+.modal-confirm .icon-box {
+  color: #fff;
+  position: absolute;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  top: -70px;
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+  z-index: 9;
+  background: linear-gradient(#49ca45 0%, #38ac33 100%) transparent !important;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+}
+.modal-confirm .icon-box i {
+  font-size: 58px;
+  position: relative;
+  top: 3px;
+}
+.modal-confirm.modal-dialog {
+  margin-top: 80px;
+}
+.modal-confirm .btn {
+  color: #fff;
+  border-radius: 4px;
+  background: linear-gradient(#49ca45 0%, #38ac33 100%) transparent !important;
+  text-decoration: none;
+  transition: all 0.4s;
+  line-height: normal;
+  border: none;
+}
+.modal-confirm .btn:hover,
+.modal-confirm .btn:focus {
+  background: linear-gradient(#4ed64a 0%, #3dc039 100%) transparent !important;
+  outline: none;
+}
+.trigger-btn {
+  display: inline-block;
+  margin: 100px auto;
+}

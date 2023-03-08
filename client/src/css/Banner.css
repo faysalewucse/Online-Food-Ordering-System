@@ -1,0 +1,133 @@
+@keyframes speed {
+  from {
+    margin-left: 200;
+  }
+  to {
+    margin-left: 0;
+  }
+}
+.banner {
+  background: #1b1e21 !important;
+  font-family: Poppins, sans-serif;
+  z-index: 0;
+}
+
+.banner .container {
+  padding: 120px 0px;
+}
+.blury-green,
+.blury-red,
+.blury-green2,
+.blury-red2 {
+  position: absolute;
+  height: 100px;
+  width: 300px;
+  filter: blur(100px);
+  opacity: 0.9;
+  z-index: -1;
+  transform: rotate(20deg);
+}
+
+.blury-red2 {
+  background-color: tomato;
+  top: 50vh;
+  right: 15vw;
+}
+
+.blury-green2 {
+  background-color: #38ac33;
+  top: 15vh;
+  right: 10vw;
+}
+.blury-red {
+  background-color: tomato;
+  top: 20vh;
+  left: 10vw;
+}
+
+.blury-green {
+  background-color: #38ac33;
+  top: 65vh;
+  left: 20vw;
+}
+.banner-text {
+  font-size: 4rem;
+  font-weight: 700;
+  color: white;
+}
+
+.banner-par {
+  text-align: justify;
+}
+.delivery-man {
+  animation: speed 2s ease-out;
+}
+.order-now-btn {
+  padding: 10px 40px;
+  text-align: center;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 25px;
+  font-weight: 700;
+  transition: 0.3s;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  background: linear-gradient(#49ca45 0%, #38ac33 100%) transparent !important;
+}
+
+.order-now-btn:hover {
+  box-shadow: 5px 5px 20px rgba(131, 188, 124, 0.3);
+  background: linear-gradient(#49ca45 0%, #38ac33 100%) transparent !important;
+  color: white;
+}
+
+@media screen and (max-width: 1399px) {
+  .banner-text {
+    font-size: 3em;
+  }
+  .order-now-btn {
+    font-size: 0.9rem;
+  }
+}
+@media screen and (max-width: 1199px) {
+  .banner-text {
+    font-size: 2.5em;
+  }
+  .order-now-btn {
+    font-size: 0.8rem;
+  }
+}
+@media screen and (max-width: 991px) {
+  .banner-text {
+    font-size: 2em;
+  }
+  .order-now-btn {
+    font-size: 0.8rem;
+    padding: 5px 20px;
+    border-radius: 5px;
+  }
+}
+@media screen and (max-width: 767px) {
+  .banner .container {
+    padding: 50px 0px;
+    text-align: center;
+  }
+
+  .banner-par {
+    padding: 10px;
+  }
+  .banner-text {
+    font-size: 4rem;
+    text-align: center;
+  }
+  .banner-btns {
+    justify-content: center;
+  }
+
+  .order-now-btn {
+    font-size: 1.5rem;
+    padding: 5px 20px;
+    border-radius: 5px;
+  }
+}

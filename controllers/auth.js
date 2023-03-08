@@ -9,7 +9,6 @@ const mongoose = require("mongoose");
 
 exports.login = async (req, res, next) => {
   const { email, password } = req.body;
-
   // Check if email and password is provided
   if (!email || !password) {
     return next(new ErrorResponse("Please provide an email and password", 400));
@@ -114,7 +113,7 @@ exports.forgotpassword = async (req, res, next) => {
     await user.save();
 
     // Create reset url to email to provided email
-    const resetUrl = `http://localhost:3000/passwordreset/${resetToken}`;
+    const resetUrl = `http://http://localhost:3000/passwordreset/${resetToken}`;
 
     // HTML Message
     const message = `Visit this link ${resetUrl} to reset your password`;
@@ -163,15 +162,8 @@ exports.resetpassword = async (req, res, next) => {
 };
 
 exports.register = async (req, res, next) => {
-  const {
-    name,
-    email,
-    address,
-    phone,
-    password,
-    lattitude,
-    longitude,
-  } = req.body;
+  const { name, email, address, phone, password, lattitude, longitude } =
+    req.body;
 
   try {
     const user = await User.create({
@@ -191,15 +183,8 @@ exports.register = async (req, res, next) => {
 };
 
 exports.rider_register = async (req, res, next) => {
-  const {
-    name,
-    email,
-    vehicle,
-    address,
-    password,
-    lattitude,
-    longitude,
-  } = req.body;
+  const { name, email, vehicle, address, password, lattitude, longitude } =
+    req.body;
 
   try {
     const rider = await Rider.create({
@@ -218,6 +203,7 @@ exports.rider_register = async (req, res, next) => {
     next(err);
   }
 };
+
 exports.resregister = async (req, res, next) => {
   const {
     name,
@@ -227,11 +213,10 @@ exports.resregister = async (req, res, next) => {
     lattitude,
     longitude,
     res_password,
+    res_contact,
   } = req.body;
 
-  const res_img = req.file.originalname;
-  const res_img_path = req.file.path;
-
+  console.log(req.body);
   const resExist = await Restaurent.findOne({ res_email });
 
   if (resExist) {
@@ -248,17 +233,17 @@ exports.resregister = async (req, res, next) => {
       lattitude,
       longitude,
       res_password,
-      res_img,
-      res_img_path,
+      res_contact,
+      status: false,
     });
 
     restaurent.save();
-
-    sendToken(restaurent, 201, res);
+    res.status(201).json({ success: true, restaurent });
   } catch (err) {
     next(err);
   }
 };
+
 exports.addfood = async (req, res, next) => {
   const { res_email, food_name, food_price } = req.body;
   const food_img = req.file.originalname;
@@ -440,8 +425,6 @@ exports.update_rider_orders = async (req, res, next) => {
 exports.up_status_user_deli = async (req, res, next) => {
   const { order_id, user_mail, status } = req.body;
 
-  console.log(req.body);
-
   const eventEmitter = req.app.get("eventEmitter");
   eventEmitter.emit("orderUpdated", {
     id: order_id,
@@ -517,7 +500,6 @@ exports.up_status_restaurent_deli = async (req, res, next) => {
 exports.rider_avail_update = async (req, res, next) => {
   const { rider_mail, status } = req.body;
 
-  console.log(status);
   try {
     const rider = await Rider.findOneAndUpdate(
       {
@@ -535,7 +517,6 @@ exports.rider_avail_update = async (req, res, next) => {
     // });
     sendToken(rider, 201, res);
   } catch (error) {
-    console.log("Error");
     res.status(400).send(error.message);
   }
 };
@@ -588,8 +569,6 @@ exports.getAllUser = async (req, res, next) => {
 exports.increase_item_sell = async (req, res, next) => {
   const { food_id, res_email, sold } = req.body;
 
-  console.log(req.body);
-
   try {
     const files = await Restaurent.updateOne(
       { res_email: res_email, "items._id": food_id },
@@ -615,7 +594,6 @@ exports.get_rider = async (req, res, next) => {
   const { rider_mail } = req.body;
   try {
     const rider = await Rider.findOne({ email: rider_mail });
-    console.log(rider);
     res.status(200).send(rider);
   } catch (error) {
     res.status(400).send(error.message);
@@ -667,7 +645,6 @@ exports.addtocart = async (req, res, next) => {
     latlong,
   } = req.body;
 
-  console.log("ITEMS", req.body);
   try {
     const user = await User.findOneAndUpdate(
       {
@@ -688,7 +665,7 @@ exports.addtocart = async (req, res, next) => {
         },
       }
     );
-    sendToken(user, 201, res);
+    res.status(200).send(user);
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -853,18 +830,8 @@ exports.emptycart = async (req, res, next) => {
 };
 
 exports.addPost = async (req, res, next) => {
-  const {
-    location,
-    con,
-    brand,
-    model,
-    title,
-    description,
-    price,
-    phone,
-  } = req.body;
-
-  console.log(req.body);
+  const { location, con, brand, model, title, description, price, phone } =
+    req.body;
 
   const images = [];
 
@@ -892,5 +859,5 @@ exports.addPost = async (req, res, next) => {
 
 const sendToken = (user, statusCode, res) => {
   const token = user.getSignedJwtToken();
-  res.status(statusCode).json({ sucess: true, token });
+  res.status(statusCode).json({ accessToken: token, user: user });
 };

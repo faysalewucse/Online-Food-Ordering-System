@@ -1,0 +1,15 @@
+.article-card {
+  text-align: left;
+}
+.article-card img {
+  border-radius: 20px;
+}
+
+.article-card h6 {
+  transition: color 0.2s ease;
+}
+
+.article-card h6:hover {
+  color: gray;
+  cursor: pointer;
+}

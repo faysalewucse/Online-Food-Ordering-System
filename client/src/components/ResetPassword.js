@@ -32,7 +32,7 @@ const ResetPasswordScreen = () => {
     try {
       await axios
         .put(
-          "/api/auth/resetpassword",
+          "http://localhost:3000/api/auth/resetpassword",
           {
             password: password,
             resetToken: window.location.pathname.split("/")[2],

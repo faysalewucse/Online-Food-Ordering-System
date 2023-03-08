@@ -131,7 +131,7 @@ function EditFoodFloatingModal(props) {
 
   const updateFood = async (data) => {
     try {
-      await axios.put("/api/auth/updatefood", data);
+      await axios.put("http://localhost:3000/api/auth/updatefood", data);
     } catch (error) {
       throw error;
     }
@@ -183,7 +183,7 @@ function EditFoodFloatingModal(props) {
             defaultValue={props.food_name}
             onChange={(e) => setFoodName(e.target.value)}
             type="text"
-            class="input"
+            className="input"
             className="change--food--input"
           ></input>
           <h6 className="change--food--title">Price</h6>
@@ -192,7 +192,7 @@ function EditFoodFloatingModal(props) {
             defaultValue={props.food_price}
             onChange={(e) => setFoodPrice(e.target.value)}
             type="number"
-            class="input"
+            className="input"
             className="change--food--input"
           ></input>
         </div>
@@ -219,7 +219,7 @@ function AddFoodFloatingModal(props) {
 
   const singleFileUpload = async (data) => {
     try {
-      await axios.post("/api/auth/addfood", data);
+      await axios.post("http://localhost:3000/api/auth/addfood", data);
     } catch (error) {
       throw error;
     }
@@ -248,7 +248,7 @@ function AddFoodFloatingModal(props) {
     >
       <div>
         <div className="row">
-          <i class="fas fa-camera"></i>
+          <i className="fas fa-camera"></i>
           <div className="add--food horizontal-group">
             <div className="form-group">
               <label htmlFor="choose-file" className="label-title">
@@ -270,7 +270,7 @@ function AddFoodFloatingModal(props) {
             name="food_name"
             onChange={(e) => setFoodName(e.target.value)}
             type="text"
-            class="input"
+            className="input"
             className="change--food--input form-class"
           ></input>
           <h6 className="change--food--title">Price</h6>
@@ -278,7 +278,7 @@ function AddFoodFloatingModal(props) {
             name="food_price"
             onChange={(e) => setFoodPrice(e.target.value)}
             type="number"
-            class="input"
+            className="input"
             className="change--food--input from-class"
           ></input>
         </div>

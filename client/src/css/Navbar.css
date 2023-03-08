@@ -1,0 +1,85 @@
+.navbar {
+  font-size: large;
+  font-family: "Poppins", sans-serif;
+  z-index: 999;
+  background-color: #1b1e21 !important;
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-brand {
+  font-weight: 700 !important;
+  font-size: 2rem !important;
+}
+
+.badge:after {
+  content: attr(value);
+  font-size: 20px;
+  font-family: Poppins, sans-serif;
+  color: rgb(255, 255, 255);
+  border-radius: 50%;
+  padding: 1px 8px;
+  text-align: center;
+  position: relative;
+  left: -8px;
+  top: -10px;
+}
+
+.login-btn,
+.logout-btn {
+  border: none;
+  padding: 10px 40px;
+  border-radius: 10px;
+  background: linear-gradient(#49ca45 0%, #38ac33 100%) transparent !important;
+  color: white;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+
+.logout-btn {
+  background: linear-gradient(#ca4545 0%, #ac3333 100%) transparent !important;
+}
+.login-btn:hover,
+.logout-btn:hover {
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.3);
+  color: white;
+  box-shadow: 0px 0px 20px #38ac33;
+}
+
+.logout-btn:hover {
+  box-shadow: 0px 0px 20px #ac3333;
+}
+.profile-avatar {
+  position: relative;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  border: 2px solid white;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.sub-menu {
+  position: absolute;
+  padding: 10px;
+  width: 280px;
+  right: 5%;
+  bottom: -200px;
+  background-color: white;
+  border-radius: 15px;
+}
+
+.sub-menu li {
+  list-style: none;
+}
+.sub-menu li a:hover {
+  background-color: #37ac334e;
+}
