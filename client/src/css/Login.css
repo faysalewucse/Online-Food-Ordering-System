@@ -1,29 +1,18 @@
-.login--body {
+.login-body {
+  background: linear-gradient(#212529 0%, #4c555f 100%) transparent !important;
   font-family: "Poppins", sans-serif;
   overflow: hidden;
+  z-index: 0;
 }
 
-.wave {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  height: 100%;
-  z-index: -1;
-  position: absolute;
+.form-container .title {
+  color: white;
 }
 
-#form--container {
-  width: 100vw;
-  height: 80vh;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 7rem;
-  padding: 0 2rem;
-}
-
-.img {
+.form-container {
   display: flex;
-  justify-content: flex-end;
+  min-height: 95vh;
+  justify-content: center;
   align-items: center;
 }
 
@@ -137,7 +126,6 @@
   padding: 0.5rem 0.7rem;
   font-size: 1.2rem;
   color: #555;
-  font-family: "poppins", sans-serif;
 }
 
 .input-div.pass {
@@ -168,7 +156,6 @@
   background-size: 200%;
   font-size: 1.2rem;
   color: #fff;
-  font-family: "Poppins", sans-serif;
   text-transform: uppercase;
   margin: 1rem 0;
   cursor: pointer;
@@ -179,12 +166,12 @@
   background-position: right;
 }
 
-#sign--up {
-  color: #2da8cd;
+.sign-up {
+  color: #36d0ff;
 }
 
-#sign--up:hover {
-  color: #1a6880;
+.sign-up:hover {
+  color: #30bde8;
   cursor: pointer;
 }
 

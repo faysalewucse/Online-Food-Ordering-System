@@ -1,0 +1,42 @@
+.subscribe {
+  padding: 150px;
+  font-family: "Poppins", sans-serif;
+  background-image: url("../../public/images/blue-vector.jpg");
+  background-size: cover;
+}
+
+.subscribe h1 {
+  font-size: 50px;
+}
+
+.subscribe p {
+  font-size: 20px;
+}
+
+.subscribe input {
+  padding: 15px 30px;
+  border: none;
+  width: 70%;
+  border-radius: 30px;
+}
+
+.subscribe-btn {
+  background: linear-gradient(#49ca45 0%, #38ac33 100%) transparent !important;
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  position: relative;
+  right: 135px;
+  border-radius: 30px;
+  transition: background-color 0.3s;
+}
+.subscribe-btn:hover {
+  background-color: rgb(100, 217, 106);
+}
+.subscribe input:focus {
+  outline: none;
+}
+
+.ready-to-order {
+  text-align: right;
+}

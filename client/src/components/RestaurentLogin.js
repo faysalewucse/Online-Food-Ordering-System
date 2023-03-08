@@ -25,7 +25,10 @@ const RestaurentLogin = ({ setRestaurent }) => {
     };
 
     try {
-      const { data } = await axios.get("/api/resdata", config);
+      const { data } = await axios.get(
+        "http://localhost:3000/api/resdata",
+        config
+      );
       setRestaurent(data.data);
     } catch (error) {
       localStorage.removeItem("authTokenRes");
@@ -44,7 +47,7 @@ const RestaurentLogin = ({ setRestaurent }) => {
 
     try {
       const { data } = await axios.post(
-        "/api/auth/reslogin",
+        "http://localhost:3000/api/auth/reslogin",
         { res_email, res_password },
         config
       );
@@ -67,42 +70,42 @@ const RestaurentLogin = ({ setRestaurent }) => {
   console.log(localStorage.getItem("authTokenRes"));
   return (
     <div className="login--body">
-      <img class="wave" src="images/wave-orange.png" />
-      <div class="container" id="form--container">
-        <div class="img">
+      <img className="wave" src="images/wave-orange.png" />
+      <div className="container" id="form--container">
+        <div className="img">
           <img src="images/pngegg.png" className="img-fluid" />
         </div>
-        <div class="login-content">
+        <div className="login-content">
           <div className="form">
             <img src="images/chef.png" />
-            <h2 class="title">Login</h2>
-            <div onClick={form_effect} class="input-div one">
-              <div class="i">
-                <i class="fas fa-user"></i>
+            <h2 className="title">Login</h2>
+            <div onClick={form_effect} className="input-div one">
+              <div className="i">
+                <i className="fas fa-user"></i>
               </div>
-              <div class="div">
+              <div className="div">
                 <h5>Email</h5>
                 <input
                   name="email"
                   value={res_email}
                   onChange={(e) => setResEmail(e.target.value)}
                   type="text"
-                  class="input"
+                  className="input"
                 ></input>
               </div>
             </div>
-            <div onClick={form_effect} class="input-div pass">
-              <div class="i">
-                <i class="fas fa-lock"></i>
+            <div onClick={form_effect} className="input-div pass">
+              <div className="i">
+                <i className="fas fa-lock"></i>
               </div>
-              <div class="div">
+              <div className="div">
                 <h5>Password</h5>
                 <input
                   name="password"
                   value={res_password}
                   onChange={(e) => setResPassword(e.target.value)}
                   type="password"
-                  class="input"
+                  className="input"
                 ></input>
               </div>
             </div>
@@ -112,7 +115,7 @@ const RestaurentLogin = ({ setRestaurent }) => {
             <input
               onClick={resloginHandler}
               type="submit"
-              class="btn"
+              className="btn"
               value="Login"
             ></input>
             <h6>

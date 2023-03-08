@@ -1,0 +1,93 @@
+.bg-dark {
+  position: relative;
+  background-color: #212529;
+}
+.start-text {
+  font-size: 4rem;
+  width: 70%;
+  margin: 0 auto;
+  color: #404440;
+}
+
+.dish-card {
+  padding: 30px 20px;
+  background: linear-gradient(
+    0deg,
+    rgba(55, 172, 51, 0) 10%,
+    rgba(56, 172, 51, 0.8715861344537815) 100%
+  );
+  border-radius: 25px;
+  transition: transform 0.3s ease-out;
+}
+
+.dish-card:hover {
+  background: #38ac33;
+  transform: scale(110%);
+  color: white;
+}
+
+.dish-img {
+  width: 100px;
+  height: 100px;
+}
+
+.dish-img-bg {
+  width: 100px;
+  height: 100px;
+  background-color: white;
+  border-radius: 50%;
+  margin: 0 auto;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.dish-card h4 {
+  margin-top: 30px;
+  font-weight: 500;
+  color: white;
+}
+
+.glass-1,
+.glass-2 {
+  position: absolute;
+  height: 20vh;
+  width: 200px;
+  background-color: #38ac33;
+  border-radius: 10px;
+  filter: blur(50px);
+  transform: rotate(30deg);
+  opacity: 0.5;
+}
+
+.glass-1 {
+  top: 100px;
+  left: 100px;
+}
+
+.glass-2 {
+  bottom: 100px;
+  right: 100px;
+}
+
+.arrow {
+  border: 1px solid #38ac33;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  color: #49ca45;
+  transition: all 0.3s;
+}
+
+.arrow:hover {
+  background-color: #369533;
+  color: white;
+}
+@media screen and (max-width: 767px) {
+  .start-text {
+    font-size: 2rem;
+    width: 100%;
+  }
+}

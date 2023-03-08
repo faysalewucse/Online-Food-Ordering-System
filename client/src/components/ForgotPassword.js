@@ -32,7 +32,11 @@ const ForgotPasswordScreen = () => {
 
     try {
       await axios
-        .post("/api/auth/forgotpassword", { email }, config)
+        .post(
+          "http://localhost:3000/api/auth/forgotpassword",
+          { email },
+          config
+        )
         .then((response) => {
           console.log(response.data.data);
           setMsg(response.data.data);

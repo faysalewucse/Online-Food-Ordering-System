@@ -96,7 +96,7 @@ function DeliveryStatus({
                 }}
                 className="col text-center"
               >
-                <i class="fas fa-check-circle"></i>
+                <i className="fas fa-check-circle"></i>
                 <h6>Order Confirmed</h6>
               </div>
               <div style={{ opacity: 1 }} className="col progress--line">
@@ -108,7 +108,7 @@ function DeliveryStatus({
                 }}
                 className="col text-center"
               >
-                <i class="fas fa-pizza-slice"></i>
+                <i className="fas fa-pizza-slice"></i>
                 <h6>Preparing</h6>
               </div>
               <div
@@ -146,7 +146,7 @@ function DeliveryStatus({
                 }}
                 className="col text-center"
               >
-                <i class="fas fa-biking"></i>
+                <i className="fas fa-biking"></i>
                 <h6>Out For Delivery</h6>
               </div>
               <div
@@ -182,7 +182,7 @@ function DeliveryStatus({
                 }}
                 className="col text-center"
               >
-                <i class="fas fa-laugh-wink"></i>
+                <i className="fas fa-laugh-wink"></i>
                 <h6>Complete</h6>
               </div>
             </div>
@@ -215,7 +215,7 @@ function DeliveryStatus({
                     fontSize: "200px",
                     marginBottom: "40px",
                   }}
-                  class="fa-solid fa-ban"
+                  className="fa-solid fa-ban"
                 ></i>
                 <h3
                   style={{ color: "red" }}

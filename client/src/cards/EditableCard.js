@@ -21,7 +21,10 @@ function EditableCard({
 }) {
   const deleteFood = async () => {
     try {
-      await axios.put("/api/auth/deletefood", { res_email, food_id });
+      await axios.put("http://localhost:3000/api/auth/deletefood", {
+        res_email,
+        food_id,
+      });
 
       fetchResData(setRestaurent, setOrdersCount);
     } catch (error) {

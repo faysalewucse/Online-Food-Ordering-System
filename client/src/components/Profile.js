@@ -34,12 +34,12 @@ export default function Profile({
             <h1>{localStorage.getItem("totalOrder")}</h1>
           </div>
           <div className="col dashboard-card">
-            <i class="fa-solid fa-clock dashboard-icon"></i>
+            <i className="fa-solid fa-clock dashboard-icon"></i>
             <h4>Active Order</h4>
             <h1>{localStorage.getItem("pendingOrder")}</h1>
           </div>
           <div className="col dashboard-card">
-            <i class="fa-solid fa-sack-dollar dashboard-icon"></i>
+            <i className="fa-solid fa-sack-dollar dashboard-icon"></i>
             <h4>Total Spent</h4>
             <h1>{localStorage.getItem("totalSpent")}TK</h1>
           </div>
@@ -135,7 +135,7 @@ export default function Profile({
           <i
             onClick={showEditModal}
             style={{ marginLeft: "10px", cursor: "pointer" }}
-            class="fa-solid fa-pen"
+            className="fa-solid fa-pen"
           ></i>
         </h4>
       </div>
@@ -197,7 +197,7 @@ function EditFoodFloatingModal(props) {
 
   const updateName = async () => {
     try {
-      await axios.put("/api/auth/update_user_name", {
+      await axios.put("http://localhost:3000/api/auth/update_user_name", {
         newName: newName,
         user_mail: props.user_mail,
       });
@@ -229,7 +229,7 @@ function EditFoodFloatingModal(props) {
                 defaultValue={newName}
                 onChange={(e) => setNewName(e.target.value)}
                 type="text"
-                class="input"
+                className="input"
                 placeholder={newName}
                 className="change--food--input"
               ></input>

@@ -6,11 +6,9 @@ const jwt = require("jsonwebtoken");
 const RestaurentSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, "Please Provide a Name"],
   },
   res_name: {
     type: String,
-    required: [true, "Please Provide a Restaurent Name"],
   },
   res_email: {
     type: String,
@@ -23,30 +21,24 @@ const RestaurentSchema = new mongoose.Schema({
   },
   res_address: {
     type: String,
-    required: [true, "Please add a Address"],
   },
   lattitude: {
     type: String,
-    required: [true, "Please add a Lattitude"],
   },
   longitude: {
     type: String,
-    required: [true, "Please add a Longitude"],
+  },
+  res_contact: {
+    type: String,
   },
   res_password: {
-    type: String,
-    required: [true, "Please add a password"],
-    minlength: 6,
-    select: false,
-  },
-  res_img: {
-    type: String,
-  },
-  res_img_path: {
     type: String,
   },
   sold: {
     type: String,
+  },
+  status: {
+    type: Boolean,
   },
   items: [
     {

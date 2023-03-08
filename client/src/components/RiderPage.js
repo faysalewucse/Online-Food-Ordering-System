@@ -11,25 +11,28 @@ function RiderPage({ rider, setRider, setAllRestaurent }) {
 
   const orderCompleted = async (order_id, res_email, user_email, result) => {
     const updateUserResState = async (order_id, res_email, user_email) => {
-      await axios.put("/api/auth/updatestatus_user_deli", {
+      await axios.put("http://localhost:3000/api/auth/updatestatus_user_deli", {
         order_id: order_id,
         user_mail: user_email,
         status: "Completed",
       });
-      await axios.put("/api/auth/updatestatus_restaurent_deli", {
-        order_id: order_id,
-        res_mail: res_email,
-        status: "Completed",
-      });
+      await axios.put(
+        "http://localhost:3000/api/auth/updatestatus_restaurent_deli",
+        {
+          order_id: order_id,
+          res_mail: res_email,
+          status: "Completed",
+        }
+      );
 
-      await axios.put("/api/auth/updatestatus_rider", {
+      await axios.put("http://localhost:3000/api/auth/updatestatus_rider", {
         order_id: order_id,
         rider_email: rider.email,
         status: "completed",
       });
 
       for (let index = 0; index < result.length; index++) {
-        const res = await axios.post("/api/auth/get_res", {
+        const res = await axios.post("http://localhost:3000/api/auth/get_res", {
           res_mail: res_email,
         });
 
@@ -43,7 +46,7 @@ function RiderPage({ rider, setRider, setAllRestaurent }) {
           }
         });
 
-        await axios.put("/api/auth/increase_item_sell", {
+        await axios.put("http://localhost:3000/api/auth/increase_item_sell", {
           food_id: result[index].food_id,
           res_email: res_email,
           sold: parseInt(sold) + 1,
@@ -54,9 +57,12 @@ function RiderPage({ rider, setRider, setAllRestaurent }) {
     };
 
     try {
-      const data = await axios.get("/api/auth/get_order_state", {
-        params: { res_email: res_email },
-      });
+      const data = await axios.get(
+        "http://localhost:3000/api/auth/get_order_state",
+        {
+          params: { res_email: res_email },
+        }
+      );
 
       if (data.data[0].orders) {
         data.data[0].orders.forEach((order) => {
@@ -105,7 +111,7 @@ function RiderPage({ rider, setRider, setAllRestaurent }) {
                     >
                       <i
                         style={{ color: "white", fontSize: "25px" }}
-                        class="fa-solid fa-map-location-dot"
+                        className="fa-solid fa-map-location-dot"
                       ></i>
                     </a>
                   </div>
@@ -127,7 +133,7 @@ function RiderPage({ rider, setRider, setAllRestaurent }) {
                     >
                       <i
                         style={{ color: "white", fontSize: "25px" }}
-                        class="fa-solid fa-map-location-dot"
+                        className="fa-solid fa-map-location-dot"
                       ></i>
                     </a>
                   </div>
@@ -158,7 +164,7 @@ function RiderPage({ rider, setRider, setAllRestaurent }) {
 
   const setAvailibility = async (rider_mail) => {
     setValue(value === "true" ? "false" : "true");
-    await axios.put("/api/auth/rider_avail_update", {
+    await axios.put("http://localhost:3000/api/auth/rider_avail_update", {
       rider_mail: rider_mail,
       status: value === "true" ? "false" : "true",
     });
@@ -176,7 +182,7 @@ function RiderPage({ rider, setRider, setAllRestaurent }) {
                   <i className="fa badge fa-lg" value={2}>
                     <i
                       style={{ fontSize: "20px" }}
-                      class="fa-solid fa-bell"
+                      className="fa-solid fa-bell"
                     ></i>
                   </i>
                 </Nav.Link>
@@ -184,7 +190,7 @@ function RiderPage({ rider, setRider, setAllRestaurent }) {
             </Navbar.Collapse>
           </Container>
         </Navbar>
-        <div class="container">
+        <div className="container">
           <div className="switch-btn d-flex justify-content-between">
             <h3>I'm Not Available to Receive Order</h3>
             <div>
