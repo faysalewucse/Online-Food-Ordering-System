@@ -1,5 +1,5 @@
 import { apiSlice } from "../api/apiSlice";
-import { setRestaurants } from "./restaurantSlice";
+import { setRestaurants, setRestaurantStatusTrue } from "./restaurantSlice";
 
 export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -7,6 +7,7 @@ export const authApi = apiSlice.injectEndpoints({
       query: () => {
         return "/api/auth/getallres";
       },
+      providesTags: ["Restaurants"],
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
@@ -34,7 +35,19 @@ export const authApi = apiSlice.injectEndpoints({
         console.log(await queryFulfilled);
       },
     }),
+    makeStatusTrue: builder.mutation({
+      query: (email) => ({
+        url: "/api/auth/makestatustrue",
+        method: "PUT",
+        body: email,
+      }),
+      invalidatesTags: ["Restaurants"],
+    }),
   }),
 });
 
-export const { useGetRestaurantsQuery, useAddRestaurantMutation } = authApi;
+export const {
+  useGetRestaurantsQuery,
+  useAddRestaurantMutation,
+  useMakeStatusTrueMutation,
+} = authApi;

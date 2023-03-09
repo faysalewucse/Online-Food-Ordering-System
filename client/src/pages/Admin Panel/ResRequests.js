@@ -1,7 +1,12 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
-import { useGetRestaurantsQuery } from "../../features/restaurant/restaurantApi";
-import Button1 from "../../utils/Button1";
+import {
+  useGetRestaurantsQuery,
+  useMakeStatusTrueMutation,
+} from "../../features/restaurant/restaurantApi";
+import LoadingButton from "../../utils/LoadingButton";
+import { ToastContainer, toast } from "react-toastify";
+import PrimaryButton from "../../utils/PrimaryButton";
 
 export default function ResRequests() {
   // Initialize variables
@@ -15,6 +20,8 @@ export default function ResRequests() {
   const [modalVisible, setModalVisibility] = useState(false);
   // get all restaurant requests from rtk
   const { data: restaurants, isLoading, error } = useGetRestaurantsQuery();
+  const [makeStatusTrue, { data, isLoading: loading, error: responseError }] =
+    useMakeStatusTrueMutation();
 
   // Restaurant accept handler function
   const acceptHandler = (name, email) => {
@@ -24,7 +31,12 @@ export default function ResRequests() {
   };
 
   // Finallu confirm acceptance and send email
-  const finalcceptHandler = () => {
+  const finalcceptHandler = async () => {
+    await makeStatusTrue({ email });
+    sendEmail();
+  };
+
+  const sendEmail = () => {
     emailjs
       .sendForm(
         process.env.REACT_APP_EMAILJS_SERVICE_ID,
@@ -34,14 +46,23 @@ export default function ResRequests() {
       )
       .then(
         (result) => {
-          setModalVisibility(!modalVisible);
+          if (result.success === 200) {
+            toast.success(
+              "Successfully sent an email to the Restaurant business email.",
+              {
+                position: "top-center",
+              }
+            );
+          }
+          setModalVisibility(false);
         },
         (error) => {
-          console.log(error.text);
+          toast.error(error.text, {
+            position: "top-center",
+          });
         }
       );
   };
-
   //  What to render
   let content = "";
   if (isLoading) {
@@ -60,45 +81,50 @@ export default function ResRequests() {
           </tr>
         </thead>
         <tbody>
-          {restaurants.map(
-            (
-              {
-                _id,
-                name,
-                res_name,
-                res_email,
-                res_address,
-                lattitude,
-                longitude,
-                res_contact,
-              },
-              index
-            ) => {
-              return (
-                <tr key={_id}>
-                  <td>{index + 1}</td>
-                  <td>
-                    <h6>
-                      <b>Owner:</b> {name}
-                    </h6>
-                    <h6>
-                      <b>Restaurant:</b> {res_name}
-                    </h6>
-                    <h6>
-                      <b>Email:</b> {res_email}
-                    </h6>
-                    <h6>
-                      <b>Address:</b> {res_address}
-                    </h6>
-                  </td>
-                  <td>11/1/2023</td>
-                  <td onClick={() => acceptHandler(name, res_email)}>
-                    <Button1 text="Accept" />
-                  </td>
-                </tr>
-              );
-            }
-          )}
+          {restaurants
+            .filter((restaurant) => !restaurant.status)
+            .map(
+              (
+                {
+                  _id,
+                  name,
+                  res_name,
+                  res_email,
+                  res_address,
+                  lattitude,
+                  longitude,
+                  res_contact,
+                },
+                index
+              ) => {
+                return (
+                  <tr key={_id}>
+                    <td>{index + 1}</td>
+                    <td>
+                      <h6>
+                        <b>Owner:</b> {name}
+                      </h6>
+                      <h6>
+                        <b>Restaurant:</b> {res_name}
+                      </h6>
+                      <h6>
+                        <b>Email:</b> {res_email}
+                      </h6>
+                      <h6>
+                        <b>Address:</b> {res_address}
+                      </h6>
+                      <h6>
+                        <b>Phone:</b> {res_contact}
+                      </h6>
+                    </td>
+                    <td>11/1/2023</td>
+                    <td onClick={() => acceptHandler(name, res_email)}>
+                      <PrimaryButton text="Accept" />
+                    </td>
+                  </tr>
+                );
+              }
+            )}
         </tbody>
       </table>
     );
@@ -117,7 +143,9 @@ export default function ResRequests() {
               them for acceptance to bussiness with us.
             </p>
             <div className="text-right" onClick={finalcceptHandler}>
-              <Button1 text="Sure">Sure!</Button1>
+              <LoadingButton loading={loading} text="Sure">
+                Sure!
+              </LoadingButton>
             </div>
             <form ref={form} className="hidden">
               <input type="text" defaultValue={name} name="name" />
@@ -127,6 +155,7 @@ export default function ResRequests() {
           </div>
         </div>
       )}
+      <ToastContainer toastClassName="dark-toast" />
     </div>
   );
 }
