@@ -4,37 +4,39 @@ import { Nav } from "react-bootstrap";
 import { makeFormEffect } from "../components/FormStyle";
 import { ToastContainer, toast } from "react-toastify";
 import BlockLoadingButton from "../utils/BlockLoadingButton";
-import { useLoginMutation } from "../features/auth/authApi";
+import { useRestaurantLoginMutation } from "../features/restaurant/restaurantApi";
 import "react-toastify/dist/ReactToastify.css";
 import "../css/Login.css";
 
-const Login = () => {
+const RestaurantLogin = () => {
   const form_effect = () => {
     makeFormEffect();
   };
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [res_email, setEmail] = useState("");
+  const [res_password, setPassword] = useState("");
 
-  const [login, { data, isLoading, error: responseError }] = useLoginMutation();
+  const [restaurantLogin, { data, isLoading, error: responseError }] =
+    useRestaurantLoginMutation();
 
   const navigate = useNavigate();
   useEffect(() => {
     if (responseError?.data) {
-      console.log(responseError);
       toast.error(responseError.data.error, { position: "top-center" });
     }
-    if (data?.accessToken && data?.user) {
+    if (data?.accessToken && data?.restaurant) {
       navigate("/");
     }
   }, [data, responseError, navigate]);
 
+  console.log(data);
+
   const loginHandler = async (e) => {
     e.preventDefault();
 
-    login({
-      email,
-      password,
+    restaurantLogin({
+      res_email,
+      res_password,
     });
   };
 
@@ -46,7 +48,7 @@ const Login = () => {
         <div className="login-content">
           <div className="form">
             <img src="images/undraw_profile.svg" alt="profile" />
-            <h2 className="title">Login</h2>
+            <h2 className="title">Restaurant</h2>
             <div onClick={form_effect} className="input-div one">
               <div className="i">
                 <i className="fas fa-user"></i>
@@ -55,7 +57,7 @@ const Login = () => {
                 <h5>Email</h5>
                 <input
                   name="email"
-                  value={email}
+                  value={res_email}
                   onChange={(e) => setEmail(e.target.value)}
                   type="text"
                   className="input"
@@ -70,7 +72,7 @@ const Login = () => {
                 <h5>Password</h5>
                 <input
                   name="password"
-                  value={password}
+                  value={res_password}
                   onChange={(e) => setPassword(e.target.value)}
                   type="password"
                   className="input"
@@ -100,4 +102,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default RestaurantLogin;

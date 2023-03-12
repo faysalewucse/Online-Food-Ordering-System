@@ -12,6 +12,7 @@ import Footer from "./components/Footer";
 import Restaurants from "./components/Restaurents";
 import Panel from "./pages/Admin Panel/Panel";
 import AdminAuth from "./pages/Admin Panel/AdminAuth";
+import RestaurantLogin from "./pages/RestaurantLogin";
 
 const App = () => {
   const authChecked = useAuthCheck();
@@ -32,6 +33,14 @@ const App = () => {
             element={
               <PublicRoute>
                 <Login />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/res-login"
+            element={
+              <PublicRoute>
+                <RestaurantLogin />
               </PublicRoute>
             }
           />

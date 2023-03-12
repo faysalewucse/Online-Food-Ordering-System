@@ -73,7 +73,7 @@ export default function PopularRestaurant() {
                   <div className="w-full flex justify-center gap-5 items-center">
                     <div className="flex gap-2 items-center">
                       <span>
-                        <i class="fa-solid fa-truck"></i>
+                        <i className="fa-solid fa-truck"></i>
                       </span>
                       <h5 className="mb-0">{restaurant.delivery_time} min.</h5>
                     </div>

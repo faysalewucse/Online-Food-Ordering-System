@@ -1,8 +1,11 @@
 import React from "react";
 
-export default function Button1({ text, loading }) {
+export default function Button1({ text, loading, extraClass, onClickHandler }) {
   return (
-    <button className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">
+    <button
+      onClick={onClickHandler}
+      className={`bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 ${extraClass}`}
+    >
       {loading && (
         <div
           className="mr-2 inline-block h-4 w-4 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
@@ -13,7 +16,7 @@ export default function Button1({ text, loading }) {
           </span>
         </div>
       )}
-      {text}
+      {!loading && text}
     </button>
   );
 }

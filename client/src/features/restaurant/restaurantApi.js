@@ -1,19 +1,30 @@
 import { apiSlice } from "../api/apiSlice";
-import { setRestaurants, setRestaurantStatusTrue } from "./restaurantSlice";
+import { setRestaurants, restaurantLoggedIn } from "./restaurantSlice";
 
 export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getRestaurants: builder.query({
-      query: () => {
-        return "/api/auth/getallres";
-      },
-      providesTags: ["Restaurants"],
+    restaurantLogin: builder.mutation({
+      query: (data) => ({
+        url: "/api/auth/reslogin",
+        method: "POST",
+        body: data,
+      }),
+
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
+          localStorage.setItem(
+            "auth",
+            JSON.stringify({
+              accessToken: result.data.accessToken,
+              restaurant: result.data.restaurant,
+            })
+          );
+
           dispatch(
-            setRestaurants({
-              restaurants: result.data,
+            restaurantLoggedIn({
+              accessToken: result.data.accessToken,
+              restaurant: result.data.restaurant,
             })
           );
         } catch (err) {
@@ -35,6 +46,24 @@ export const authApi = apiSlice.injectEndpoints({
         console.log(await queryFulfilled);
       },
     }),
+    getRestaurants: builder.query({
+      query: () => {
+        return "/api/auth/getallres";
+      },
+      providesTags: ["Restaurants"],
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+          dispatch(
+            setRestaurants({
+              restaurants: result.data,
+            })
+          );
+        } catch (err) {
+          // do nothing
+        }
+      },
+    }),
     makeStatusTrue: builder.mutation({
       query: (email) => ({
         url: "/api/auth/makestatustrue",
@@ -47,6 +76,7 @@ export const authApi = apiSlice.injectEndpoints({
 });
 
 export const {
+  useRestaurantLoginMutation,
   useGetRestaurantsQuery,
   useAddRestaurantMutation,
   useMakeStatusTrueMutation,

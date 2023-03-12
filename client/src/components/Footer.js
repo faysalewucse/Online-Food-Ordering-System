@@ -25,6 +25,9 @@ export default function Footer() {
                 <a href="">About Us</a>
               </li>
               <li>
+                <a href="/res-login">Restaurant Login</a>
+              </li>
+              <li>
                 <a href="">Become a partner</a>
               </li>
               <li>
