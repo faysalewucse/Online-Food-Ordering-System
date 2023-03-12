@@ -24,7 +24,7 @@ export default function Navbar() {
     <nav className="navbar sticky-top navbar-expand-lg navbar-dark py-3">
       <div className="container">
         <button
-          className="navbar-toggler ms-auto"
+          className="navbar-toggler me-auto"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarTogglerDemo01"
@@ -45,13 +45,13 @@ export default function Navbar() {
                 Home
               </a>
             </li>
-            <li className="nav-item">
+            <li className={`nav-item ${restaurant && "mr-5"}`}>
               <a className="nav-link" href="/about">
                 About
               </a>
             </li>
           </ul>
-          {user || restaurant ? (
+          {user ? (
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               <li className="nav-item mt-1">
                 <a className="nav-link" href="/track">
@@ -67,11 +67,13 @@ export default function Navbar() {
               </li>
             </ul>
           ) : (
-            <li>
-              <Link to="/login" className="login-btn" type="submit">
-                Login
-              </Link>
-            </li>
+            !restaurant && (
+              <li>
+                <Link to="/login" className="login-btn" type="submit">
+                  Login
+                </Link>
+              </li>
+            )
           )}
         </div>
         {(user || restaurant) && (
