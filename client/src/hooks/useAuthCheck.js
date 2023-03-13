@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { userLoggedIn } from "../features/auth/authSlice";
+import { restaurantLoggedIn } from "../features/restaurant/restaurantSlice";
 
 export default function useAuthCheck() {
   const dispatch = useDispatch();
@@ -16,6 +17,13 @@ export default function useAuthCheck() {
           userLoggedIn({
             accessToken: auth.accessToken,
             user: auth.user,
+          })
+        );
+      } else if (auth?.accessToken && auth?.restaurant) {
+        dispatch(
+          restaurantLoggedIn({
+            accessToken: auth.accessToken,
+            restaurant: auth.restaurant,
           })
         );
       }

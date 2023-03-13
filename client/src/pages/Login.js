@@ -25,14 +25,16 @@ const Login = () => {
       toast.error(responseError.data.error, { position: "top-center" });
     }
     if (data?.accessToken && data?.user) {
+      console.log("YES");
       navigate("/");
     }
   }, [data, responseError, navigate]);
 
+  console.log(data);
   const loginHandler = async (e) => {
     e.preventDefault();
 
-    login({
+    await login({
       email,
       password,
     });

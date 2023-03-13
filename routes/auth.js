@@ -38,6 +38,7 @@ const {
   get_rider,
   update_user_name,
   addPost,
+  makestatustrue,
 } = require("../controllers/auth");
 
 router.route("/register").post(register);
@@ -49,6 +50,7 @@ router.route("/reslogin").post(reslogin);
 router.route("/resregister").post(resregister);
 router.route("/forgotpassword").post(forgotpassword);
 router.route("/resetpassword").put(resetpassword);
+router.route("/makestatustrue").put(makestatustrue);
 
 router.route("/updatefood").put(upload.single("file"), updatefood);
 router.route("/update_user_name").put(update_user_name);

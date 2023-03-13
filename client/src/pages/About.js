@@ -32,8 +32,8 @@ function About() {
 
           <p>
             FoodsBD would soon expand to Chitagong and sylhet, Rajshahi and then
-            on to CoxsBazar. By 2018, we would cross the Pacific to open our
-            first store in Japan, followed by Europe in 2021 and China in 2022.
+            on to CoxsBazar. By 2025, we would cross the Pacific to open our
+            first store in Japan, followed by Europe in 2026 and China in 2027.
             Over the next one decades, we would grow to welcome millions of
             customers each week and become a part of the fabric of tens of
             thousands of neighborhoods all around the world. In everything we

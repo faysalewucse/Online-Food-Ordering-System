@@ -79,13 +79,13 @@ export default function Navbar() {
         {(user || restaurant) && (
           <div className="dropdown dropdown-end">
             <label
-              tabindex="0"
+              tabIndex={0}
               className="border-2 rounded-full w-10 h-10 flex justify-center items-center text-white"
             >
               {user?.name[0] || restaurant?.res_name[0]}
             </label>
             <ul
-              tabindex="0"
+              tabIndex={0}
               className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-72"
             >
               {/* <li>

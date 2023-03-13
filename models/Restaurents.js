@@ -112,6 +112,10 @@ RestaurentSchema.methods.matchPassword = async function (password) {
   return await bcrypt.compare(password, this.res_password);
 };
 
+RestaurentSchema.methods.checkStatus = function () {
+  return this.status;
+};
+
 RestaurentSchema.methods.getSignedJwtToken = function () {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE,

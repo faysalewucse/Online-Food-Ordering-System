@@ -13,9 +13,13 @@ import Restaurants from "./components/Restaurents";
 import Panel from "./pages/Admin Panel/Panel";
 import AdminAuth from "./pages/Admin Panel/AdminAuth";
 import RestaurantLogin from "./pages/RestaurantLogin";
+import ResProfile from "./components/ResProfile";
+import { useSelector } from "react-redux";
+import HomeRoute from "./middleware/HomeRoute";
 
 const App = () => {
   const authChecked = useAuthCheck();
+
   return !authChecked ? (
     <div>Checking authentication....</div>
   ) : (
@@ -23,11 +27,18 @@ const App = () => {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/restaurants" element={<Restaurants />} />
           <Route path="/admin-auth" element={<AdminAuth />} />
           <Route path="/admin-panel" element={<Panel />} />
+          <Route
+            path="/"
+            element={
+              <HomeRoute>
+                <Home />
+              </HomeRoute>
+            }
+          />
           <Route
             path="/login"
             element={
@@ -57,6 +68,14 @@ const App = () => {
             element={
               <PrivateRoute>
                 <Cart />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/res-profile"
+            element={
+              <PrivateRoute>
+                <ResProfile />
               </PrivateRoute>
             }
           />

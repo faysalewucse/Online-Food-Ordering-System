@@ -1,5 +1,9 @@
 import { apiSlice } from "../api/apiSlice";
-import { setRestaurants, restaurantLoggedIn } from "./restaurantSlice";
+import {
+  setRestaurants,
+  restaurantLoggedIn,
+  setRestaurant,
+} from "./restaurantSlice";
 
 export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -63,14 +67,6 @@ export const authApi = apiSlice.injectEndpoints({
           // do nothing
         }
       },
-    }),
-    makeStatusTrue: builder.mutation({
-      query: (email) => ({
-        url: "/api/auth/makestatustrue",
-        method: "PUT",
-        body: email,
-      }),
-      invalidatesTags: ["Restaurants"],
     }),
   }),
 });

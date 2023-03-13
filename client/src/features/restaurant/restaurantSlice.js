@@ -21,6 +21,7 @@ const authSlice = createSlice({
     setRestaurants: (state, action) => {
       state.restaurants = action.payload.restaurants;
     },
+
     setRestaurantStatusTrue: (state, action) => {
       state.restaurants = state.restaurants.map((restaurant) => {
         console.log(JSON.stringify(restaurant));
