@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "../css/Navbar.css";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -94,12 +94,12 @@ export default function Navbar() {
               </h2>
             </li> */}
               <li>
-                <a className="text-dark no-underline" href="#">
+                <a className="text-dark no-underline" href="/">
                   Profile
                 </a>
               </li>
               <li>
-                <a className="text-dark no-underline" href="#">
+                <a className="text-dark no-underline" href="/">
                   My Orders
                 </a>
               </li>

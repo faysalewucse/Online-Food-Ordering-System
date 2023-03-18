@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import {
   useGetRestaurantsQuery,
@@ -20,8 +20,7 @@ export default function ResRequests() {
   const [modalVisible, setModalVisibility] = useState(false);
   // get all restaurant requests from rtk
   const { data: restaurants, isLoading, error } = useGetRestaurantsQuery();
-  const [makeStatusTrue, { data, isLoading: loading, error: responseError }] =
-    useMakeStatusTrueMutation();
+  const [makeStatusTrue, { isLoading: loading }] = useMakeStatusTrueMutation();
 
   // Restaurant accept handler function
   const acceptHandler = (name, email) => {

@@ -22,22 +22,22 @@ export default function Footer() {
             </h4>
             <ul>
               <li>
-                <a href="">About Us</a>
+                <a href="/">About Us</a>
               </li>
               <li>
                 <a href="/res-login">Restaurant Login</a>
               </li>
               <li>
-                <a href="">Become a partner</a>
+                <a href="/">Become a partner</a>
               </li>
               <li>
-                <a href="">Our Team</a>
+                <a href="/">Our Team</a>
               </li>
               <li>
-                <a href="">Blog</a>
+                <a href="/">Blog</a>
               </li>
               <li>
-                <a href="">Contact</a>
+                <a href="/">Contact</a>
               </li>
             </ul>
           </div>
@@ -47,19 +47,19 @@ export default function Footer() {
             </h4>
             <ul>
               <li>
-                <a href="">Privacy Policy</a>
+                <a href="/">Privacy Policy</a>
               </li>
               <li>
-                <a href="">Terms and Condition</a>
+                <a href="/">Terms and Condition</a>
               </li>
               <li>
-                <a href="">Disclaimer</a>
+                <a href="/">Disclaimer</a>
               </li>
               <li>
-                <a href="">Support</a>
+                <a href="/">Support</a>
               </li>
               <li>
-                <a href="">FAQ</a>
+                <a href="/">FAQ</a>
               </li>
             </ul>
           </div>
@@ -69,19 +69,19 @@ export default function Footer() {
             </h4>
             <ul>
               <li>
-                <a href="">Git Cards</a>
+                <a href="/">Git Cards</a>
               </li>
               <li>
-                <a href="">Doosdash Stories</a>
+                <a href="/">Doosdash Stories</a>
               </li>
               <li>
-                <a href="">Linkedin</a>
+                <a href="/">Linkedin</a>
               </li>
               <li>
-                <a href="">Glassdoor</a>
+                <a href="/">Glassdoor</a>
               </li>
               <li>
-                <a href="">Accessibility</a>
+                <a href="/">Accessibility</a>
               </li>
             </ul>
           </div>
@@ -91,10 +91,10 @@ export default function Footer() {
             </h4>
             <ul>
               <li>
-                <a href="">Whats App</a>
+                <a href="/">Whats App</a>
               </li>
               <li>
-                <a href="">Support 24</a>
+                <a href="/">Support 24</a>
               </li>
             </ul>
           </div>
@@ -107,13 +107,13 @@ export default function Footer() {
             All rights reserved
           </p>
           <div className="flex gap-2 social-media">
-            <a href="">
+            <a href="/">
               <i className="fs-6 fa-brands fa-facebook-f"></i>
             </a>
-            <a href="">
+            <a href="/">
               <i className="fs-6 fa-brands fa-linkedin-in"></i>
             </a>
-            <a href="">
+            <a href="/">
               <i className="fs-6 fa-brands fa-whatsapp"></i>
             </a>
           </div>

@@ -5,8 +5,7 @@ import "./CartCard.css";
 
 function CartCard(props) {
   const { user } = useSelector((state) => state.auth);
-  const [addToCart, { data, isLoading, error: responseError }] =
-    useAddToCartMutation();
+  const [addToCart] = useAddToCartMutation();
 
   // function removeFromCart(food_name, food_price, img_path, res_email) {
   //   removefromcart(

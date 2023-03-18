@@ -14,7 +14,6 @@ import Panel from "./pages/Admin Panel/Panel";
 import AdminAuth from "./pages/Admin Panel/AdminAuth";
 import RestaurantLogin from "./pages/RestaurantLogin";
 import ResProfile from "./components/ResProfile";
-import { useSelector } from "react-redux";
 import HomeRoute from "./middleware/HomeRoute";
 
 const App = () => {

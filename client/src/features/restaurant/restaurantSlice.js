@@ -21,7 +21,9 @@ const authSlice = createSlice({
     setRestaurants: (state, action) => {
       state.restaurants = action.payload.restaurants;
     },
-
+    setRestaurant: (state, action) => {
+      state.restaurant = action.payload.restaurant;
+    },
     setRestaurantStatusTrue: (state, action) => {
       state.restaurants = state.restaurants.map((restaurant) => {
         console.log(JSON.stringify(restaurant));
@@ -37,6 +39,7 @@ export const {
   restaurantLoggedIn,
   restaurantLoggedOut,
   setRestaurants,
+  setRestaurant,
   setRestaurantStatusTrue,
 } = authSlice.actions;
 export default authSlice.reducer;
