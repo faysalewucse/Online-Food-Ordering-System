@@ -15,7 +15,11 @@ export default function Subscribe() {
               your address below.
             </p>
             <div>
-              <input type="text" placeholder="Enter Your Email" />
+              <input
+                type="text"
+                className="text-black font-bold"
+                placeholder="Enter Your Email"
+              />
               <button className="subscribe-btn">Subscribe</button>
             </div>
           </div>

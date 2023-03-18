@@ -29,7 +29,7 @@ exports.login = async (req, res, next) => {
       return next(new ErrorResponse("Password Does Not Match", 401));
     }
 
-    sendToken(user, 201, res);
+    sendToken(user, 201, res, "user");
   } catch (err) {
     next(err);
   }
@@ -87,10 +87,21 @@ exports.reslogin = async (req, res, next) => {
     const isMatch = await restaurent.matchPassword(res_password);
 
     if (!isMatch) {
-      return next(new ErrorResponse("Invalid credentials", 401));
     }
 
-    sendToken(restaurent, 201, res);
+    // Check Restaurant approval from adminstration
+    const status = await restaurent.checkStatus();
+
+    if (!status) {
+      return next(
+        new ErrorResponse(
+          "Restaurant Confirmation not approved yet! Wait for confirmation E-mail.",
+          401
+        )
+      );
+    }
+
+    sendToken(restaurent, 201, res, "restaurant");
   } catch (err) {
     res.status(500).json({ success: false, error: "Invalid Cridentials" });
   }
@@ -580,6 +591,19 @@ exports.increase_item_sell = async (req, res, next) => {
   }
 };
 
+exports.makestatustrue = async (req, res, next) => {
+  const { email: res_email } = req.body;
+  try {
+    const files = await Restaurent.updateOne(
+      { res_email: res_email },
+      { $set: { status: true } }
+    );
+    res.status(200).send(files);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 exports.get_res = async (req, res, next) => {
   const { res_mail } = req.body;
   try {
@@ -856,8 +880,9 @@ exports.addPost = async (req, res, next) => {
     res.status(400).send(error.message);
   }
 };
-
-const sendToken = (user, statusCode, res) => {
-  const token = user.getSignedJwtToken();
-  res.status(statusCode).json({ accessToken: token, user: user });
+const sendToken = (data, statusCode, res, user) => {
+  const token = data.getSignedJwtToken();
+  const result = { accessToken: token };
+  result[user] = data;
+  res.status(statusCode).json(result);
 };

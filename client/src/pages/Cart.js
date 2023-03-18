@@ -1,7 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import "../css/Cart.css";
 import CartCard from "../cards/CartCard";
-import { confirmorder, fetchPrivateData, fetchResData } from "../api/resdata";
+import { confirmorder } from "../api/resdata";
 import { useNavigate } from "react-router-dom";
 import emailjs from "@emailjs/browser";
 import Dialog from "@mui/material/Dialog";
@@ -21,9 +21,6 @@ function Cart() {
 
   const [open, setOpen] = React.useState(false);
   const form = useRef();
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   const handleClose = () => {
     setOpen(false);

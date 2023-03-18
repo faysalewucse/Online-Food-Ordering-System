@@ -72,7 +72,7 @@ export const fetchResData = async (setRestaurent, setOrdersCount) => {
     );
     setRestaurent(data.data);
     let order_length = 0;
-    data.data.orders.map((item) => {
+    data.data.orders.forEach((item) => {
       if (
         item.status !== "Delivered" &&
         item.status !== "Completed" &&

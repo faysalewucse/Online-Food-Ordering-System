@@ -21,6 +21,7 @@
     "daisyui": "^2.51.3",
     "form-data": "^4.0.0",
     "levenshtein": "^1.0.5",
+    "pexels": "^1.4.0",
     "react": "^17.0.2",
     "react-bootstrap": "^2.1.2",
     "react-countdown": "^2.3.2",

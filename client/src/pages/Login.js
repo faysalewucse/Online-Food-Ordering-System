@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import "../css/Login.css";
 import { useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { Nav } from "react-bootstrap";
 import { makeFormEffect } from "../components/FormStyle";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import BlockLoadingButton from "../utils/BlockLoadingButton";
 import { useLoginMutation } from "../features/auth/authApi";
+import "react-toastify/dist/ReactToastify.css";
+import "../css/Login.css";
 
 const Login = () => {
   const form_effect = () => {
@@ -15,25 +15,26 @@ const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
   const [login, { data, isLoading, error: responseError }] = useLoginMutation();
 
   const navigate = useNavigate();
   useEffect(() => {
     if (responseError?.data) {
-      setError(responseError.data);
+      console.log(responseError);
+      toast.error(responseError.data.error, { position: "top-center" });
     }
     if (data?.accessToken && data?.user) {
+      console.log("YES");
       navigate("/");
     }
   }, [data, responseError, navigate]);
 
-  const handleSubmit = (e) => {
+  console.log(data);
+  const loginHandler = async (e) => {
     e.preventDefault();
 
-    setError("");
-    login({
+    await login({
       email,
       password,
     });
@@ -81,12 +82,12 @@ const Login = () => {
             <Nav.Link id="forgot--pass" href="/forgotpassword">
               Forgot Password?
             </Nav.Link>
-            <input
-              onClick={handleSubmit}
-              type="submit"
-              className="btn"
-              value="Login"
-            ></input>
+            <BlockLoadingButton
+              onClickHandler={loginHandler}
+              text="Login"
+              extraClass="w-full my-3"
+              loading={isLoading}
+            />
             <h6 className="title">
               Don't Have an Account?{" "}
               <span onClick={() => navigate("/register")} className="sign-up">
