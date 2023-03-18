@@ -141,7 +141,9 @@ function Cart() {
             </div>
             <div className="d-flex justify-content-between">
               <h6>Total :</h6>
-              <h6>{totalCost == 0 ? totalCost : totalCost + 15} BDT</h6>
+              <h6>
+                {parseInt(totalCost) === 0 ? totalCost : totalCost + 15} BDT
+              </h6>
             </div>
             <div className="d-flex justify-content-between mb-2">
               {totalCost !== 0 ? (
