@@ -62,10 +62,10 @@ export default function Restaurents(props) {
   ];
 
   return (
-    <div className="restaurants">
-      <div className="p-4 container">
-        <div className="row mb-5">
-          <div className="col-2 res-list-filter">
+    <div>
+      <div className="max-w-7xl mx-auto my-20">
+        <div className="flex gap-5">
+          <div className="">
             <h4>Filter</h4>
             <hr />
             {filterData.map((data, index) => (
@@ -74,7 +74,7 @@ export default function Restaurents(props) {
                 {data.categories.map((category, index) => (
                   <div key={index} className="d-flex align-items-center">
                     <input
-                      className="me-2"
+                      className="mr-2"
                       type="radio"
                       name={category.toLowerCase()}
                       id={category.toLowerCase()}
@@ -85,27 +85,19 @@ export default function Restaurents(props) {
               </div>
             ))}
           </div>
-          <div className="col">
-            <div className="row">
-              <div className="col">
-                <ReactSearchBox
-                  className="react-search-box"
-                  placeholder="Search Restaurent..........."
-                  value="Doe"
-                  data={data}
-                  onSelect={(record) => searchSort(record.item.value)}
-                  inputBackgroundColor="#fffff"
-                  inputFontColor="black"
-                  inputFontSize="20px"
-                  inputHeight="50px"
-                />
-              </div>
-            </div>
-            <div className="row">
-              <div className="col">
-                <div className="row">{restaurants}</div>
-              </div>
-            </div>
+          <div className="">
+            <ReactSearchBox
+              className="react-search-box"
+              placeholder="Search Restaurent..........."
+              value="Doe"
+              data={data}
+              onSelect={(record) => searchSort(record.item.value)}
+              inputBackgroundColor="#fffff"
+              inputFontColor="black"
+              inputFontSize="20px"
+              inputHeight="50px"
+            />
+            <div className="my-10 grid grid-cols-4 gap-4">{restaurants}</div>
           </div>
         </div>
       </div>

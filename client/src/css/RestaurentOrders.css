@@ -49,7 +49,6 @@
 }
 
 .orders--text {
-  font-family: Righteous, sans-serif;
   color: rgb(20, 107, 220);
 }
 
@@ -58,9 +57,9 @@
   margin-top: 20vh;
 }
 
-.order-cancel-res-btn{
+.order-cancel-res-btn {
   background-color: green;
-  color:white;
+  color: white;
   padding: 10px 15px;
   width: 10vw;
   margin-left: auto;

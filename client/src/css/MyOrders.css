@@ -5,7 +5,6 @@
   border-collapse: collapse;
   margin: 25px 0;
   font-size: 1em;
-  font-family: sans-serif;
   min-width: 100%;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   margin-left: auto;
@@ -13,7 +12,6 @@
 }
 
 .track--order--text {
-  font-family: "Josefin Sans", sans-serif;
   font-weight: bold;
   margin-top: 20px;
 }
@@ -49,8 +47,7 @@
   border-bottom: 2px solid #009879;
 }
 
-.order-again-food-card{
- margin-bottom: 5px;
- padding: 5px;
- font-family: Righteous, sans-serif;
+.order-again-food-card {
+  margin-bottom: 5px;
+  padding: 5px;
 }

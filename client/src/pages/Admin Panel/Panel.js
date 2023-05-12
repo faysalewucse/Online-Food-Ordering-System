@@ -9,7 +9,7 @@ export default function Panel() {
   return (
     <div>
       {localStorage.getItem("loggedIn") ? (
-        <div style={{ fontFamily: "Poppins" }} className="flex">
+        <div className="flex">
           <SideBar setPath={setPath} />
           <div className="p-12 flex-grow">
             {path === "dashboard" ? <div>DashBoard</div> : <ResRequests />}

@@ -1,13 +1,12 @@
 .profile-image {
   border: 1px solid black;
-  padding:  50px;
+  padding: 50px;
   border-radius: 50%;
   font-size: 12px;
 }
 
 .profile-container {
   padding: 100px;
-  font-family: "Righteous", sans-serif;
 }
 .profile-img-container {
   display: flex;
@@ -36,13 +35,12 @@
 .left-dash-item {
   padding: 10px 10px 10px 20px;
 }
-.dashboard-icon
-{
-  font-size:5vh;
+.dashboard-icon {
+  font-size: 5vh;
   margin-bottom: 2vh;
 }
 
-.dashboard-card{
+.dashboard-card {
   margin-right: 1vw;
   padding: 2vh;
   border: 1px solid rgb(102, 102, 102);

@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useAddToCartMutation } from "../features/auth/authApi";
-import "./CartCard.css";
 
 function CartCard(props) {
   const { user } = useSelector((state) => state.auth);
@@ -26,24 +25,23 @@ function CartCard(props) {
 
   return (
     <div>
-      <div className="cart-card mb-4">
+      <div className="bg-lime-50 mb-3 rounded shadow-md">
         <div className="p-2 d-flex justify-content-between">
-          <div className="d-flex justify-content-start">
+          <div className="flex gap-2">
             <img
-              className="card-image"
+              className="w-24 h-24 rounded object-cover"
               src={props.img_path}
-              alt=""
-              style={{ width: "50%", height: "10vh", objectFit: "cover" }}
+              alt="food_image"
             />
             <div>
-              <h4>{props.food_name}</h4>
+              <h4 className="font-bold">{props.food_name}</h4>
               <h6>
                 {props.food_price} x {props.count}
               </h6>
-              <div className="d-flex justify-content-between align-items-center plus--minus--remove">
+              <div className="flex gap-3 items-center">
                 <i
                   // onClick={() => reduceFromCart(props._id)}
-                  className="fas fa-minus minus"
+                  className="fas fa-minus border border-black p-1"
                 ></i>
                 <i
                   onClick={() =>
@@ -59,7 +57,7 @@ function CartCard(props) {
                       latlong: props.latlong,
                     })
                   }
-                  className="fas fa-plus plus"
+                  className="fas fa-plus border border-black p-1"
                 ></i>
                 <i
                   // onClick={() =>
@@ -70,12 +68,12 @@ function CartCard(props) {
                   //     props.res_email
                   //   )
                   // }
-                  className="fas fa-trash remove--icon"
+                  className="fas fa-trash text-red-400 border border-black p-1"
                 ></i>
               </div>
             </div>
           </div>
-          <h4 className="total--taka">{props.food_price * props.count} BDT</h4>
+          <h6 className="mt-auto">{props.food_price * props.count} BDT</h6>
         </div>
       </div>
     </div>

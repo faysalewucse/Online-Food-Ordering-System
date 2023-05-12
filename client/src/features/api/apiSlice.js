@@ -24,6 +24,6 @@ export const apiSlice = createApi({
     }
     return result;
   },
-  tagTypes: ["Restaurants"],
+  tagTypes: ["Restaurants", "Restaurant"],
   endpoints: (builder) => ({}),
 });
