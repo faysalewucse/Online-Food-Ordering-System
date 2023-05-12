@@ -255,10 +255,8 @@ exports.resregister = async (req, res, next) => {
   }
 };
 
-exports.addfood = async (req, res, next) => {
-  const { res_email, food_name, food_price } = req.body;
-  const food_img = req.file.originalname;
-  const img_path = req.file.path;
+exports.addfood = async (req, res) => {
+  const { res_email, food_name, food_price, food_img, category } = req.body;
 
   try {
     const restaurent = await Restaurent.findOneAndUpdate(
@@ -268,10 +266,10 @@ exports.addfood = async (req, res, next) => {
       {
         $push: {
           items: {
-            food_img: food_img,
-            food_name: food_name,
-            food_price: food_price,
-            img_path: img_path,
+            food_img,
+            food_name,
+            food_price,
+            category,
             sold: 0,
             rating: {
               star: 0,
@@ -280,11 +278,12 @@ exports.addfood = async (req, res, next) => {
         },
       }
     );
-    sendToken(restaurent, 201, res);
+    sendToken(restaurent, 201, res, "restaurant");
   } catch (error) {
     res.status(400).send(error.message);
   }
 };
+
 exports.updatefood = async (req, res, next) => {
   const { res_email, food_name, food_price, food_id } = req.body;
 
@@ -605,9 +604,9 @@ exports.makestatustrue = async (req, res, next) => {
 };
 
 exports.get_res = async (req, res, next) => {
-  const { res_mail } = req.body;
+  const { resId } = req.params;
   try {
-    const files = await Restaurent.findOneAndUpdate({ res_email: res_mail });
+    const files = await Restaurent.findOneAndUpdate({ _id: resId });
     res.status(200).send(files);
   } catch (error) {
     res.status(400).send(error.message);
@@ -853,33 +852,6 @@ exports.emptycart = async (req, res, next) => {
   }
 };
 
-exports.addPost = async (req, res, next) => {
-  const { location, con, brand, model, title, description, price, phone } =
-    req.body;
-
-  const images = [];
-
-  await req.files.map((file) => {
-    images.push(file.path);
-  });
-
-  try {
-    const post = await Post.create({
-      location: location,
-      condition: con,
-      images: images,
-      brand: brand,
-      model: model,
-      title: title,
-      description: description,
-      price: price,
-      phone: phone,
-    });
-    res.status(200).send(post);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-};
 const sendToken = (data, statusCode, res, user) => {
   const token = data.getSignedJwtToken();
   const result = { accessToken: token };

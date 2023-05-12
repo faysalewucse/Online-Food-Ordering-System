@@ -42,6 +42,9 @@ const RestaurentSchema = new mongoose.Schema({
   },
   items: [
     {
+      category: {
+        type: String,
+      },
       food_img: {
         type: String,
       },
@@ -52,9 +55,6 @@ const RestaurentSchema = new mongoose.Schema({
       food_price: {
         type: String,
         required: true,
-      },
-      img_path: {
-        type: String,
       },
       sold: {
         type: String,
