@@ -1,9 +1,5 @@
 import { apiSlice } from "../api/apiSlice";
-import {
-  setRestaurants,
-  restaurantLoggedIn,
-  setRestaurant,
-} from "./restaurantSlice";
+import { setRestaurants, restaurantLoggedIn } from "./restaurantSlice";
 
 export const restaurantApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -46,7 +42,7 @@ export const restaurantApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         //optimistic update of items
         console.log(arg);
-        const pathResult = dispatch(
+        dispatch(
           apiSlice.util.updateQueryData(
             "getRestaurant",
             { email: arg.res_email },
