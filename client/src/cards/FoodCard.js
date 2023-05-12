@@ -1,14 +1,13 @@
 import React from "react";
 import "./FoodCard.css";
-import { useAddCartItemMutation } from "../features/cart/cartApi";
 import { addCartItem } from "../features/cart/cartSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 function FoodCard({ item, restaurant }) {
   const { _id, food_name, food_img, food_price, sold } = item;
   const { res_name, res_email, res_address, lattitude, longitude } = restaurant;
 
-  const { user } = useSelector((state) => state.auth);
+  // const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   // const [addCartItem, { data, isLoading, error: responseError }] =
@@ -35,9 +34,9 @@ function FoodCard({ item, restaurant }) {
   // }
 
   let foodTotal = 0;
-  let length = item.rating.length - 1;
+  // let length = item.rating.length - 1;
   item.rating.forEach(({ star }) => (foodTotal += parseInt(star)));
-  let avgStar = Math.floor(foodTotal / length);
+  // let avgStar = Math.floor(foodTotal / length);
 
   return (
     <div className="text-center shadow-md rounded-lg hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer">
@@ -47,7 +46,7 @@ function FoodCard({ item, restaurant }) {
         // }
         className="w-full h-48 object-cover rounded-t-lg"
         src={food_img}
-        alt="Card image cap"
+        alt="card_image"
       />
       <div className="p-2">
         <h4 className="text-green font-bold mt-2">

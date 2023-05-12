@@ -10,7 +10,6 @@ export default function Navbar() {
   const { user } = useSelector((state) => state.auth);
   const { restaurant } = useSelector((state) => state.restaurants);
   const { cartItems } = useSelector((state) => state.cart);
-  const { cart } = user || 0;
 
   // Dipatcher
   const dispatch = useDispatch();

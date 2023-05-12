@@ -2,9 +2,9 @@ import { useParams } from "react-router-dom";
 import { useGetRestaurantQuery } from "../features/restaurant/restaurantApi";
 import FoodCard from "../cards/FoodCard";
 import ReactSearchBox from "react-search-box";
-import Levenshtein from "levenshtein";
 import Select from "react-select";
-import { useSelector } from "react-redux";
+import { useState } from "react";
+import Levenshtein from "levenshtein";
 
 // const Alert = React.forwardRef(function Alert(props, ref) {
 //   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -18,7 +18,7 @@ function ShopPage(props) {
     isError,
   } = useGetRestaurantQuery(restaurant_id);
 
-  // const { items } = restaurantData;
+  const [items, setItems] = useState(restaurantData?.items);
   // const [open, setOpen] = React.useState(false);
   // const vertical = "bottom",
   //   horizontal = "right";
@@ -36,40 +36,38 @@ function ShopPage(props) {
   let content;
   if (isLoading && !isError) {
     content = <div>Loading...</div>;
-  } else if (!isLoading && !isError && restaurantData) {
-    content = restaurantData.items.map((item, index) => {
+  } else if (!isLoading && !isError && items) {
+    content = items.map((item, index) => {
       return <FoodCard key={index} restaurant={restaurantData} item={item} />;
     });
   }
 
   let searchData = [{}];
-  for (let index in restaurantData?.items) {
+  for (let index in items) {
     searchData.push({
-      key: restaurantData?.items[index].food_name
-        .toLowerCase()
-        .replace(/\s+/g, ""),
-      value: restaurantData?.items[index].food_name,
+      key: items[index].food_name.toLowerCase().replace(/\s+/g, ""),
+      value: items[index].food_name,
     });
   }
 
   const lowh = () => {
-    const newArray = [...restaurantData?.items].sort((a, b) => {
+    const newArray = [...items].sort((a, b) => {
       return a.food_price - b.food_price;
     });
 
-    // if (newArray) setFoodsArray(newArray);
+    if (newArray) setItems(newArray);
   };
 
   const highl = () => {
-    const newArray = [...restaurantData?.items].sort((a, b) => {
+    const newArray = [items].sort((a, b) => {
       return b.food_price - a.food_price;
     });
 
-    // if (newArray) setFoodsArray(newArray);
+    if (newArray) setItems(newArray);
   };
 
   const rating = () => {
-    const newArray = [...restaurantData?.items].sort((a, b) => {
+    const newArray = [...items].sort((a, b) => {
       let x = 0,
         xl = [...a.rating].length;
       [...a.rating].forEach(({ star }) => (x += parseInt(star)));
@@ -79,19 +77,19 @@ function ShopPage(props) {
       return Math.floor(y / yl) - Math.ceil(x / xl);
     });
 
-    // if (newArray) setFoodsArray(newArray);
+    if (newArray) setItems(newArray);
   };
 
   const sell = () => {
-    const newArray = [...restaurantData?.items].sort((a, b) => {
+    const newArray = [...items].sort((a, b) => {
       return b.sold - a.sold;
     });
 
-    // if (newArray) setFoodsArray(newArray);
+    if (newArray) setItems(newArray);
   };
 
   const name = () => {
-    const newArray = [...restaurantData?.items].sort((a, b) => {
+    const newArray = [...items].sort((a, b) => {
       let fa = a.food_name.toLowerCase(),
         fb = b.food_name.toLowerCase();
       if (fa < fb) {
@@ -102,20 +100,20 @@ function ShopPage(props) {
       }
       return 0;
     });
-    // if (newArray) setFoodsArray(newArray);
+    if (newArray) setItems(newArray);
   };
 
-  // const searchSort = (value) => {
-  //   function compare(a, b) {
-  //     var leva = new Levenshtein(a.food_name, searchkey).distance;
-  //     var levb = new Levenshtein(b.food_name, searchkey).distance;
-  //     return leva - levb;
-  //   }
+  const searchSort = (value) => {
+    function compare(a, b) {
+      var leva = new Levenshtein(a.food_name, searchkey).distance;
+      var levb = new Levenshtein(b.food_name, searchkey).distance;
+      return leva - levb;
+    }
 
-  //   var searchkey = value;
-  //   var copyArray = foodsArray;
-  //   setFoodsArray([...copyArray].sort(compare));
-  // };
+    var searchkey = value;
+    var copyArray = items;
+    setItems([...copyArray].sort(compare));
+  };
 
   const aquaticCreatures = [
     { label: "Name", value: "name" },
@@ -146,7 +144,7 @@ function ShopPage(props) {
                 placeholder="Search Food"
                 value="Doe"
                 data={searchData}
-                // onSelect={(record) => searchSort(record.item.value)}
+                onSelect={(record) => searchSort(record.item.value)}
                 inputBackgroundColor="white"
                 inputFontColor="black"
                 inputFontSize="20px"
