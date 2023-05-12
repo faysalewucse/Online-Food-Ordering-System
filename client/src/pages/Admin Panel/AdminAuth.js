@@ -31,7 +31,7 @@ export default function AdminAuth() {
     }
   };
   return (
-    <div style={{ fontFamily: "Poppins" }} className="bg-[#1b1e21]">
+    <div className="bg-[#1b1e21]">
       <div className="max-w-7xl mx-auto flex justify-center items-center min-h-screen">
         <div className="lg:w-1/4 text-center">
           <h2 className="mb-5 text-white">Admin LOGIN</h2>

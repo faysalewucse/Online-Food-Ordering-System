@@ -1,95 +1,75 @@
-import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useGetRestaurantQuery } from "../features/restaurant/restaurantApi";
 import FoodCard from "../cards/FoodCard";
 import ReactSearchBox from "react-search-box";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert from "@mui/material/Alert";
-import { Modal } from "react-bootstrap";
-import "../css/ShopPage.css";
-import Select from "react-select";
 import Levenshtein from "levenshtein";
+import Select from "react-select";
+import { useSelector } from "react-redux";
 
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
+// const Alert = React.forwardRef(function Alert(props, ref) {
+//   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+// });
 
 function ShopPage(props) {
-  useEffect(() => {
-    if (props.allrestaurent) {
-      props.allrestaurent.forEach((res) => {
-        if (res.res_email === props.res_email) {
-          setFoodsArray(res.items);
-          setRes(res);
-        }
-      });
-    }
-  }, []);
+  const { resId: restaurant_id } = useParams();
+  const {
+    data: restaurantData,
+    isLoading,
+    isError,
+  } = useGetRestaurantQuery(restaurant_id);
 
-  const [open, setOpen] = React.useState(false);
-  const vertical = "bottom",
-    horizontal = "right";
+  // const { items } = restaurantData;
+  // const [open, setOpen] = React.useState(false);
+  // const vertical = "bottom",
+  //   horizontal = "right";
 
-  const [reviewsModalShow, setReviewsModalShow] = useState(false);
-  const [itemInReviewModel, setItem] = useState();
+  // const [reviewsModalShow, setReviewsModalShow] = useState(false);
+  // const [itemInReviewModel, setItem] = useState();
 
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpen(false);
-  };
+  // const handleClose = (event, reason) => {
+  //   if (reason === "clickaway") {
+  //     return;
+  //   }
+  //   setOpen(false);
+  // };
 
-  let foods;
-  let [foodsArray, setFoodsArray] = useState();
-  let [res, setRes] = useState();
-  if (foodsArray) {
-    foods = foodsArray.map((item) => {
-      return (
-        <FoodCard
-          {...item}
-          item={item}
-          setCartCount={props.setCartCount}
-          user={props.user}
-          setUser={props.setUser}
-          setAllRestaurent={props.setAllRestaurent}
-          res_email={props.res_email}
-          res_name={res.res_name}
-          res_address={res.res_address}
-          latlong={`${res.lattitude}, ${res.longitude}`}
-          setOpen={setOpen}
-          className="col"
-          setReviewsModalShow={setReviewsModalShow}
-          setItem={setItem}
-        />
-      );
+  let content;
+  if (isLoading && !isError) {
+    content = <div>Loading...</div>;
+  } else if (!isLoading && !isError && restaurantData) {
+    content = restaurantData.items.map((item, index) => {
+      return <FoodCard key={index} restaurant={restaurantData} item={item} />;
     });
   }
 
   let searchData = [{}];
-  for (let index in foodsArray) {
+  for (let index in restaurantData?.items) {
     searchData.push({
-      key: foodsArray[index].food_name.toLowerCase().replace(/\s+/g, ""),
-      value: foodsArray[index].food_name,
+      key: restaurantData?.items[index].food_name
+        .toLowerCase()
+        .replace(/\s+/g, ""),
+      value: restaurantData?.items[index].food_name,
     });
   }
 
   const lowh = () => {
-    const newArray = [...foodsArray].sort((a, b) => {
+    const newArray = [...restaurantData?.items].sort((a, b) => {
       return a.food_price - b.food_price;
     });
 
-    if (newArray) setFoodsArray(newArray);
+    // if (newArray) setFoodsArray(newArray);
   };
 
   const highl = () => {
-    const newArray = [...foodsArray].sort((a, b) => {
+    const newArray = [...restaurantData?.items].sort((a, b) => {
       return b.food_price - a.food_price;
     });
 
-    if (newArray) setFoodsArray(newArray);
+    // if (newArray) setFoodsArray(newArray);
   };
 
   const rating = () => {
-    const newArray = [...foodsArray].sort((a, b) => {
+    const newArray = [...restaurantData?.items].sort((a, b) => {
       let x = 0,
         xl = [...a.rating].length;
       [...a.rating].forEach(({ star }) => (x += parseInt(star)));
@@ -99,19 +79,19 @@ function ShopPage(props) {
       return Math.floor(y / yl) - Math.ceil(x / xl);
     });
 
-    if (newArray) setFoodsArray(newArray);
+    // if (newArray) setFoodsArray(newArray);
   };
 
   const sell = () => {
-    const newArray = [...foodsArray].sort((a, b) => {
+    const newArray = [...restaurantData?.items].sort((a, b) => {
       return b.sold - a.sold;
     });
 
-    if (newArray) setFoodsArray(newArray);
+    // if (newArray) setFoodsArray(newArray);
   };
 
   const name = () => {
-    const newArray = [...foodsArray].sort((a, b) => {
+    const newArray = [...restaurantData?.items].sort((a, b) => {
       let fa = a.food_name.toLowerCase(),
         fb = b.food_name.toLowerCase();
       if (fa < fb) {
@@ -122,20 +102,20 @@ function ShopPage(props) {
       }
       return 0;
     });
-    if (newArray) setFoodsArray(newArray);
+    // if (newArray) setFoodsArray(newArray);
   };
 
-  const searchSort = (value) => {
-    function compare(a, b) {
-      var leva = new Levenshtein(a.food_name, searchkey).distance;
-      var levb = new Levenshtein(b.food_name, searchkey).distance;
-      return leva - levb;
-    }
+  // const searchSort = (value) => {
+  //   function compare(a, b) {
+  //     var leva = new Levenshtein(a.food_name, searchkey).distance;
+  //     var levb = new Levenshtein(b.food_name, searchkey).distance;
+  //     return leva - levb;
+  //   }
 
-    var searchkey = value;
-    var copyArray = foodsArray;
-    setFoodsArray([...copyArray].sort(compare));
-  };
+  //   var searchkey = value;
+  //   var copyArray = foodsArray;
+  //   setFoodsArray([...copyArray].sort(compare));
+  // };
 
   const aquaticCreatures = [
     { label: "Name", value: "name" },
@@ -146,19 +126,17 @@ function ShopPage(props) {
   ];
 
   return (
-    <div className="p-4 container">
-      <div className="row mb-5">
-        <div className="col-2 res--list--category">
-          <h2 className="mb-5" style={{ color: "white", textAlign: "center" }}>
-            Categories
-          </h2>
-          <h3>Rice</h3>
-          <h3>Burger</h3>
-          <h3>Pizza</h3>
-          <h3>Set Menu</h3>
-          <h3>Vegetables</h3>
-          <h3>Drinks</h3>
-          <h3>Snacks</h3>
+    <div className="p-4">
+      <div className="max-w-7xl mx-auto flex gap-5 mb-5">
+        <div className="bg-black p-10 rounded-md text-white">
+          <h2>Categories</h2>
+          <h4>Rice</h4>
+          <h4>Burger</h4>
+          <h4>Pizza</h4>
+          <h4>Set Menu</h4>
+          <h4>Vegetables</h4>
+          <h4>Drinks</h4>
+          <h4>Snacks</h4>
         </div>
         <div className="col">
           <div className="row">
@@ -168,7 +146,7 @@ function ShopPage(props) {
                 placeholder="Search Food"
                 value="Doe"
                 data={searchData}
-                onSelect={(record) => searchSort(record.item.value)}
+                // onSelect={(record) => searchSort(record.item.value)}
                 inputBackgroundColor="white"
                 inputFontColor="black"
                 inputFontSize="20px"
@@ -193,14 +171,10 @@ function ShopPage(props) {
               />
             </div>
           </div>
-          <div className="row">
-            <div className="col">
-              <div className="row">{foods}</div>
-            </div>
-          </div>
+          <div className="py-10 grid grid-cols-4 gap-4">{content}</div>
         </div>
       </div>
-      <Snackbar
+      {/* <Snackbar
         anchorOrigin={{ vertical, horizontal }}
         open={open}
         autoHideDuration={2000}
@@ -216,70 +190,70 @@ function ShopPage(props) {
           onHide={() => setReviewsModalShow(false)}
           item={itemInReviewModel}
         />
-      ) : null}
+      ) : null} */}
     </div>
   );
 }
 
-function FoodReviews(props) {
-  let reviews;
-  if (props.item.reviews) {
-    reviews = props.item.reviews.map((review) => {
-      return <div className="reviews-card">{review.review}</div>;
-    });
-  }
+// function FoodReviews(props) {
+//   let reviews;
+//   if (props.item.reviews) {
+//     reviews = props.item.reviews.map((review) => {
+//       return <div className="reviews-card">{review.review}</div>;
+//     });
+//   }
 
-  let foodTotal = 0;
-  let length = props.item.rating.length - 1;
-  props.item.rating.forEach(({ star }) => (foodTotal += parseInt(star)));
-  let avgStar = Math.floor(foodTotal / length);
+//   let foodTotal = 0;
+//   let length = props.item.rating.length - 1;
+//   props.item.rating.forEach(({ star }) => (foodTotal += parseInt(star)));
+//   let avgStar = Math.floor(foodTotal / length);
 
-  return (
-    <Modal
-      {...props}
-      size="md"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <div>
-        <div className="row food-reviews-modal-container">
-          <div className="col">
-            <img
-              className="img-fluid"
-              style={{ borderRadius: "10px" }}
-              src={props.item.img_path}
-              alt=""
-            />
-          </div>
-          <div className="col">
-            <h4>Name: {props.item.food_name}</h4>
-            <h6>Price: {props.item.food_price} BDT</h6>
-            <div>
-              <h6>
-                Rating:{" "}
-                {[...Array(5)].map((star, index) => {
-                  index += 1;
-                  return (
-                    <button
-                      type="button"
-                      key={index}
-                      className={
-                        index <= avgStar ? "star-button on" : "star-button off"
-                      }
-                    >
-                      <span className="fa fa-star" />
-                    </button>
-                  );
-                })}
-              </h6>
-            </div>
-          </div>
-          <h4 style={{ marginTop: "20px" }}>Reviews</h4>
-          <hr />
-          {reviews}
-        </div>
-      </div>
-    </Modal>
-  );
-}
+//   return (
+//     <Modal
+//       {...props}
+//       size="md"
+//       aria-labelledby="contained-modal-title-vcenter"
+//       centered
+//     >
+//       <div>
+//         <div className="row food-reviews-modal-container">
+//           <div className="col">
+//             <img
+//               className="img-fluid"
+//               style={{ borderRadius: "10px" }}
+//               src={props.item.img_path}
+//               alt=""
+//             />
+//           </div>
+//           <div className="col">
+//             <h4>Name: {props.item.food_name}</h4>
+//             <h6>Price: {props.item.food_price} BDT</h6>
+//             <div>
+//               <h6>
+//                 Rating:{" "}
+//                 {[...Array(5)].map((star, index) => {
+//                   index += 1;
+//                   return (
+//                     <button
+//                       type="button"
+//                       key={index}
+//                       className={
+//                         index <= avgStar ? "star-button on" : "star-button off"
+//                       }
+//                     >
+//                       <span className="fa fa-star" />
+//                     </button>
+//                   );
+//                 })}
+//               </h6>
+//             </div>
+//           </div>
+//           <h4 style={{ marginTop: "20px" }}>Reviews</h4>
+//           <hr />
+//           {reviews}
+//         </div>
+//       </div>
+//     </Modal>
+//   );
+// }
 export default ShopPage;

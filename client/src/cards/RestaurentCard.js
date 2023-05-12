@@ -3,31 +3,23 @@ import "./RestaurentCard.css";
 import { useNavigate } from "react-router-dom";
 
 const RestaurentCard = (props) => {
-  console.log(props.setIdandPath);
   const navigate = useNavigate();
-  function handleChange() {
-    const url = props.res_name.replace(/\s+/g, "").toLowerCase();
-
-    props.setRestaurentPath(`/${url}`);
-    navigate(`/${url}`);
-  }
 
   let totalSold = 0;
   props.items.forEach(({ sold }) => (totalSold += parseInt(sold)));
 
   return (
     <div
-      className="card"
-      onClick={() => {
-        handleChange();
-
-        props.setResEmail(props.res_email);
-      }}
-      style={{ width: "16rem", paddingLeft: "0px", paddingRight: "0px" }}
+      className="shadow-md rounded-lg cursor-pointer hover:shadow-lg transition-all duration-300"
+      onClick={() => navigate(`/restaurant/${props._id}`)}
     >
-      <img className="card-img-top" src={props.res_img_path} alt="card-img" />
-      <div className="card-body">
-        <h6 className="card-title">
+      <img
+        className="object-cover rounded-t-lg h-40 w-full"
+        src={`images/restaurant/res_${Math.floor(Math.random() * 5)}.jpg`}
+        alt="card-img"
+      />
+      <div className="p-2">
+        <h6 className="font-bold text-lg">
           {props.res_name}
           {` (${totalSold})`}
         </h6>

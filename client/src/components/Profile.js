@@ -24,6 +24,7 @@ export default function Profile({
     if (state === "settings") setDisplay(Settings);
     if (state === "logout") setDisplay(LogOut);
   }
+  s;
   function Dashboard() {
     return (
       <div className="text-center p-3">
@@ -229,7 +230,6 @@ function EditFoodFloatingModal(props) {
                 defaultValue={newName}
                 onChange={(e) => setNewName(e.target.value)}
                 type="text"
-                className="input"
                 placeholder={newName}
                 className="change--food--input"
               ></input>

@@ -6,7 +6,7 @@ const initialState = {
   restaurants: undefined,
 };
 
-const authSlice = createSlice({
+const restaurantSlice = createSlice({
   name: "restaurant",
   initialState,
   reducers: {
@@ -26,7 +26,6 @@ const authSlice = createSlice({
     },
     setRestaurantStatusTrue: (state, action) => {
       state.restaurants = state.restaurants.map((restaurant) => {
-        console.log(JSON.stringify(restaurant));
         if (restaurant.res_email === action.payload.email) {
           return [...restaurant, (restaurant.status = true)];
         } else return restaurant;
@@ -41,5 +40,5 @@ export const {
   setRestaurants,
   setRestaurant,
   setRestaurantStatusTrue,
-} = authSlice.actions;
-export default authSlice.reducer;
+} = restaurantSlice.actions;
+export default restaurantSlice.reducer;

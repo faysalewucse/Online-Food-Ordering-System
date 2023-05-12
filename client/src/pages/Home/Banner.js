@@ -17,8 +17,10 @@ export default function Banner() {
         <div className="row justify-content-center align-items-center gap-5">
           <div className="col d-flex">
             <div>
-              <h1 className="banner-text">Hungry? We've got you covered!</h1>
-              <p className="banner-par text-light text-break">
+              <h1 className="font-bold text-6xl bg-clip-text bg-gradient-to-br from-red-200  to-lime-100 text-transparent">
+                Hungry? We've got you covered!
+              </h1>
+              <p className="text-white leading-normal my-5">
                 We believe that food is not just about satisfying hunger, but
                 also about creating an unforgettable experience. From local
                 favorites to international cuisines, we've got you covered.

@@ -5,7 +5,7 @@ import {
   setRestaurant,
 } from "./restaurantSlice";
 
-export const authApi = apiSlice.injectEndpoints({
+export const restaurantApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     restaurantLogin: builder.mutation({
       query: (data) => ({
@@ -42,11 +42,25 @@ export const authApi = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
-
+      // invalidatesTags: ["Restaurant"],
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        //optimistic update of items
+        console.log(arg);
+        const pathResult = dispatch(
+          apiSlice.util.updateQueryData(
+            "getRestaurant",
+            { email: arg.res_email },
+            (draft) => {
+              console.log(arg, JSON.stringify(draft));
+              // const draftConversation = draft.data.find((c) => c.id == arg.id);
+              // draftConversation.message = arg.data.message;
+              // draftConversation.timestamp = arg.data.timestamp;
+            }
+          )
+        );
+
         try {
           const result = await queryFulfilled;
-          console.log(result);
 
           localStorage.setItem(
             "auth",
@@ -100,23 +114,10 @@ export const authApi = apiSlice.injectEndpoints({
       },
     }),
     getRestaurant: builder.query({
-      query: (data) => ({
-        url: "/api/auth/get_res",
-        method: "POST",
-        body: data,
+      query: (resId) => ({
+        url: `/api/auth/get_res/${resId}`,
+        method: "GET",
       }),
-      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
-        try {
-          const { data } = await queryFulfilled;
-          dispatch(
-            setRestaurant({
-              restaurant: data,
-            })
-          );
-        } catch (err) {
-          // do nothing
-        }
-      },
     }),
     makeStatusTrue: builder.mutation({
       query: (email) => ({
@@ -136,4 +137,4 @@ export const {
   useAddRestaurantMutation,
   useMakeStatusTrueMutation,
   useAddItemToRestaurantMutation,
-} = authApi;
+} = restaurantApi;

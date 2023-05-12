@@ -1,9 +1,7 @@
-.cart-page-container{
+.cart-page-container {
   min-height: 85vh;
 }
-.cart--header {
-  font-family: Poppins, sans-serif;
-}
+
 .total--cost--card {
   background-color: rgb(240, 240, 231);
   border-radius: 10px;
@@ -63,11 +61,7 @@
   margin-bottom: 20px;
 }
 
-.cart-empty-text {
-  font-family: Poppins, sans-serif;
-}
-
-.final-confirm-btn{
+.final-confirm-btn {
   margin-top: 13px;
   background-color: tomato;
   border-radius: 5px;

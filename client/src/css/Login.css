@@ -1,6 +1,5 @@
 .login-body {
   background: linear-gradient(#212529 0%, #4c555f 100%) transparent !important;
-  font-family: "Poppins", sans-serif;
   overflow: hidden;
   z-index: 0;
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import "../css/Navbar.css";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userLoggedOut } from "../features/auth/authSlice";
 import { restaurantLoggedOut } from "../features/restaurant/restaurantSlice";
@@ -9,6 +9,7 @@ export default function Navbar() {
   // user from redux store
   const { user } = useSelector((state) => state.auth);
   const { restaurant } = useSelector((state) => state.restaurants);
+  const { cartItems } = useSelector((state) => state.cart);
   const { cart } = user || 0;
 
   // Dipatcher
@@ -16,7 +17,10 @@ export default function Navbar() {
 
   // logout handler
   const logoutHandler = () => {
-    user ? dispatch(userLoggedOut()) : dispatch(restaurantLoggedOut());
+    console.log(user, restaurant);
+    user
+      ? dispatch(userLoggedOut())
+      : restaurant && dispatch(restaurantLoggedOut());
     localStorage.clear();
   };
 
@@ -35,35 +39,35 @@ export default function Navbar() {
           <span className="navbar-toggler-icon" />
         </button>
         <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-          <a className="navbar-brand" href="/">
+          <NavLink className="navbar-brand " to="/">
             Foods
             <span style={{ color: "#38ac33", fontWeight: "700" }}>Hub</span>
-          </a>
+          </NavLink>
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="/">
+              <NavLink className="nav-link active" aria-current="page" to="/">
                 Home
-              </a>
+              </NavLink>
             </li>
             <li className={`nav-item ${restaurant && "mr-5"}`}>
-              <a className="nav-link" href="/about">
+              <NavLink className="nav-link" to="/about">
                 About
-              </a>
+              </NavLink>
+            </li>
+            <li className="nav-item mt-2">
+              <NavLink className="nav-link" to="/cart">
+                <i className="fa cart-count" value={cartItems?.length}>
+                  <i className="fa-solid fa-cart-shopping"></i>
+                </i>
+              </NavLink>
             </li>
           </ul>
           {user ? (
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               <li className="nav-item mt-1">
-                <a className="nav-link" href="/track">
+                <NavLink className="nav-link" to="/track">
                   Track
-                </a>
-              </li>
-              <li className="nav-item mt-2">
-                <a className="nav-link" href="/cart">
-                  <i className="fa cart-count" value={cart?.length}>
-                    <i className="fa-solid fa-cart-shopping"></i>
-                  </i>
-                </a>
+                </NavLink>
               </li>
             </ul>
           ) : (

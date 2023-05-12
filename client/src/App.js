@@ -15,6 +15,7 @@ import AdminAuth from "./pages/Admin Panel/AdminAuth";
 import RestaurantLogin from "./pages/RestaurantLogin";
 import ResProfile from "./components/ResProfile";
 import HomeRoute from "./middleware/HomeRoute";
+import ShopPage from "./components/ShopPage";
 
 const App = () => {
   const authChecked = useAuthCheck();
@@ -28,8 +29,10 @@ const App = () => {
         <Routes>
           <Route path="/about" element={<About />} />
           <Route path="/restaurants" element={<Restaurants />} />
+          <Route path="/restaurant/:resId" element={<ShopPage />} />
           <Route path="/admin-auth" element={<AdminAuth />} />
           <Route path="/admin-panel" element={<Panel />} />
+          <Route path="/cart" element={<Cart />} />
           <Route
             path="/"
             element={
@@ -62,14 +65,7 @@ const App = () => {
               </PublicRoute>
             }
           />
-          <Route
-            path="/cart"
-            element={
-              <PrivateRoute>
-                <Cart />
-              </PrivateRoute>
-            }
-          />
+
           <Route
             path="/res-profile"
             element={

@@ -128,7 +128,7 @@ export default function RiderRegister() {
                 </div>
               </div>
               <div className="text-start radio--input">
-                <h4 style={{ fontFamily: "Righteous" }}>Vehicle Type</h4>
+                <h4>Vehicle Type</h4>
                 <form>
                   <label className="radio-inline" style={{ marginRight: 25 }}>
                     <input

@@ -96,9 +96,7 @@ function OrderCard({
     <div className="orders-card p-4 mb-5">
       <div>
         <div>
-          <h3 style={{ fontFamily: "Poppins" }}>
-            Ordered Items({items.result.length})
-          </h3>
+          <h3>Ordered Items({items.result.length})</h3>
           <div className="row">
             <div className="col-6">
               <div className="ordered--items">{item}</div>
@@ -121,7 +119,7 @@ function OrderCard({
                       {({ remainingTime }) => remainingTime}
                     </CountdownCircleTimer>
                   </div>
-                  <h4 style={{ fontFamily: "Righteous" }}>
+                  <h4>
                     Add
                     <input
                       name="delivery_time"
@@ -268,10 +266,7 @@ function SetTimeModal(props) {
     >
       <div>
         <div className="row p-3 justify-content-center">
-          <h4
-            className="text-center d-flex"
-            style={{ fontFamily: "Righteous", fontSize: "20px" }}
-          >
+          <h4 className="text-center d-flex" style={{ fontSize: "20px" }}>
             Set Expectation Time to Deliver <br />
             <input
               name="delivery_time"
@@ -280,9 +275,7 @@ function SetTimeModal(props) {
               defaultValue={10}
               onChange={(e) => setDeliveryTime(e.target.value)}
             />
-            <h4 style={{ fontFamily: "Righteous", fontSize: "20px" }}>
-              Minutes
-            </h4>
+            <h4 style={{ fontSize: "20px" }}>Minutes</h4>
           </h4>
           <Select
             className="mb-3"

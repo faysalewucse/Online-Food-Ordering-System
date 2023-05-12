@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import "../css/Cart.css";
 import CartCard from "../cards/CartCard";
 import { confirmorder } from "../api/resdata";
@@ -17,7 +17,10 @@ function Cart() {
   // const [orderaddress, setOrderAddress] = useState(user.address);
 
   // Current user from redux store
+  const [cart, setCart] = useState(JSON.parse(localStorage.getItem("cart")));
+
   const { user } = useSelector((state) => state.auth);
+  if (user) setCart(user.cart);
 
   const [open, setOpen] = React.useState(false);
   const form = useRef();
@@ -32,10 +35,10 @@ function Cart() {
     if (data) {
       emailjs
         .sendForm(
-          "service_3v0w01r",
-          "template_7o3awvk",
+          process.env.REACT_APP_EMAILJS_SERVICE_ID,
+          process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
           form.current,
-          "YiqxE4MGs2K72WJZl"
+          process.env.REACT_APP_EMAILJS_PUBLIC_KEY
         )
         .then(
           (result) => {
@@ -56,9 +59,9 @@ function Cart() {
     res_email,
     res_address;
 
-  if (user.cart) {
+  if (cart) {
     result = [
-      ...user.cart
+      ...cart
         .reduce((mp, o) => {
           if (!mp.has(o.img_path)) mp.set(o.img_path, { ...o, count: 0 });
           mp.get(o.img_path).count++;
@@ -82,6 +85,7 @@ function Cart() {
   }
 
   const confirmOrder = async (result) => {
+    if (!user) return navigate("/login");
     const data = await confirmorder(
       user.email,
       user,
@@ -94,21 +98,17 @@ function Cart() {
   };
 
   return (
-    <div className="p-5 container cart-page-container">
-      <h2 className="text-center mb-5 cart--header">
+    <div className="py-5">
+      <h2 className="text-center mb-5">
         {/* Ordered {cart_count} Items From {res_name} */}
       </h2>
-      <div className="row">
+      <div className="max-w-7xl mx-auto flex gap-5 justify-between">
         {totalCost !== 0 ? (
-          <div className="col-lg-6 mb-5">{cartItem}</div>
+          <div className="w-1/2">{cartItem}</div>
         ) : (
-          <div className="col-lg-6">
+          <div className="w-1/2">
             <div className="text-center">
-              <img
-                src="images/cart-empty.svg"
-                alt="cart-empty"
-                className="cart--empty--png"
-              />
+              <img src="images/cart-empty.svg" alt="cart-empty" />
               <h3 className="text-center cart-empty-text">
                 Your Cart Is Empty
               </h3>
@@ -120,12 +120,12 @@ function Cart() {
         )}
 
         <div className="col-lg-6">
-          <div className="total--cost--card">
+          <div className="bg-black p-5 rounded text-white">
             <h2>Cost</h2>
             <hr />
             <div className="d-flex justify-content-between">
               <h6>Restaurent Name :</h6>
-              <h6 style={{ color: "tomato" }}>{res_name}</h6>
+              <h6 className="text-green text-lg font-bold">{res_name}</h6>
             </div>
             <div className="d-flex justify-content-between">
               <h6>Sub Total :</h6>
@@ -145,25 +145,32 @@ function Cart() {
                 {parseInt(totalCost) === 0 ? totalCost : totalCost + 15} BDT
               </h6>
             </div>
-            <div className="d-flex justify-content-between mb-2">
+            <div className="flex justify-between items-center">
               {totalCost !== 0 ? (
-                <h6 className="mt-2 apply--voucher--btn">Apply Voucher</h6>
+                <h6 className="mt-2 bg-green hover:bg-greenHover cursor-pointer py-2 px-6 rounded">
+                  Apply Voucher
+                </h6>
               ) : (
-                <h6 className="mt-2 apply--voucher--btn--inv">Apply Voucher</h6>
+                <h6 className="mt-2 disabled">Apply Voucher</h6>
               )}
-              <input className="voucher--input" type="text" />
+              <input
+                className="focus:outline-none p-2 font-bold"
+                type="text"
+                placeholder="ex: FOOD2023"
+              />
               <textarea hidden name="message" defaultValue={"OP"} />
             </div>
             {totalCost !== 0 ? (
               <h6
-                type="submit"
-                className="mt-2 apply--voucher--btn"
-                onClick={() => setOpen(true)}
+                className="mt-5 bg-green hover:bg-greenHover cursor-pointer text-center p-2"
+                onClick={() => (user ? setOpen(true) : navigate("/login"))}
               >
                 Confirm Order
               </h6>
             ) : (
-              <h6 className="mt-2 apply--voucher--btn--inv">Confirm Order</h6>
+              <h6 className="mt-5 bg-gray-400 text-gray-300 text-center p-2 disabled cursor-not-allowed">
+                Confirm Order
+              </h6>
             )}
           </div>
         </div>
@@ -181,14 +188,10 @@ function Cart() {
           </Button>
           <form ref={form} onSubmit={sendEmail}>
             <div className="input-box">
-              <input type="hidden" name="user_name" defaultValue={user.name} />
+              <input type="hidden" name="user_name" defaultValue={"User"} />
             </div>
             <div className="input-box">
-              <input
-                type="hidden"
-                name="user_email"
-                defaultValue={user.email}
-              />
+              <input type="hidden" name="user_email" defaultValue={"Email"} />
             </div>
             <div className="input-box message-box">
               <textarea
