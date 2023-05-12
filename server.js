@@ -27,8 +27,6 @@ app.use("/api/riderdata", require("./routes/riderdata"));
 app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 
-console.log(process.env.NODE_ENV === "production");
-
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/client/build")));
   app.get("*", (req, res) => {
