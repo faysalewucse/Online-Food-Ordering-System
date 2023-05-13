@@ -16,7 +16,6 @@ function FoodCard({ item, restaurant }) {
   const addToCart = (item) => {
     // if user not logged in then add item to local storage
     let storedItem = JSON.parse(localStorage.getItem("cart"));
-    console.log(storedItem);
     if (storedItem) {
       storedItem.push(item);
       console.log(storedItem);

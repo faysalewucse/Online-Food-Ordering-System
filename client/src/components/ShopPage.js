@@ -3,14 +3,15 @@ import { useGetRestaurantQuery } from "../features/restaurant/restaurantApi";
 import FoodCard from "../cards/FoodCard";
 import ReactSearchBox from "react-search-box";
 import Select from "react-select";
-import { useState } from "react";
 import Levenshtein from "levenshtein";
+import { useEffect, useState } from "react";
 
 // const Alert = React.forwardRef(function Alert(props, ref) {
 //   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 // });
 
 function ShopPage(props) {
+  const [items, setItems] = useState(undefined);
   const { resId: restaurant_id } = useParams();
   const {
     data: restaurantData,
@@ -18,7 +19,12 @@ function ShopPage(props) {
     isError,
   } = useGetRestaurantQuery(restaurant_id);
 
-  const [items, setItems] = useState(restaurantData?.items);
+  useEffect(() => {
+    if (restaurantData) {
+      setItems(restaurantData.items);
+    }
+  }, [restaurantData]);
+
   // const [open, setOpen] = React.useState(false);
   // const vertical = "bottom",
   //   horizontal = "right";
@@ -36,7 +42,7 @@ function ShopPage(props) {
   let content;
   if (isLoading && !isError) {
     content = <div>Loading...</div>;
-  } else if (!isLoading && !isError && items) {
+  } else if (items) {
     content = items.map((item, index) => {
       return <FoodCard key={index} restaurant={restaurantData} item={item} />;
     });
@@ -59,7 +65,7 @@ function ShopPage(props) {
   };
 
   const highl = () => {
-    const newArray = [items].sort((a, b) => {
+    const newArray = [...items].sort((a, b) => {
       return b.food_price - a.food_price;
     });
 
@@ -118,7 +124,7 @@ function ShopPage(props) {
   const aquaticCreatures = [
     { label: "Name", value: "name" },
     { label: "Price(Low > High)", value: "lowh" },
-    { label: "Price (High > Low", value: "highl" },
+    { label: "Price (High > Low)", value: "highl" },
     { label: "Rating", value: "rating" },
     { label: "Sell", value: "sell" },
   ];
