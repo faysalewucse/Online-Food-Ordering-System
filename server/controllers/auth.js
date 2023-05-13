@@ -9,7 +9,6 @@ const mongoose = require("mongoose");
 
 exports.login = async (req, res, next) => {
   const { email, password } = req.body;
-
   // Check if email and password is provided
   if (!email || !password) {
     return next(new ErrorResponse("Please provide an email and password", 400));
@@ -30,7 +29,7 @@ exports.login = async (req, res, next) => {
       return next(new ErrorResponse("Password Does Not Match", 401));
     }
 
-    sendToken(user, 201, res);
+    sendToken(user, 201, res, "user");
   } catch (err) {
     next(err);
   }
@@ -88,10 +87,21 @@ exports.reslogin = async (req, res, next) => {
     const isMatch = await restaurent.matchPassword(res_password);
 
     if (!isMatch) {
-      return next(new ErrorResponse("Invalid credentials", 401));
     }
 
-    sendToken(restaurent, 201, res);
+    // Check Restaurant approval from adminstration
+    const status = await restaurent.checkStatus();
+
+    if (!status) {
+      return next(
+        new ErrorResponse(
+          "Restaurant Confirmation not approved yet! Wait for confirmation E-mail.",
+          401
+        )
+      );
+    }
+
+    sendToken(restaurent, 201, res, "restaurant");
   } catch (err) {
     res.status(500).json({ success: false, error: "Invalid Cridentials" });
   }
@@ -114,7 +124,7 @@ exports.forgotpassword = async (req, res, next) => {
     await user.save();
 
     // Create reset url to email to provided email
-    const resetUrl = `http://localhost:3000/passwordreset/${resetToken}`;
+    const resetUrl = `http://http://localhost:3000/passwordreset/${resetToken}`;
 
     // HTML Message
     const message = `Visit this link ${resetUrl} to reset your password`;
@@ -163,15 +173,8 @@ exports.resetpassword = async (req, res, next) => {
 };
 
 exports.register = async (req, res, next) => {
-  const {
-    name,
-    email,
-    address,
-    phone,
-    password,
-    lattitude,
-    longitude,
-  } = req.body;
+  const { name, email, address, phone, password, lattitude, longitude } =
+    req.body;
 
   try {
     const user = await User.create({
@@ -191,15 +194,8 @@ exports.register = async (req, res, next) => {
 };
 
 exports.rider_register = async (req, res, next) => {
-  const {
-    name,
-    email,
-    vehicle,
-    address,
-    password,
-    lattitude,
-    longitude,
-  } = req.body;
+  const { name, email, vehicle, address, password, lattitude, longitude } =
+    req.body;
 
   try {
     const rider = await Rider.create({
@@ -218,6 +214,7 @@ exports.rider_register = async (req, res, next) => {
     next(err);
   }
 };
+
 exports.resregister = async (req, res, next) => {
   const {
     name,
@@ -227,11 +224,10 @@ exports.resregister = async (req, res, next) => {
     lattitude,
     longitude,
     res_password,
+    res_contact,
   } = req.body;
 
-  const res_img = req.file.originalname;
-  const res_img_path = req.file.path;
-
+  console.log(req.body);
   const resExist = await Restaurent.findOne({ res_email });
 
   if (resExist) {
@@ -248,21 +244,19 @@ exports.resregister = async (req, res, next) => {
       lattitude,
       longitude,
       res_password,
-      res_img,
-      res_img_path,
+      res_contact,
+      status: false,
     });
 
     restaurent.save();
-
-    sendToken(restaurent, 201, res);
+    res.status(201).json({ success: true, restaurent });
   } catch (err) {
     next(err);
   }
 };
-exports.addfood = async (req, res, next) => {
-  const { res_email, food_name, food_price } = req.body;
-  const food_img = req.file.originalname;
-  const img_path = req.file.path;
+
+exports.addfood = async (req, res) => {
+  const { res_email, food_name, food_price, food_img, category } = req.body;
 
   try {
     const restaurent = await Restaurent.findOneAndUpdate(
@@ -272,10 +266,10 @@ exports.addfood = async (req, res, next) => {
       {
         $push: {
           items: {
-            food_img: food_img,
-            food_name: food_name,
-            food_price: food_price,
-            img_path: img_path,
+            food_img,
+            food_name,
+            food_price,
+            category,
             sold: 0,
             rating: {
               star: 0,
@@ -284,11 +278,12 @@ exports.addfood = async (req, res, next) => {
         },
       }
     );
-    sendToken(restaurent, 201, res);
+    sendToken(restaurent, 201, res, "restaurant");
   } catch (error) {
     res.status(400).send(error.message);
   }
 };
+
 exports.updatefood = async (req, res, next) => {
   const { res_email, food_name, food_price, food_id } = req.body;
 
@@ -440,8 +435,6 @@ exports.update_rider_orders = async (req, res, next) => {
 exports.up_status_user_deli = async (req, res, next) => {
   const { order_id, user_mail, status } = req.body;
 
-  console.log(req.body);
-
   const eventEmitter = req.app.get("eventEmitter");
   eventEmitter.emit("orderUpdated", {
     id: order_id,
@@ -517,7 +510,6 @@ exports.up_status_restaurent_deli = async (req, res, next) => {
 exports.rider_avail_update = async (req, res, next) => {
   const { rider_mail, status } = req.body;
 
-  console.log(status);
   try {
     const rider = await Rider.findOneAndUpdate(
       {
@@ -535,7 +527,6 @@ exports.rider_avail_update = async (req, res, next) => {
     // });
     sendToken(rider, 201, res);
   } catch (error) {
-    console.log("Error");
     res.status(400).send(error.message);
   }
 };
@@ -588,8 +579,6 @@ exports.getAllUser = async (req, res, next) => {
 exports.increase_item_sell = async (req, res, next) => {
   const { food_id, res_email, sold } = req.body;
 
-  console.log(req.body);
-
   try {
     const files = await Restaurent.updateOne(
       { res_email: res_email, "items._id": food_id },
@@ -601,10 +590,23 @@ exports.increase_item_sell = async (req, res, next) => {
   }
 };
 
-exports.get_res = async (req, res, next) => {
-  const { res_mail } = req.body;
+exports.makestatustrue = async (req, res, next) => {
+  const { email: res_email } = req.body;
   try {
-    const files = await Restaurent.findOneAndUpdate({ res_email: res_mail });
+    const files = await Restaurent.updateOne(
+      { res_email: res_email },
+      { $set: { status: true } }
+    );
+    res.status(200).send(files);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+exports.get_res = async (req, res, next) => {
+  const { resId } = req.params;
+  try {
+    const files = await Restaurent.findOneAndUpdate({ _id: resId });
     res.status(200).send(files);
   } catch (error) {
     res.status(400).send(error.message);
@@ -615,7 +617,6 @@ exports.get_rider = async (req, res, next) => {
   const { rider_mail } = req.body;
   try {
     const rider = await Rider.findOne({ email: rider_mail });
-    console.log(rider);
     res.status(200).send(rider);
   } catch (error) {
     res.status(400).send(error.message);
@@ -667,7 +668,6 @@ exports.addtocart = async (req, res, next) => {
     latlong,
   } = req.body;
 
-  console.log("ITEMS", req.body);
   try {
     const user = await User.findOneAndUpdate(
       {
@@ -688,7 +688,7 @@ exports.addtocart = async (req, res, next) => {
         },
       }
     );
-    sendToken(user, 201, res);
+    res.status(200).send(user);
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -852,45 +852,9 @@ exports.emptycart = async (req, res, next) => {
   }
 };
 
-exports.addPost = async (req, res, next) => {
-  const {
-    location,
-    con,
-    brand,
-    model,
-    title,
-    description,
-    price,
-    phone,
-  } = req.body;
-
-  console.log(req.body);
-
-  const images = [];
-
-  await req.files.map((file) => {
-    images.push(file.path);
-  });
-
-  try {
-    const post = await Post.create({
-      location: location,
-      condition: con,
-      images: images,
-      brand: brand,
-      model: model,
-      title: title,
-      description: description,
-      price: price,
-      phone: phone,
-    });
-    res.status(200).send(post);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-};
-
-const sendToken = (user, statusCode, res) => {
-  const token = user.getSignedJwtToken();
-  res.status(statusCode).json({ sucess: true, token });
+const sendToken = (data, statusCode, res, user) => {
+  const token = data.getSignedJwtToken();
+  const result = { accessToken: token };
+  result[user] = data;
+  res.status(statusCode).json(result);
 };

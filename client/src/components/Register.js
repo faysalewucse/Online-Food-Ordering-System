@@ -39,7 +39,7 @@ export default function Register() {
 
     try {
       const { data } = await axios.post(
-        "/api/auth/register",
+        "http://localhost:3000/api/auth/register",
         {
           name,
           email,
@@ -66,93 +66,93 @@ export default function Register() {
   return (
     <div>
       <div className="register--body">
-        <img class="wave" src="images/wave.png" />
-        <div class="container" id="form--container">
-          <div class="img">
+        <img className="wave" src="images/wave.png" />
+        <div className="container" id="form--container">
+          <div className="img">
             <img src="images/undraw_hamburger.svg" />
           </div>
-          <div class="login-content">
+          <div className="login-content">
             <div className="form">
               <img src="images/undraw_profile.svg" />
-              <h2 class="title">Register</h2>
+              <h2 className="title">Register</h2>
               {error && <span className="error-message">{error}</span>}
-              <div onClick={form_effect} class="input-div one">
-                <div class="i">
-                  <i class="fas fa-user"></i>
+              <div onClick={form_effect} className="input-div one">
+                <div className="i">
+                  <i className="fas fa-user"></i>
                 </div>
-                <div class="div">
+                <div className="div">
                   <h5>Name</h5>
                   <input
                     type="text"
                     name="name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    class="input"
+                    className="input"
                   ></input>
                 </div>
               </div>
-              <div onClick={form_effect} class="input-div one">
-                <div class="i">
-                  <i class="fas fa-at"></i>
+              <div onClick={form_effect} className="input-div one">
+                <div className="i">
+                  <i className="fas fa-at"></i>
                 </div>
-                <div class="div">
+                <div className="div">
                   <h5>Email</h5>
                   <input
                     name="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     type="email"
-                    class="input"
+                    className="input"
                   ></input>
                 </div>
               </div>
-              <div onClick={form_effect} class="input-div address">
-                <div class="i">
-                  <i class="fas fa-user"></i>
+              <div onClick={form_effect} className="input-div address">
+                <div className="i">
+                  <i className="fas fa-user"></i>
                 </div>
-                <div class="div">
+                <div className="div">
                   <h5>Address</h5>
                   <input
                     name="address"
                     onChange={(e) => setAddress(e.target.value)}
                     type="text"
-                    class="input"
+                    className="input"
                   ></input>
                 </div>
               </div>
-              <div onClick={form_effect} class="input-div address">
-                <div class="i">
-                  <i class="fas fa-user"></i>
+              <div onClick={form_effect} className="input-div address">
+                <div className="i">
+                  <i className="fas fa-user"></i>
                 </div>
-                <div class="div">
+                <div className="div">
                   <h5>Phone No</h5>
                   <input
                     name="phone"
                     onChange={(e) => setPhone(e.target.value)}
                     type="number"
-                    class="input"
+                    className="input"
                   ></input>
                 </div>
               </div>
-              <div onClick={form_effect} class="input-div pass">
-                <div class="i">
-                  <i class="fas fa-lock"></i>
+              <div onClick={form_effect} className="input-div pass">
+                <div className="i">
+                  <i className="fas fa-lock"></i>
                 </div>
-                <div class="div">
+                <div className="div">
                   <h5>Password</h5>
                   <input
                     name="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     type="password"
-                    class="input"
+                    className="input"
                   ></input>
                 </div>
               </div>
               <input
                 onClick={registerHandler}
                 type="submit"
-                class="btn"
+                className="btn"
                 value="Register"
               ></input>
               <h6>

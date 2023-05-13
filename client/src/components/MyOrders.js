@@ -164,7 +164,7 @@ function OrderAgainFloatingModal(props) {
   });
 
   const orderAgain = async (user, itemsArray) => {
-    await axios.put("/api/auth/afterconfirm_removecart", {
+    await axios.put("http://localhost:3000/api/auth/afterconfirm_removecart", {
       user_mail: user.email,
     });
 

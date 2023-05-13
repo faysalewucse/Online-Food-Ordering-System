@@ -11,11 +11,15 @@ connectDB();
 
 const app = express();
 
+app.use(cors());
+app.use(bodyParser.json());
+
 const eventEmitter = new Emmiter();
 app.set("eventEmitter", eventEmitter);
 
-app.use(bodyParser.json());
-app.use(cors());
+app.use("/", (req, res) => {
+  res.send("FoodsBD Server is Running...");
+});
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
@@ -26,8 +30,6 @@ app.use("/api/riderdata", require("./routes/riderdata"));
 //Error Handler (Should be last Piece of Middleware)
 app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
-
-console.log(process.env.NODE_ENV === "production");
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/client/build")));
@@ -60,13 +62,3 @@ io.on("connection", (socket) => {
 eventEmitter.on("orderUpdated", (data) => {
   io.to(`order_${data.id}`).emit("orderUpdated", data);
 });
-
-// eventEmitter.on("riderAvail", (data) => {
-//   console.log("EMMIT", data);
-//   io.to("restaurant_orders").emit("riderAvail", data);
-// });
-
-// eventEmitter.on("userOrder", (data) => {
-//   console.log("EMMIT", data);
-//   io.to("user_orders").emit("userOrder", data);
-// });

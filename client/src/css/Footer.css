@@ -1,39 +1,42 @@
-.business--btn--reg {
+footer {
+  background-color: #121212;
+  padding: 100px 0px;
+  color: white;
+}
+
+footer ul {
+  list-style-type: none;
+  display: contents;
+}
+
+footer ul li {
+  padding: 5px 0;
+}
+footer a {
+  text-decoration: none;
+  color: gray;
+  font-size: large;
+  margin: 5px 0;
+  /* letter-spacing: 0.01rem; */
+}
+
+footer a:hover {
+  color: white;
+}
+
+.social-media i {
+  height: 30px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid white;
+  color: white;
+  transition: all 0.3s;
+}
+
+.social-media i:hover {
+  cursor: pointer;
+  background-color: white;
   color: black;
-  background-color: yellowgreen;
-  border-radius: 10px;
-  width: 10vw;
-  font-weight: bold;
-  margin-left: auto;
-}
-
-.business--btn--login {
-  color: white;
-  font-weight: bold;
-  background-color: rgb(32, 133, 29);
-  border-radius: 10px;
-  width: 10vw;
-}
-.business--btn--logout {
-  color: white;
-  background-color: rgb(230, 34, 0);
-  font-weight: 700;
-  text-align: center;
-  border-radius: 10px;
-}
-.business--btn--logout:hover {
-  color: white;
-  background-color: rgb(139, 21, 0);
-  font-weight: 700;
-  border-radius: 10px;
-}
-
-.business--btn--reg:hover {
-  background-color: rgb(124, 177, 17);
-  color: white;
-}
-
-.business--btn--login:hover {
-  background-color: rgb(43, 167, 38);
-  color: white;
 }

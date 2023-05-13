@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "./Home";
 import Login from "./Login";
 import Profile from "./Profile";
@@ -68,11 +66,11 @@ export default function NavbarComp({
   return (
     <Router>
       <div>
-        <Navbar bg="dark" expand="md" variant={"dark"} className="nav--bar">
-          <Container>
-            <Navbar.Brand className="navbar--brand" href="#home">
-              FoodsBD
-            </Navbar.Brand>
+        <header bg="light" expand="md" variant={"light"} className="nav--bar">
+          <nav className="navbar-container">
+            <h1>
+              Foods<span style={{ color: "#2970ec" }}>Hub</span>
+            </h1>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="me-auto">
@@ -119,9 +117,11 @@ export default function NavbarComp({
                     >
                       {user ? "Profile" : restaurent ? "My Shop" : "My Orders"}
                     </NavDropdown.Item>
-                    {user && <NavDropdown.Item href="/myorders">
-                      My Orders
-                    </NavDropdown.Item>}
+                    {user && (
+                      <NavDropdown.Item href="/myorders">
+                        My Orders
+                      </NavDropdown.Item>
+                    )}
                     <NavDropdown.Item href="/">Settings</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item
@@ -139,18 +139,13 @@ export default function NavbarComp({
                   </NavDropdown>
                 </Nav>
               ) : (
-                <Nav.Link
-                  as={Link}
-                  to={"/login"}
-                  className="login--btn"
-                  style={{ color: "white" }}
-                >
+                <Nav.Link as={Link} to={"/login"} className="login--btn">
                   Login
                 </Nav.Link>
               )}
             </Navbar.Collapse>
-          </Container>
-        </Navbar>
+          </nav>
+        </header>
       </div>
       {/* Routes */}
       <div>

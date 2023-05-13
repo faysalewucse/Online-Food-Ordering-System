@@ -1,29 +1,17 @@
-.login--body {
-  font-family: "Poppins", sans-serif;
+.login-body {
+  background: linear-gradient(#212529 0%, #4c555f 100%) transparent !important;
   overflow: hidden;
+  z-index: 0;
 }
 
-.wave {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  height: 100%;
-  z-index: -1;
-  position: absolute;
+.form-container .title {
+  color: white;
 }
 
-#form--container {
-  width: 100vw;
-  height: 80vh;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 7rem;
-  padding: 0 2rem;
-}
-
-.img {
+.form-container {
   display: flex;
-  justify-content: flex-end;
+  min-height: 95vh;
+  justify-content: center;
   align-items: center;
 }
 
@@ -34,12 +22,11 @@
   text-align: center;
 }
 
-.img img {
-  width: 500px;
-}
-
 .form {
   width: 360px;
+}
+.form > img {
+  margin: 0 auto;
 }
 
 .login-content img {
@@ -117,7 +104,7 @@
 }
 
 .input-div.focus > div > h5 {
-  top: -5px;
+  top: -10px;
   font-size: 15px;
 }
 
@@ -136,8 +123,7 @@
   background: none;
   padding: 0.5rem 0.7rem;
   font-size: 1.2rem;
-  color: #555;
-  font-family: "poppins", sans-serif;
+  color: white;
 }
 
 .input-div.pass {
@@ -157,34 +143,12 @@
   color: #2da8cd;
 }
 
-.btn {
-  display: block;
-  width: 100%;
-  height: 50px;
-  border-radius: 25px;
-  outline: none;
-  border: none;
-  background-image: linear-gradient(to right, #32be6c, #2da8cd, #32be6c);
-  background-size: 200%;
-  font-size: 1.2rem;
-  color: #fff;
-  font-family: "Poppins", sans-serif;
-  text-transform: uppercase;
-  margin: 1rem 0;
-  cursor: pointer;
-  transition: 0.5s;
+.sign-up {
+  color: #36d0ff;
 }
 
-.btn:hover {
-  background-position: right;
-}
-
-#sign--up {
-  color: #2da8cd;
-}
-
-#sign--up:hover {
-  color: #1a6880;
+.sign-up:hover {
+  color: #30bde8;
   cursor: pointer;
 }
 

@@ -13,7 +13,10 @@ export const fetchPrivateData = async (
   };
 
   try {
-    const { data } = await axios.get("/api/private", config);
+    const { data } = await axios.get(
+      "http://localhost:3000/api/private",
+      config
+    );
     getAllRes(setAllRestaurent);
     setUser(data.data);
 
@@ -41,7 +44,10 @@ export const fetchRiderData = async (setRider, setAllRestaurent) => {
   };
 
   try {
-    const { data } = await axios.get("/api/riderdata", config);
+    const { data } = await axios.get(
+      "http://localhost:3000/api/riderdata",
+      config
+    );
     getAllRes(setAllRestaurent);
     setRider(data.data);
   } catch (error) {
@@ -60,10 +66,13 @@ export const fetchResData = async (setRestaurent, setOrdersCount) => {
   };
 
   try {
-    const { data } = await axios.get("/api/resdata", config);
+    const { data } = await axios.get(
+      "http://localhost:3000/api/resdata",
+      config
+    );
     setRestaurent(data.data);
     let order_length = 0;
-    data.data.orders.map((item) => {
+    data.data.orders.forEach((item) => {
       if (
         item.status !== "Delivered" &&
         item.status !== "Completed" &&
@@ -80,7 +89,9 @@ export const fetchResData = async (setRestaurent, setOrdersCount) => {
 
 export const getAllRes = async (setAllRestaurent) => {
   try {
-    const { data } = await axios.get("/api/auth/getallres");
+    const { data } = await axios.get(
+      "http://localhost:3000/api/auth/getallres"
+    );
     setAllRestaurent(data);
     return data;
   } catch (error) {
@@ -90,7 +101,9 @@ export const getAllRes = async (setAllRestaurent) => {
 
 export const getAllUser = async (setAllUser) => {
   try {
-    const { data } = await axios.get("/api/auth/getalluser");
+    const { data } = await axios.get(
+      "http://localhost:3000/api/auth/getalluser"
+    );
     setAllUser(data);
     return data;
   } catch (error) {
@@ -100,7 +113,9 @@ export const getAllUser = async (setAllUser) => {
 
 export const getAllRider = async (setAllRider) => {
   try {
-    const { data } = await axios.get("/api/auth/getallrider");
+    const { data } = await axios.get(
+      "http://localhost:3000/api/auth/getallrider"
+    );
     setAllRider(data);
     return data;
   } catch (error) {
@@ -110,37 +125,13 @@ export const getAllRider = async (setAllRider) => {
 
 export const getResFood = async (setResFood, res_email) => {
   try {
-    const { data } = await axios.post("/api/auth/getresfood", { res_email });
+    const { data } = await axios.post(
+      "http://localhost:3000/api/auth/getresfood",
+      {
+        res_email,
+      }
+    );
     setResFood(data);
-    return data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const addtocart = async (
-  email,
-  food_id,
-  food_name,
-  food_price,
-  img_path,
-  res_email,
-  res_name,
-  res_address,
-  latlong
-) => {
-  try {
-    const { data } = await axios.post("/api/auth/addtocart", {
-      email,
-      food_id,
-      food_name,
-      food_price,
-      img_path,
-      res_email,
-      res_name,
-      res_address,
-      latlong,
-    });
     return data;
   } catch (error) {
     throw error;
@@ -156,13 +147,16 @@ export const removefromcart = async (
   res_email
 ) => {
   try {
-    const { data } = await axios.post("/api/auth/removefromcart", {
-      email,
-      food_name,
-      food_price,
-      img_path,
-      res_email,
-    });
+    const { data } = await axios.post(
+      "http://localhost:3000/api/auth/removefromcart",
+      {
+        email,
+        food_name,
+        food_price,
+        img_path,
+        res_email,
+      }
+    );
     return data;
   } catch (error) {
     throw error;
@@ -191,22 +185,25 @@ export const confirmorder = async (
 ) => {
   try {
     console.log("Confirm");
-    const { data } = await axios.post("/api/auth/confirmorder", {
-      user,
-      res_email,
-      res_address,
-      result,
-    });
+    const { data } = await axios.post(
+      "http://localhost:3000/api/auth/confirmorder",
+      {
+        user,
+        res_email,
+        res_address,
+        result,
+      }
+    );
 
     console.log("Removing");
-    await axios.put("/api/auth/afterconfirm_removecart", {
+    await axios.put("http://localhost:3000/api/auth/afterconfirm_removecart", {
       user_mail,
     });
 
     setCartCount(0);
 
     const { res } = await axios.post(
-      "/api/auth/afterremovecart_deliverystatus",
+      "http://localhost:3000/api/auth/afterremovecart_deliverystatus",
       {
         data,
         result,

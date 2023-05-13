@@ -25,7 +25,6 @@
 .edit-text {
   align-items: center;
   padding: 0px 40px;
-  font-family: Poppins, sans-serif;
 }
 
 .add--item--btn {
@@ -48,8 +47,8 @@
   margin-right: auto;
 }
 
-.food-items-container{
-  min-height: 50vh
+.food-items-container {
+  min-height: 50vh;
 }
 /* .change--food--img {
   background-color: rgb(201, 174, 21);
@@ -84,7 +83,6 @@
   border: none;
   border-radius: 10px;
   text-align: center;
-  font-family: Poppins, sans-serif;
   color: rgb(71, 70, 66);
   width: 95%;
 }
@@ -106,7 +104,6 @@
   padding: 14px;
   margin-right: 5px;
   color: black;
-  font-family: Josefin, sans-serif;
 }
 
 .orders--btn:hover {

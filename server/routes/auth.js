@@ -37,7 +37,7 @@ const {
   get_res,
   get_rider,
   update_user_name,
-  addPost,
+  makestatustrue,
 } = require("../controllers/auth");
 
 router.route("/register").post(register);
@@ -46,8 +46,10 @@ router.route("/rider_register").post(rider_register);
 router.route("/login").post(login);
 router.route("/riderlogin").post(riderlogin);
 router.route("/reslogin").post(reslogin);
+router.route("/resregister").post(resregister);
 router.route("/forgotpassword").post(forgotpassword);
 router.route("/resetpassword").put(resetpassword);
+router.route("/makestatustrue").put(makestatustrue);
 
 router.route("/updatefood").put(upload.single("file"), updatefood);
 router.route("/update_user_name").put(update_user_name);
@@ -68,13 +70,10 @@ router.route("/afterremovecart_deliverystatus").post(add_order_history);
 router.route("/confirmorder").post(confirmorder);
 router.route("/removefromcart").post(removefromcart);
 router.route("/reducefromcart").post(reducefromcart);
-
-router.post("/addfood", upload.single("file"), addfood);
-router.post("/addPost", upload.array("images", 5), addPost);
-router.post("/resregister", upload.single("file"), resregister);
+router.route("/addfood").post(addfood);
 
 router.get("/getallres", getAllRes);
-router.post("/get_res", get_res);
+router.get("/get_res/:resId", get_res);
 router.post("/get_rider", get_rider);
 router.get("/get_order_state", get_order_state);
 router.get("/getalluser", getAllUser);

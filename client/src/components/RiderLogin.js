@@ -28,7 +28,10 @@ const RiderLogin = ({ setRider }) => {
     };
 
     try {
-      const { data } = await axios.get("/api/riderdata", config);
+      const { data } = await axios.get(
+        "http://localhost:3000//riderdata",
+        config
+      );
 
       console.log(data);
 
@@ -49,7 +52,7 @@ const RiderLogin = ({ setRider }) => {
         },
       };
       const { data } = await axios.post(
-        "/api/auth/riderlogin",
+        "http://localhost:3000/api/auth/riderlogin",
         { email, password },
         config
       );
@@ -75,42 +78,42 @@ const RiderLogin = ({ setRider }) => {
 
   return (
     <div className="login--body">
-      <img class="wave" src="images/wave.png" />
-      <div class="container" id="form--container">
-        <div class="img">
+      <img className="wave" src="images/wave.png" />
+      <div className="container" id="form--container">
+        <div className="img">
           <img src="images/undraw_bike_ride.svg" />
         </div>
-        <div class="login-content">
+        <div className="login-content">
           <div className="form">
             <img src="images/undraw_bike_ride.svg" />
-            <h2 class="title">Rider Login</h2>
-            <div onClick={form_effect} class="input-div one">
-              <div class="i">
-                <i class="fas fa-user"></i>
+            <h2 className="title">Rider Login</h2>
+            <div onClick={form_effect} className="input-div one">
+              <div className="i">
+                <i className="fas fa-user"></i>
               </div>
-              <div class="div">
+              <div className="div">
                 <h5>Email</h5>
                 <input
                   name="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   type="text"
-                  class="input"
+                  className="input"
                 ></input>
               </div>
             </div>
-            <div onClick={form_effect} class="input-div pass">
-              <div class="i">
-                <i class="fas fa-lock"></i>
+            <div onClick={form_effect} className="input-div pass">
+              <div className="i">
+                <i className="fas fa-lock"></i>
               </div>
-              <div class="div">
+              <div className="div">
                 <h5>Password</h5>
                 <input
                   name="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   type="password"
-                  class="input"
+                  className="input"
                 ></input>
               </div>
             </div>
@@ -120,12 +123,15 @@ const RiderLogin = ({ setRider }) => {
             <input
               onClick={loginHandler}
               type="submit"
-              class="btn"
+              className="btn"
               value="Login"
             ></input>
             <h6>
               Don't Have an Account?{" "}
-              <span onClick={() => navigate("/rider_registration")} id="sign--up">
+              <span
+                onClick={() => navigate("/rider_registration")}
+                id="sign--up"
+              >
                 Sign Up
               </span>
             </h6>

@@ -1,70 +1,82 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import NavbarComp from "./components/NavbarComp";
-import { useState, useEffect } from "react";
-import {
-  fetchResData,
-  fetchPrivateData,
-  getAllUser,
-  fetchRiderData,
-  getAllRider,
-} from "./api/resdata";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Login from "./pages/Login";
+import PublicRoute from "./middleware/PublicRoute";
+import useAuthCheck from "./hooks/useAuthCheck";
+import About from "./pages/About";
+import Home from "./pages/Home/Home";
+import Cart from "./pages/Cart";
+import RegisterRestaurant from "./pages/RegisterRestaurant";
+import PrivateRoute from "./middleware/PrivateRoute";
+import Footer from "./components/Footer";
+import Restaurants from "./components/Restaurents";
+import Panel from "./pages/Admin Panel/Panel";
+import AdminAuth from "./pages/Admin Panel/AdminAuth";
+import RestaurantLogin from "./pages/RestaurantLogin";
+import ResProfile from "./components/ResProfile";
+import HomeRoute from "./middleware/HomeRoute";
+import ShopPage from "./components/ShopPage";
 
 const App = () => {
-  const [error, setError] = useState("");
-  const [user, setUser] = useState("");
-  const [rider, setRider] = useState("");
-  const [restaurent, setRestaurent] = useState("");
-  const [allUser, setAllUser] = useState("");
-  const [allRider, setAllRider] = useState("");
-  const [allrestaurent, setAllRestaurent] = useState("");
-  const [cart_count, setCartCount] = useState();
-  const [orders_count, setOrdersCount] = useState();
+  const authChecked = useAuthCheck();
 
-  useEffect(() => {
-    fetchPrivateData(setUser, setAllRestaurent, setCartCount);
-    fetchRiderData(setRider, setAllRestaurent);
-    getAllUser(setAllUser);
-    getAllRider(setAllRider);
-    fetchResData(setRestaurent, setOrdersCount);
-  }, []);
-
-  let total = 0,
-    pending = 0,
-    totalSpent = 0;
-  if (user) {
-    user.my_orders.forEach((order) => {
-      order.result.forEach((item) => {
-        totalSpent += parseInt(item.food_price);
-      });
-      total += 1;
-      if (order.status === "Cooking" || order.status === "Delivered")
-        pending += 1;
-    });
-    localStorage.setItem("totalOrder", total);
-    localStorage.setItem("pendingOrder", pending);
-    localStorage.setItem("totalSpent", totalSpent);
-  }
-
-  return (
+  return !authChecked ? (
+    <div>Checking authentication....</div>
+  ) : (
     <div className="App">
-      <NavbarComp
-        user={user}
-        setUser={setUser}
-        allUser={allUser}
-        rider={rider}
-        allRider={allRider}
-        setRider={setRider}
-        setAllRider={setAllRider}
-        setAllUser={setAllUser}
-        restaurent={restaurent}
-        setRestaurent={setRestaurent}
-        allrestaurent={allrestaurent}
-        setAllRestaurent={setAllRestaurent}
-        cart_count={cart_count}
-        orders_count={orders_count}
-        setCartCount={setCartCount}
-        setOrdersCount={setOrdersCount}
-      />
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/about" element={<About />} />
+          <Route path="/restaurants" element={<Restaurants />} />
+          <Route path="/restaurant/:resId" element={<ShopPage />} />
+          <Route path="/admin-auth" element={<AdminAuth />} />
+          <Route path="/admin-panel" element={<Panel />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route
+            path="/"
+            element={
+              <HomeRoute>
+                <Home />
+              </HomeRoute>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/res-login"
+            element={
+              <PublicRoute>
+                <RestaurantLogin />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/restaurant-register"
+            element={
+              <PublicRoute>
+                <RegisterRestaurant />
+              </PublicRoute>
+            }
+          />
+
+          <Route
+            path="/res-profile"
+            element={
+              <PrivateRoute>
+                <ResProfile />
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
     </div>
   );
 };
