@@ -1,6 +1,5 @@
 import React from "react";
-import "./FoodCard.css";
-import { addCartItem } from "../features/cart/cartSlice";
+import { updateCart } from "../features/cart/cartSlice";
 import { useDispatch } from "react-redux";
 
 function FoodCard({ item, restaurant }) {
@@ -21,7 +20,7 @@ function FoodCard({ item, restaurant }) {
       console.log(storedItem);
       localStorage.setItem("cart", JSON.stringify(storedItem));
     } else localStorage.setItem("cart", JSON.stringify([item]));
-    dispatch(addCartItem(JSON.parse(localStorage.getItem("cart"))));
+    dispatch(updateCart(JSON.parse(localStorage.getItem("cart"))));
     // addCartItem(item);
   };
 

@@ -97,7 +97,7 @@ function Cart() {
   };
 
   return (
-    <div className="py-5">
+    <div className="py-5 bg-gray-100">
       <h2 className="text-center mb-5">
         {/* Ordered {cart_count} Items From {res_name} */}
       </h2>
