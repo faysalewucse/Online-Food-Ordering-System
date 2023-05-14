@@ -9,7 +9,7 @@ import { setRestaurants } from "../features/restaurant/restaurantSlice";
 
 export default function Restaurents(props) {
   const dispatch = useDispatch();
-  let { data: restaurants, isLoading } = useGetRestaurantsQuery();
+  const { data: restaurants, isLoading, isError } = useGetRestaurantsQuery();
 
   let data = [{}];
   for (let index in restaurants) {
@@ -19,8 +19,11 @@ export default function Restaurents(props) {
     });
   }
 
-  if (!isLoading) {
-    restaurants = restaurants.map((res, index) => {
+  let contents;
+  if (isLoading && !isError) {
+    contents = <h3>Loading...</h3>;
+  } else if (!isLoading && restaurants) {
+    contents = restaurants.map((res, index) => {
       return (
         <RestaurentCard
           {...res}
@@ -97,7 +100,7 @@ export default function Restaurents(props) {
               inputFontSize="20px"
               inputHeight="50px"
             />
-            <div className="my-10 grid grid-cols-4 gap-4">{restaurants}</div>
+            <div className="my-10 grid grid-cols-4 gap-4">{contents}</div>
           </div>
         </div>
       </div>

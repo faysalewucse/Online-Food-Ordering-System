@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import "../css/Cart.css";
 import CartCard from "../cards/CartCard";
 import { confirmorder } from "../api/resdata";
@@ -17,10 +17,9 @@ function Cart() {
   // const [orderaddress, setOrderAddress] = useState(user.address);
 
   // Current user from redux store
-  const [cart, setCart] = useState(JSON.parse(localStorage.getItem("cart")));
+  const { cartItems } = useSelector((state) => state.cart);
 
   const { user } = useSelector((state) => state.auth);
-  if (user) setCart(user.cart);
 
   const [open, setOpen] = React.useState(false);
   const form = useRef();
@@ -59,9 +58,9 @@ function Cart() {
     res_email,
     res_address;
 
-  if (cart) {
+  if (cartItems) {
     result = [
-      ...cart
+      ...cartItems
         .reduce((mp, o) => {
           if (!mp.has(o.img_path)) mp.set(o.img_path, { ...o, count: 0 });
           mp.get(o.img_path).count++;
@@ -120,7 +119,7 @@ function Cart() {
         )}
 
         <div className="col-lg-6">
-          <div className="bg-black p-5 rounded text-white">
+          <div className="bg-zinc-800 p-5 rounded text-white">
             <h2>Cost</h2>
             <hr />
             <div className="d-flex justify-content-between">

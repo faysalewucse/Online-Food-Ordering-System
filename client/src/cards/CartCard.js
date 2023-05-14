@@ -1,22 +1,29 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useAddToCartMutation } from "../features/auth/authApi";
+import { removeFromCart } from "../features/cart/cartSlice";
 
 function CartCard(props) {
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const [addToCart] = useAddToCartMutation();
 
-  // function removeFromCart(food_name, food_price, img_path, res_email) {
-  //   removefromcart(
-  //     props.setCartCount,
-  //     props.user.email,
-  //     food_name,
-  //     food_price,
-  //     img_path,
-  //     res_email
-  //   );
-  //   fetchPrivateData(props.setUser, props.setAllRestaurent, props.setCartCount);
-  // }
+  const removeFromCartHandler = ({ _id }) => {
+    // removefromcart(
+    //   props.setCartCount,
+    //   props.user.email,
+    //   food_name,
+    //   food_price,
+    //   img_path,
+    //   res_email
+    // );
+    if (!user) {
+      const cartItems = JSON.parse(localStorage.getItem("cart"));
+      const filteredCartItems = cartItems.filter((item) => item._id !== _id);
+      localStorage.setItem("cart", JSON.stringify(filteredCartItems));
+      dispatch(removeFromCart(JSON.parse(localStorage.getItem("cart"))));
+    }
+  };
 
   // function reduceFromCart(food_id) {
   //   reducefromcart(props.setCartCount, props.user.email, food_id);
@@ -38,10 +45,10 @@ function CartCard(props) {
               <h6>
                 {props.food_price} x {props.count}
               </h6>
-              <div className="flex gap-3 items-center">
+              <div className="flex gap-2 items-center">
                 <i
                   // onClick={() => reduceFromCart(props._id)}
-                  className="fas fa-minus border border-black p-1"
+                  className="fas fa-minus border border-black p-2 hover:bg-black hover:text-white transition duration-200"
                 ></i>
                 <i
                   onClick={() =>
@@ -57,18 +64,11 @@ function CartCard(props) {
                       latlong: props.latlong,
                     })
                   }
-                  className="fas fa-plus border border-black p-1"
+                  className="fas fa-plus border border-black p-2 hover:bg-black hover:text-white transition duration-200"
                 ></i>
                 <i
-                  // onClick={() =>
-                  //   removeFromCart(
-                  //     props.food_name,
-                  //     props.food_price,
-                  //     props.img_path,
-                  //     props.res_email
-                  //   )
-                  // }
-                  className="fas fa-trash text-red-400 border border-black p-1"
+                  onClick={() => removeFromCartHandler(props)}
+                  className="fas fa-trash text-red-400 border border-black p-2 hover:bg-black hover:text-white transition duration-200"
                 ></i>
               </div>
             </div>
