@@ -4,11 +4,16 @@ import { Nav } from "react-bootstrap";
 import { makeFormEffect } from "../components/FormStyle";
 import { ToastContainer, toast } from "react-toastify";
 import BlockLoadingButton from "../utils/BlockLoadingButton";
-import { useLoginMutation } from "../features/auth/authApi";
+import {
+  useAddToCartMutation,
+  useLoginMutation,
+} from "../features/auth/authApi";
 import "react-toastify/dist/ReactToastify.css";
 import "../css/Login.css";
 
 const Login = () => {
+  const [addToCart] = useAddToCartMutation();
+
   const form_effect = () => {
     makeFormEffect();
   };
@@ -21,11 +26,16 @@ const Login = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (responseError?.data) {
-      console.log(responseError);
       toast.error(responseError.data.error, { position: "top-center" });
     }
     if (data?.accessToken && data?.user) {
-      console.log("YES");
+      if (localStorage.getItem("cart")) {
+        const items = JSON.parse(localStorage.getItem("cart"));
+        for (const item of items) {
+          addToCart(item);
+        }
+      }
+      localStorage.removeItem("cart");
       navigate("/");
     }
   }, [data, responseError, navigate]);

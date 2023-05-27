@@ -1,5 +1,6 @@
 import React from "react";
 import "../../css/PopularRestaurant.css";
+import PrimaryButton from "../../components/PrimaryButton";
 
 export default function PopularRestaurant() {
   const popular_restaurants = [
@@ -40,8 +41,8 @@ export default function PopularRestaurant() {
     },
   ];
   return (
-    <div className="p-5 popular-restaurant">
-      <div className="container text-center text-dark">
+    <div className="p-10 md:p-20">
+      <div className="max-w-7xl mx-auto text-center text-dark">
         <h1 className="fw-bold start-text">
           Popular Restaurant with Delicious Food
         </h1>
@@ -85,7 +86,10 @@ export default function PopularRestaurant() {
           ))}
         </div>
       </div>
-      <h5 className="mt-5 all-res-btn text-center">See All Restaurants...</h5>
+      <PrimaryButton
+        text={"See All Restaurant"}
+        extraStyle={"md:w-1/6 md:mx-auto mt-5"}
+      />
     </div>
   );
 }

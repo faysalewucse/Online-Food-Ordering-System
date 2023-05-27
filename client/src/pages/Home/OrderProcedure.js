@@ -7,62 +7,66 @@ export default function OrderProcedure() {
       <div className="container text-center text-light">
         <h1 className="fw-bold">How To Order</h1>
         <p>Follow the Procedure</p>
-        <div className="row py-5 align-items-center">
-          <div className="col order-procedure-card">
+        <div className="md:flex py-5 items-center">
+          <div>
             <img
               className="img-fluid"
               src="images/order/location.png"
               alt="location"
             />
-            <p>1</p>
+            <p className="border border-lime-600 p-2 rounded-full mx-auto my-3 w-10 h-10">
+              1
+            </p>
             <h4>Choose Your Location</h4>
           </div>
-          <div className="col">
+          <div>
             <img
-              className="img-fluid"
+              className="rotate-90 md:-rotate-0"
               src="images/order/direction.png"
-              alt=""
+              alt="direction"
             />
           </div>
-          <div className="col order-procedure-card">
+          <div>
             <img
-              className="img-fluid"
+              className=""
               src="images/order/restaurant.png"
               alt="location"
             />
-            <p>2</p>
+            <p className="border border-lime-600 p-2 rounded-full mx-auto my-3 w-10 h-10">
+              2
+            </p>
             <h4>Choose Your Restaurant</h4>
           </div>
-          <div className="col">
+          <div>
             <img
-              className="img-fluid"
+              className="rotate-90 md:-rotate-0"
               src="images/order/direction.png"
               alt=""
             />
           </div>
-          <div className="col order-procedure-card">
-            <img
-              className="img-fluid"
-              src="images/order/trolley.png"
-              alt="location"
-            />
-            <p>3</p>
+          <div>
+            <img className="" src="images/order/trolley.png" alt="location" />
+            <p className="border border-lime-600 p-2 rounded-full mx-auto my-3 w-10 h-10">
+              3
+            </p>
             <h4>Make your Order</h4>
           </div>
-          <div className="col">
+          <div>
             <img
-              className="img-fluid"
+              className="rotate-90 md:-rotate-0"
               src="images/order/direction.png"
               alt=""
             />
           </div>
-          <div className="col order-procedure-card">
+          <div>
             <img
               className="img-fluid"
               src="images/order/food-delivery.png"
               alt="location"
             />
-            <p>4</p>
+            <p className="border border-lime-600 p-2 rounded-full mx-auto my-3 w-10 h-10">
+              4
+            </p>
             <h4>Food is On the way</h4>
           </div>
         </div>
