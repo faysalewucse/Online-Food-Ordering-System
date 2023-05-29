@@ -24,6 +24,7 @@ const Login = () => {
   const [login, { data, isLoading, error: responseError }] = useLoginMutation();
 
   const navigate = useNavigate();
+
   useEffect(() => {
     if (responseError?.data) {
       toast.error(responseError.data.error, { position: "top-center" });
@@ -38,9 +39,8 @@ const Login = () => {
       localStorage.removeItem("cart");
       navigate("/");
     }
-  }, [data, responseError, navigate]);
+  }, [data, responseError, navigate, addToCart]);
 
-  console.log(data);
   const loginHandler = async (e) => {
     e.preventDefault();
 
